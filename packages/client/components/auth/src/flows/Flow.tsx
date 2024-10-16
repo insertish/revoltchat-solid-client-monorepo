@@ -1,10 +1,10 @@
-import { JSX, Show } from "solid-js";
-import { keyframes, styled } from "solid-styled-components";
+import { Column, Row, Typography } from '@revolt/ui';
+import type { JSX } from 'solid-js';
+import { Show } from 'solid-js';
+import { keyframes, styled } from 'solid-styled-components';
 
-import { Column, Row, Typography } from "@revolt/ui";
-
-import envelope from "./envelope.svg";
-import wave from "./wave.svg";
+import envelope from './envelope.svg';
+import wave from './wave.svg';
 
 /**
  * Container for authentication page flows
@@ -13,10 +13,10 @@ export const FlowBase = styled(Column)`
   background: ${
     (props) =>
       props.theme!.colours[
-        "messaging-message-box-background"
+        'messaging-message-box-background'
       ] /* TODO: change and in other places */
   };
-  color: ${(props) => props.theme!.colours["messaging-message-box-foreground"]};
+  color: ${(props) => props.theme!.colours['messaging-message-box-foreground']};
 
   /* background-color: rgba(36, 36, 36, 0.75);
    backdrop-filter: blur(20px); */
@@ -120,23 +120,23 @@ const Mail = styled.img`
 export function FlowTitle(props: {
   children: JSX.Element;
   subtitle?: JSX.Element;
-  emoji?: "wave" | "mail";
+  emoji?: 'wave' | 'mail';
 }) {
   return (
     <Column>
-      <Row align gap="sm">
-        <Show when={props.emoji === "wave"}>
+      <Row align gap='sm'>
+        <Show when={props.emoji === 'wave'}>
           <Wave src={wave} />
         </Show>
-        <Show when={props.emoji === "mail"}>
+        <Show when={props.emoji === 'mail'}>
           <Mail src={envelope} />
         </Show>
-        <Typography variant="legacy-settings-title">
+        <Typography variant='legacy-settings-title'>
           {props.children}
         </Typography>
       </Row>
       <Show when={props.subtitle}>
-        <Typography variant="legacy-settings-description">
+        <Typography variant='legacy-settings-description'>
           {props.subtitle}
         </Typography>
       </Show>

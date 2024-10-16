@@ -1,14 +1,11 @@
-import { Accessor, Show } from "solid-js";
-
-import dayjs from "dayjs";
-import { User } from "revolt.js";
-import { cva } from "styled-system/css";
-import { styled } from "styled-system/jsx";
-
-import { Avatar, Button, CategoryButtonGroup, iconSize } from "@revolt/ui";
-
-import MdCakeFill from "@material-design-icons/svg/filled/cake.svg?component-solid";
-import MdEdit from "@material-design-icons/svg/outlined/edit.svg?component-solid";
+import MdCakeFill from '@material-design-icons/svg/filled/cake.svg?component-solid';
+import MdEdit from '@material-design-icons/svg/outlined/edit.svg?component-solid';
+import { Avatar, Button, CategoryButtonGroup, iconSize } from '@revolt/ui';
+import dayjs from 'dayjs';
+import type { User } from 'revolt.js';
+import { Accessor, Show } from 'solid-js';
+import { cva } from 'styled-system/css';
+import { styled } from 'styled-system/jsx';
 
 export function UserSummary(props: {
   user: User;
@@ -19,7 +16,7 @@ export function UserSummary(props: {
   const bannerStyle = () =>
     props.bannerUrl
       ? {
-          "background-image": `linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url("${props.bannerUrl}")`,
+          'background-image': `linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url("${props.bannerUrl}")`,
         }
       : {
           background: `var(--colours-settings-background)`,
@@ -37,7 +34,7 @@ export function UserSummary(props: {
             </span>
           </Username>
           <Show when={props.onEdit}>
-            <Button size="fab" onPress={props.onEdit}>
+            <Button size='fab' onPress={props.onEdit}>
               <MdEdit />
             </Button>
           </Show>
@@ -54,9 +51,9 @@ export function UserSummary(props: {
               <span
                 use:floating={{
                   tooltip: {
-                    placement: "top",
+                    placement: 'top',
                     content: dayjs(props.user.createdAt).format(
-                      "[Account created] Do MMMM YYYY [at] HH:mm"
+                      '[Account created] Do MMMM YYYY [at] HH:mm'
                     ),
                   },
                 }}
@@ -71,70 +68,70 @@ export function UserSummary(props: {
   );
 }
 
-const AccountBox = styled("div", {
+const AccountBox = styled('div', {
   base: {
-    display: "flex",
-    padding: "var(--gap-lg)",
-    flexDirection: "column",
+    display: 'flex',
+    padding: 'var(--gap-lg)',
+    flexDirection: 'column',
 
-    backgroundSize: "cover",
-    backgroundPosition: "center",
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
   },
 });
 
-const ProfileDetails = styled("div", {
+const ProfileDetails = styled('div', {
   base: {
-    display: "flex",
-    gap: "var(--gap-lg)",
-    alignItems: "center",
+    display: 'flex',
+    gap: 'var(--gap-lg)',
+    alignItems: 'center',
   },
 });
 
-const Username = styled("div", {
+const Username = styled('div', {
   base: {
     flexGrow: 1,
 
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
 
     // Display Name
-    "& :nth-child(1)": {
-      fontSize: "18px",
+    '& :nth-child(1)': {
+      fontSize: '18px',
       fontWeight: 600,
     },
 
     // Username#Discrim
-    "& :nth-child(2)": {
-      fontSize: "14px",
+    '& :nth-child(2)': {
+      fontSize: '14px',
       fontWeight: 400,
     },
   },
 });
 
-const BottomBar = styled("div", {
+const BottomBar = styled('div', {
   base: {
-    display: "flex",
+    display: 'flex',
   },
 });
 
-const DummyPadding = styled("div", {
+const DummyPadding = styled('div', {
   base: {
     flexShrink: 0,
     // Matches with avatar size
-    width: "58px",
+    width: '58px',
     // Matches with ProfileDetails
-    marginInlineEnd: "var(--gap-lg)",
+    marginInlineEnd: 'var(--gap-lg)',
   },
 });
 
-const ProfileBadges = styled("div", {
+const ProfileBadges = styled('div', {
   base: {
-    display: "flex",
-    gap: "var(--gap-sm)",
-    width: "fit-content",
-    padding: "var(--gap-sm) var(--gap-sm)",
-    borderRadius: "var(--borderRadius-md)",
+    display: 'flex',
+    gap: 'var(--gap-sm)',
+    width: 'fit-content',
+    padding: 'var(--gap-sm) var(--gap-sm)',
+    borderRadius: 'var(--borderRadius-md)',
 
-    background: "var(--colours-settings-background)",
+    background: 'var(--colours-settings-background)',
   },
 });

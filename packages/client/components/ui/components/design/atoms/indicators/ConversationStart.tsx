@@ -1,11 +1,9 @@
-import { Show } from "solid-js";
-import { styled } from "solid-styled-components";
+import { useTranslation } from '@revolt/i18n';
+import type { Channel } from 'revolt.js';
+import { Show } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { Channel } from "revolt.js";
-
-import { useTranslation } from "@revolt/i18n";
-
-import { Typography } from "../display";
+import { Typography } from '../display';
 
 interface Props {
   /**
@@ -22,15 +20,15 @@ export function ConversationStart(props: Props) {
 
   return (
     <Base>
-      <Show when={props.channel.type !== "SavedMessages"}>
-        <Typography variant="conversation-channel-name">
+      <Show when={props.channel.type !== 'SavedMessages'}>
+        <Typography variant='conversation-channel-name'>
           {props.channel.name ?? props.channel.recipient?.username}
         </Typography>
       </Show>
-      <Typography variant="conversation-start">
+      <Typography variant='conversation-start'>
         {t(
           `app.main.channel.start.${
-            props.channel.type === "SavedMessages" ? "saved" : "group"
+            props.channel.type === 'SavedMessages' ? 'saved' : 'group'
           }`
         )}
       </Typography>

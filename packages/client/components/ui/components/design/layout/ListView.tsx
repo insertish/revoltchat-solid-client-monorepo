@@ -1,5 +1,6 @@
-import { JSX, createSignal, createUniqueId } from "solid-js";
-import { styled } from "solid-styled-components";
+import type { JSX } from 'solid-js';
+import { createSignal, createUniqueId } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
 interface Props {
   /**
@@ -90,13 +91,13 @@ export function ListView(props: Props) {
     <div
       id={id}
       use:scrollable={{
-        direction: "y",
+        direction: 'y',
         offsetTop: props.offsetTop,
       }}
       style={{
-        "flex-grow": 1,
-        display: "flex",
-        "flex-direction": "column-reverse",
+        'flex-grow': 1,
+        display: 'flex',
+        'flex-direction': 'column-reverse',
       }}
       onScroll={onScroll}
     >

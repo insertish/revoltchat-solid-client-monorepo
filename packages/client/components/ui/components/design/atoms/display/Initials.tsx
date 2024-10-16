@@ -1,4 +1,4 @@
-export type Props = {
+export interface Props {
   /**
    * Input string
    */
@@ -8,7 +8,7 @@ export type Props = {
    * Maximum length
    */
   maxLength?: number;
-};
+}
 
 /**
  * Generate initials from some string
@@ -30,5 +30,5 @@ export function toInitials(input: string, maxLength = 2) {
  * Takes some string and displays the first letter of each word
  */
 export function Initials(props: Props) {
-  return <>{toInitials(props.input, props.maxLength).join("")}</>;
+  return <>{toInitials(props.input, props.maxLength).join('')}</>;
 }

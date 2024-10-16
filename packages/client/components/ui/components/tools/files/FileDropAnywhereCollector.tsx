@@ -1,27 +1,25 @@
+import { getController } from '@revolt/common';
+import { useQuantity } from '@revolt/i18n';
 import {
   BiSolidFile,
   BiSolidFileImage,
   BiSolidFileTxt,
   BiSolidVideoRecording,
-} from "solid-icons/bi";
+} from 'solid-icons/bi';
 import {
-  Match,
-  Show,
-  Switch,
   createSignal,
+  Match,
   onCleanup,
   onMount,
-} from "solid-js";
-import { Portal } from "solid-js/web";
-import { styled } from "solid-styled-components";
+  Show,
+  Switch,
+} from 'solid-js';
+import { Portal } from 'solid-js/web';
+import { Motion } from 'solid-motionone';
+import { styled } from 'solid-styled-components';
 
-import { Motion } from "@motionone/solid";
-
-import { getController } from "@revolt/common";
-import { useQuantity } from "@revolt/i18n";
-
-import { PreviewStack } from "../../design";
-import { generateTypographyCSS } from "../../design/atoms/display/Typography";
+import { PreviewStack } from '../../design';
+import { generateTypographyCSS } from '../../design/atoms/display/Typography';
 
 interface Props {
   /**
@@ -64,7 +62,7 @@ const DimScreen = styled.div`
  * File drop information
  */
 const DropText = styled(Motion.div)`
-  ${(props) => generateTypographyCSS(props.theme!, "label")}
+  ${(props) => generateTypographyCSS(props.theme!, 'label')}
 
   margin-top: 48px;
   white-space: nowrap;
@@ -91,13 +89,13 @@ export function FileDropAnywhereCollector(props: Props) {
    * @param event Drag event
    */
   function onDragOver(event: DragEvent) {
-    if (getController("modal").isOpen()) return;
+    if (getController('modal').isOpen()) return;
 
     event.preventDefault();
     clearTimeout(deferredHide);
 
     if (event.dataTransfer) {
-      event.dataTransfer.dropEffect = "copy";
+      event.dataTransfer.dropEffect = 'copy';
 
       if (!showIndicator()) {
         setShowIndicator(true);
@@ -136,15 +134,15 @@ export function FileDropAnywhereCollector(props: Props) {
   }
 
   onMount(() => {
-    document.addEventListener("dragover", onDragOver);
-    document.addEventListener("dragleave", onDragLeave);
-    document.addEventListener("drop", onDrop);
+    document.addEventListener('dragover', onDragOver);
+    document.addEventListener('dragleave', onDragLeave);
+    document.addEventListener('drop', onDrop);
   });
 
   onCleanup(() => {
-    document.removeEventListener("dragover", onDragOver);
-    document.removeEventListener("dragleave", onDragLeave);
-    document.removeEventListener("drop", onDrop);
+    document.removeEventListener('dragover', onDragOver);
+    document.removeEventListener('dragleave', onDragLeave);
+    document.removeEventListener('drop', onDrop);
   });
 
   /**
@@ -176,19 +174,19 @@ export function FileDropAnywhereCollector(props: Props) {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.2 }}
               >
-                {q("dropFiles", items().length)}
+                {q('dropFiles', items().length)}
               </DropText>
             }
           >
             {(item) => (
               <Switch fallback={<BiSolidFile size={64} />}>
-                <Match when={item.type.startsWith("text/")}>
+                <Match when={item.type.startsWith('text/')}>
                   <BiSolidFileTxt size={64} />
                 </Match>
-                <Match when={item.type.startsWith("image/")}>
+                <Match when={item.type.startsWith('image/')}>
                   <BiSolidFileImage size={64} />
                 </Match>
-                <Match when={item.type.startsWith("video/")}>
+                <Match when={item.type.startsWith('video/')}>
                   <BiSolidVideoRecording size={64} />
                 </Match>
               </Switch>

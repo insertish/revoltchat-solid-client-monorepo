@@ -1,18 +1,8 @@
-import {
-  BiRegularPlus,
-  BiSolidFileGif,
-  BiSolidHappyBeaming,
-  BiSolidSend,
-} from "solid-icons/bi";
-import { For, Match, Show, Switch, onCleanup, onMount } from "solid-js";
-
-import { API, Channel } from "revolt.js";
-
-import { useClient } from "@revolt/client";
-import { debounce } from "@revolt/common";
-import { useTranslation } from "@revolt/i18n";
-import { modalController } from "@revolt/modal";
-import { state } from "@revolt/state";
+import { useClient } from '@revolt/client';
+import { debounce } from '@revolt/common';
+import { useTranslation } from '@revolt/i18n';
+import { modalController } from '@revolt/modal';
+import { state } from '@revolt/state';
 import {
   Button,
   CompositionPicker,
@@ -22,7 +12,16 @@ import {
   InlineIcon,
   MessageBox,
   MessageReplyPreview,
-} from "@revolt/ui";
+} from '@revolt/ui';
+import type { Channel } from 'revolt.js';
+import { API } from 'revolt.js';
+import {
+  BiRegularPlus,
+  BiSolidFileGif,
+  BiSolidHappyBeaming,
+  BiSolidSend,
+} from 'solid-icons/bi';
+import { For, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
 
 interface Props {
   /**
@@ -39,7 +38,7 @@ interface Props {
 /**
  * Tests for code block delimiters (``` at start of line)
  */
-const RE_CODE_DELIMITER = new RegExp("^```", "gm");
+const RE_CODE_DELIMITER = new RegExp('^```', 'gm');
 
 /**
  * Message composition engine
@@ -70,13 +69,13 @@ export function MessageComposition(props: Props) {
    * Send typing packet
    */
   function startTyping() {
-    if (typeof isTyping === "number" && +new Date() < isTyping) return;
+    if (typeof isTyping === 'number' && +new Date() < isTyping) return;
 
     const ws = client()!.events;
     if (ws.state() === 2) {
       isTyping = +new Date() + 2500;
       ws.send({
-        type: "BeginTyping",
+        type: 'BeginTyping',
         channel: props.channel.id,
       });
     }
@@ -91,7 +90,7 @@ export function MessageComposition(props: Props) {
       if (ws.state() === 2) {
         isTyping = undefined;
         ws.send({
-          type: "EndTyping",
+          type: 'EndTyping',
           channel: props.channel.id,
         });
       }
@@ -110,7 +109,7 @@ export function MessageComposition(props: Props) {
   async function sendMessage(useContent?: unknown) {
     props.onMessageSend?.();
 
-    if (typeof useContent === "string") {
+    if (typeof useContent === 'string') {
       return props.channel.sendMessage(useContent);
     }
 
@@ -131,7 +130,7 @@ export function MessageComposition(props: Props) {
    * @returns Whether we are in a code block
    */
   function isInCodeBlock(cursor: number): boolean {
-    const contentBeforeCursor = (draft().content ?? "").substring(0, cursor);
+    const contentBeforeCursor = (draft().content ?? '').substring(0, cursor);
 
     let delimiterCount = 0;
     for (const _delimiter of contentBeforeCursor.matchAll(RE_CODE_DELIMITER)) {
@@ -152,24 +151,24 @@ export function MessageComposition(props: Props) {
     const insideCodeBlock = isInCodeBlock(event.currentTarget.selectionStart);
     const usingBracketIndent =
       (event.ctrlKey || event.metaKey) &&
-      (event.key === "[" || event.key === "]");
+      (event.key === '[' || event.key === ']');
 
     if (
-      (event.key === "Tab" || usingBracketIndent) &&
+      (event.key === 'Tab' || usingBracketIndent) &&
       !event.isComposing &&
       insideCodeBlock
     ) {
       // Handle code block indentation.
       event.preventDefault();
 
-      const indent = "  "; // 2 spaces
+      const indent = '  '; // 2 spaces
 
       const selectStart = event.currentTarget.selectionStart;
       const selectEnd = event.currentTarget.selectionEnd;
       let selectionStartColumn = 0;
       let selectionEndColumn = 0;
 
-      const lines = (draft().content ?? "").split("\n");
+      const lines = (draft().content ?? '').split('\n');
       const selectLines = [];
 
       // Get indexes of selected lines
@@ -194,7 +193,7 @@ export function MessageComposition(props: Props) {
         lineIndex += currentLine.length + 1; // add 1 to account for missing newline char
       }
 
-      if ((event.shiftKey && event.key === "Tab") || event.key === "[") {
+      if ((event.shiftKey && event.key === 'Tab') || event.key === '[') {
         const whitespaceRegex = new RegExp(`(?<=^ *) {1,${indent.length}}`);
 
         // Used to ensure selection remains the same after indentation changes
@@ -215,7 +214,7 @@ export function MessageComposition(props: Props) {
           }
         }
 
-        setContent(lines.join("\n"));
+        setContent(lines.join('\n'));
 
         // Update selection positions.
         event.currentTarget.selectionStart =
@@ -229,7 +228,7 @@ export function MessageComposition(props: Props) {
         for (const selectedLineIndex of selectLines) {
           const currentLine = lines[selectedLineIndex];
 
-          if (selectStart === selectEnd && event.key === "Tab") {
+          if (selectStart === selectEnd && event.key === 'Tab') {
             // Insert spacing at current position instead of line start
             const beforeIndent = currentLine.slice(0, selectionStartColumn);
             const afterIndent = currentLine.slice(selectionEndColumn);
@@ -243,7 +242,7 @@ export function MessageComposition(props: Props) {
           indentsAdded++;
         }
 
-        setContent(lines.join("\n"));
+        setContent(lines.join('\n'));
 
         // Update selection positions.
         event.currentTarget.selectionStart = selectStart + indent.length;
@@ -253,7 +252,7 @@ export function MessageComposition(props: Props) {
     }
 
     if (
-      event.key === "Enter" &&
+      event.key === 'Enter' &&
       !event.shiftKey &&
       !event.isComposing &&
       !insideCodeBlock /*&& props.ref*/
@@ -271,7 +270,7 @@ export function MessageComposition(props: Props) {
    * @param event Keyboard Event
    */
   function onKeyDown(event: KeyboardEvent) {
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       if (state.draft.popFromDraft(props.channel.id)) {
         event.preventDefault();
       }
@@ -281,15 +280,15 @@ export function MessageComposition(props: Props) {
       // Don't take focus from modals
       !modalController.isOpen() &&
       // Only focus if pasting to allow copying of text elsewhere
-      (!(event.ctrlKey || event.metaKey) || event.key.toLowerCase() === "v")
+      (!(event.ctrlKey || event.metaKey) || event.key.toLowerCase() === 'v')
     ) {
       ref?.focus();
     }
   }
 
   // Bind onKeyDown to the document
-  onMount(() => document.addEventListener("keydown", onKeyDown));
-  onCleanup(() => document.removeEventListener("keydown", onKeyDown));
+  onMount(() => document.addEventListener('keydown', onKeyDown));
+  onCleanup(() => document.removeEventListener('keydown', onKeyDown));
 
   /**
    * Handle files being added to the draft.
@@ -298,7 +297,7 @@ export function MessageComposition(props: Props) {
   function onFiles(files: File[]) {
     for (const file of files) {
       if (file.size > 20_000_000) {
-        alert("file too large");
+        alert('file too large');
       }
     }
 
@@ -315,13 +314,13 @@ export function MessageComposition(props: Props) {
    * Add a file to the message
    */
   function addFile() {
-    const input = document.createElement("input");
-    input.accept = "*";
-    input.type = "file";
+    const input = document.createElement('input');
+    input.accept = '*';
+    input.type = 'file';
     input.multiple = true;
-    input.style.display = "none";
+    input.style.display = 'none';
 
-    input.addEventListener("change", async (e) => {
+    input.addEventListener('change', async (e) => {
       // Get all attached files
       const files = (e.currentTarget as HTMLInputElement)?.files;
 
@@ -386,18 +385,18 @@ export function MessageComposition(props: Props) {
       </For>
       <MessageBox
         ref={ref}
-        content={draft()?.content ?? ""}
+        content={draft()?.content ?? ''}
         setContent={setContent}
         actionsStart={
-          <Switch fallback={<InlineIcon size="short" />}>
+          <Switch fallback={<InlineIcon size='short' />}>
             <Match
               when={
-                props.channel.havePermission("UploadFiles") &&
-                state.experiments.isEnabled("file_uploads")
+                props.channel.havePermission('UploadFiles') &&
+                state.experiments.isEnabled('file_uploads')
               }
             >
-              <InlineIcon size="wide">
-                <Button variant="plain" size="fluid" onPress={addFile}>
+              <InlineIcon size='wide'>
+                <Button variant='plain' size='fluid' onPress={addFile}>
                   <BiRegularPlus size={24} />
                 </Button>
               </InlineIcon>
@@ -408,22 +407,22 @@ export function MessageComposition(props: Props) {
           <CompositionPicker sendGIFMessage={sendMessage}>
             {(triggerProps) => (
               <>
-                <Show when={state.experiments.isEnabled("gif_picker")}>
-                  <InlineIcon size="normal">
+                <Show when={state.experiments.isEnabled('gif_picker')}>
+                  <InlineIcon size='normal'>
                     <Button
-                      variant="plain"
-                      size="fluid"
+                      variant='plain'
+                      size='fluid'
                       onPress={triggerProps.onClickGif}
                     >
                       <BiSolidFileGif size={24} />
                     </Button>
                   </InlineIcon>
                 </Show>
-                <Show when={state.experiments.isEnabled("emoji_picker")}>
-                  <InlineIcon size="normal">
+                <Show when={state.experiments.isEnabled('emoji_picker')}>
+                  <InlineIcon size='normal'>
                     <Button
-                      variant="plain"
-                      size="fluid"
+                      variant='plain'
+                      size='fluid'
                       onPress={triggerProps.onClickEmoji}
                     >
                       <BiSolidHappyBeaming size={24} />
@@ -431,10 +430,10 @@ export function MessageComposition(props: Props) {
                   </InlineIcon>
                 </Show>
                 <Show
-                  when={state.settings.getValue("appearance:show_send_button")}
+                  when={state.settings.getValue('appearance:show_send_button')}
                 >
-                  <InlineIcon size="normal">
-                    <Button variant="plain" size="fluid" onPress={sendMessage}>
+                  <InlineIcon size='normal'>
+                    <Button variant='plain' size='fluid' onPress={sendMessage}>
                       <BiSolidSend size={24} />
                     </Button>
                   </InlineIcon>
@@ -446,17 +445,17 @@ export function MessageComposition(props: Props) {
           </CompositionPicker>
         }
         placeholder={
-          props.channel.type === "SavedMessages"
-            ? t("app.main.channel.message_saved")
-            : props.channel.type === "DirectMessage"
-            ? t("app.main.channel.message_who", {
-                person: props.channel.recipient?.username as string,
-              })
-            : t("app.main.channel.message_where", {
-                channel_name: props.channel.name as string,
-              })
+          props.channel.type === 'SavedMessages'
+            ? t('app.main.channel.message_saved')
+            : props.channel.type === 'DirectMessage'
+              ? t('app.main.channel.message_who', {
+                  person: props.channel.recipient?.username as string,
+                })
+              : t('app.main.channel.message_where', {
+                  channel_name: props.channel.name as string,
+                })
         }
-        sendingAllowed={props.channel.havePermission("SendMessage")}
+        sendingAllowed={props.channel.havePermission('SendMessage')}
         autoCompleteConfig={{
           onKeyDown: onKeyDownMessageBox,
           client: client(),
@@ -467,9 +466,9 @@ export function MessageComposition(props: Props) {
                 ),
                 channels: props.channel.server.channels,
               }
-            : props.channel.type === "Group"
-            ? { users: props.channel.recipients, channels: [] }
-            : { channels: [] },
+            : props.channel.type === 'Group'
+              ? { users: props.channel.recipients, channels: [] }
+              : { channels: [] },
         }}
         updateDraftSelection={(start, end) =>
           state.draft.setSelection(props.channel.id, start, end)

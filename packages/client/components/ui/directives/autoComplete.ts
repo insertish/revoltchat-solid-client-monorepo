@@ -1,45 +1,45 @@
-import { Accessor, JSX, createSignal, onCleanup } from "solid-js";
+import type { Channel, Client, User } from 'revolt.js';
+import { ServerMember } from 'revolt.js';
+import type { Accessor, JSX } from 'solid-js';
+import { createSignal, onCleanup } from 'solid-js';
 
-import { Channel, Client, ServerMember, User } from "revolt.js";
-
-import emojiMapping from "../emojiMapping.json";
-
-import { registerFloatingElement, unregisterFloatingElement } from "./floating";
+import emojiMapping from '../emojiMapping.json';
+import { registerFloatingElement, unregisterFloatingElement } from './floating';
 
 const EMOJI_KEYS = Object.keys(emojiMapping).sort();
 const MAPPED_EMOJI_KEYS = EMOJI_KEYS.map((id) => ({ id, name: id }));
 
-type Operator = "@" | ":" | "#";
+type Operator = '@' | ':' | '#';
 
 export type AutoCompleteState =
   | {
-      matched: "none";
+      matched: 'none';
     }
   | ({
       length: number;
     } & (
       | {
-          matched: "emoji";
+          matched: 'emoji';
           matches: ((
             | {
-                type: "unicode";
+                type: 'unicode';
                 codepoint: string;
               }
             | {
-                type: "custom";
+                type: 'custom';
                 id: string;
               }
           ) & { replacement: string; shortcode: string })[];
         }
       | {
-          matched: "user";
+          matched: 'user';
           matches: {
             user: User | ServerMember;
             replacement: string;
           }[];
         }
       | {
-          matched: "channel";
+          matched: 'channel';
           matches: {
             channel: Channel;
             replacement: string;
@@ -54,12 +54,12 @@ export type AutoCompleteState =
  */
 export function autoComplete(
   element: HTMLInputElement,
-  config: Accessor<JSX.Directives["autoComplete"]>
+  config: Accessor<JSX.Directives['autoComplete']>
 ) {
   if (!config()) return;
 
   const [state, setState] = createSignal<AutoCompleteState>({
-    matched: "none",
+    matched: 'none',
   });
 
   const [selection, setSelection] = createSignal(0);
@@ -70,7 +70,7 @@ export function autoComplete(
    */
   function select(index: number) {
     const info = state() as AutoCompleteState & {
-      matched: "emoji" | "user" | "member";
+      matched: 'emoji' | 'user' | 'member';
     };
     const currentPosition = element.selectionStart;
     if (!currentPosition) return;
@@ -84,16 +84,16 @@ export function autoComplete(
     element.value =
       originalValue.slice(0, currentPosition - info.length) +
       replacement +
-      " " +
+      ' ' +
       originalValue.slice(currentPosition);
 
     const newPosition = currentPosition - info.length + replacement.length + 1;
-    element.setSelectionRange(newPosition, newPosition, "none");
+    element.setSelectionRange(newPosition, newPosition, 'none');
 
     // Bubble up this change to the rest of the application,
     // we should do this directly through state in the future
     // but for now this will do.
-    element.dispatchEvent(new Event("input", { bubbles: true }));
+    element.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
   // TODO: use a virtual element on the caret
@@ -109,7 +109,7 @@ export function autoComplete(
   registerFloatingElement({
     element,
     config: accessor,
-    show: () => (state().matched === "none" ? undefined : accessor()),
+    show: () => (state().matched === 'none' ? undefined : accessor()),
     hide: () => void 0,
   });
 
@@ -120,14 +120,14 @@ export function autoComplete(
     event: KeyboardEvent & { currentTarget: HTMLTextAreaElement }
   ) {
     const current = state();
-    if (current.matched !== "none") {
-      if (event.key === "Enter") {
+    if (current.matched !== 'none') {
+      if (event.key === 'Enter') {
         event.preventDefault();
         select(selection());
         return;
       }
 
-      if (event.key === "ArrowUp") {
+      if (event.key === 'ArrowUp') {
         event.preventDefault();
         setSelection(
           (prev) => (prev === 0 ? current.matches.length : prev) - 1
@@ -135,7 +135,7 @@ export function autoComplete(
         return;
       }
 
-      if (event.key === "ArrowDown") {
+      if (event.key === 'ArrowDown') {
         event.preventDefault();
         setSelection(
           (prev) => (prev + 1 === current.matches.length ? -1 : prev) + 1
@@ -145,7 +145,7 @@ export function autoComplete(
     }
 
     const value = config();
-    if (typeof value === "object") {
+    if (typeof value === 'object') {
       value.onKeyDown?.(event);
     }
   }
@@ -156,8 +156,8 @@ export function autoComplete(
   function onKeyUp(event: unknown) {
     if (event instanceof KeyboardEvent) {
       const current = state();
-      if (current.matched !== "none") {
-        if (["ArrowUp", "ArrowDown"].includes(event.key)) {
+      if (current.matched !== 'none') {
+        if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
           return;
         }
       }
@@ -168,7 +168,7 @@ export function autoComplete(
       const content = element.value.slice(0, cursor);
 
       // Try to figure out what we're matching
-      const current = (["@", ":", "#"] as Operator[])
+      const current = (['@', ':', '#'] as Operator[])
         // First find any applicable string
         .map((searchType) => {
           const index = content.lastIndexOf(searchType);
@@ -184,7 +184,7 @@ export function autoComplete(
         .filter(([, matchedString]) => /^[^\s@:#]*$/.test(matchedString))
         // Enforce minimum length for emoji matching
         .filter(([searchType, matchedString]) =>
-          searchType === ":" ? matchedString.length > 0 : true
+          searchType === ':' ? matchedString.length > 0 : true
         )[0];
 
       if (current) {
@@ -194,9 +194,9 @@ export function autoComplete(
       }
     }
 
-    if (state().matched !== "none")
+    if (state().matched !== 'none')
       setState({
-        matched: "none",
+        matched: 'none',
       });
   }
 
@@ -204,24 +204,24 @@ export function autoComplete(
    * Hide if currently showing if input loses focus
    */
   function onBlur() {
-    if (state().matched !== "none")
+    if (state().matched !== 'none')
       setState({
-        matched: "none",
+        matched: 'none',
       });
   }
 
-  element.addEventListener("keydown", onKeyDown as never);
-  element.addEventListener("keyup", onKeyUp);
-  element.addEventListener("focus", onKeyUp);
-  element.addEventListener("blur", onBlur);
+  element.addEventListener('keydown', onKeyDown as never);
+  element.addEventListener('keyup', onKeyUp);
+  element.addEventListener('focus', onKeyUp);
+  element.addEventListener('blur', onBlur);
 
   onCleanup(() => {
     unregisterFloatingElement(element);
 
-    element.removeEventListener("keydown", onKeyDown as never);
-    element.removeEventListener("keyup", onKeyUp);
-    element.removeEventListener("focus", onKeyUp);
-    element.removeEventListener("blur", onBlur);
+    element.removeEventListener('keydown', onKeyDown as never);
+    element.removeEventListener('keyup', onKeyUp);
+    element.removeEventListener('focus', onKeyUp);
+    element.removeEventListener('blur', onBlur);
   });
 }
 
@@ -231,12 +231,12 @@ export function autoComplete(
 function searchMatches(
   operator: Operator,
   query: string,
-  config: JSX.Directives["autoComplete"]
+  config: JSX.Directives['autoComplete']
 ): AutoCompleteState {
-  if (operator === ":") {
+  if (operator === ':') {
     const matches: string[] = [];
 
-    if (typeof config === "object" && config.client) {
+    if (typeof config === 'object' && config.client) {
       const searchSpace = [
         ...MAPPED_EMOJI_KEYS,
         ...config.client.emojis.toList(),
@@ -263,24 +263,24 @@ function searchMatches(
 
     if (!matches.length) {
       return {
-        matched: "none",
+        matched: 'none',
       };
     }
 
     return {
-      matched: "emoji",
+      matched: 'emoji',
       length: query.length + 1,
       matches: matches.map((id) =>
         id.length === 26
           ? {
-              type: "custom",
+              type: 'custom',
               id,
               shortcode: (config as { client: Client }).client!.emojis.get(id)!
                 .name,
-              replacement: ":" + id + ":",
+              replacement: ':' + id + ':',
             }
           : {
-              type: "unicode",
+              type: 'unicode',
               shortcode: id,
               codepoint: emojiMapping[id as keyof typeof emojiMapping],
               replacement: emojiMapping[id as keyof typeof emojiMapping],
@@ -289,8 +289,8 @@ function searchMatches(
     };
   }
 
-  if (typeof config === "object" && config.client) {
-    if (operator === "@") {
+  if (typeof config === 'object' && config.client) {
+    if (operator === '@') {
       const matches: (User | ServerMember)[] = [];
       const searchSpace = (
         config.searchSpace?.members ??
@@ -314,7 +314,7 @@ function searchMatches(
 
       if (matches.length) {
         return {
-          matched: "user",
+          matched: 'user',
           length: query.length + 1,
           matches: matches.map((user) => ({
             user,
@@ -324,7 +324,7 @@ function searchMatches(
       }
     }
 
-    if (operator === "#") {
+    if (operator === '#') {
       const matches: Channel[] = [];
       const searchSpace = (
         config.searchSpace?.channels ?? config.client.channels.toList()
@@ -343,7 +343,7 @@ function searchMatches(
 
       if (matches.length) {
         return {
-          matched: "channel",
+          matched: 'channel',
           length: query.length + 1,
           matches: matches.map((channel) => ({
             channel,
@@ -355,6 +355,6 @@ function searchMatches(
   }
 
   return {
-    matched: "none",
+    matched: 'none',
   };
 }

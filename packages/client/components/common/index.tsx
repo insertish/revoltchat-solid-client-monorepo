@@ -1,4 +1,4 @@
-export { insecureUniqueId } from "./lib/unique";
-export { registerController, getController } from "./lib/controllers";
-export { default as CONFIGURATION } from "./lib/env";
-export { debounce } from "./lib/debounce";
+export { getController, registerController } from './lib/controllers';
+export { debounce } from './lib/debounce';
+export { default as CONFIGURATION } from './lib/env';
+export { insecureUniqueId } from './lib/unique';

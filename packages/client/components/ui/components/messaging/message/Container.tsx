@@ -1,17 +1,18 @@
-import { Component, JSX, Match, Show, Switch } from "solid-js";
-import { styled } from "solid-styled-components";
+import type { Component, JSX } from 'solid-js';
+import { Match, Show, Switch } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { Time } from "../../design/atoms/display/Time";
+import { Time } from '../../design/atoms/display/Time';
 import {
-  Typography,
   generateTypographyCSS,
-} from "../../design/atoms/display/Typography";
+  Typography,
+} from '../../design/atoms/display/Typography';
 import {
   Column,
   NonBreakingText,
   OverflowingText,
   Row,
-} from "../../design/layout";
+} from '../../design/layout';
 
 interface CommonProps {
   /**
@@ -76,7 +77,7 @@ type Props = CommonProps & {
   /**
    * Send status of this message
    */
-  sendStatus?: "sending" | "failed";
+  sendStatus?: 'sending' | 'failed';
 
   /**
    * Component to render message context menu
@@ -97,25 +98,25 @@ type Props = CommonProps & {
 /**
  * Message container layout
  */
-const Base = styled(Column as Component, "Message")<
-  CommonProps & Pick<Props, "mentioned" | "highlight" | "sendStatus">
+const Base = styled(Column as Component, 'Message')<
+  CommonProps & Pick<Props, 'mentioned' | 'highlight' | 'sendStatus'>
 >`
-  ${(props) => generateTypographyCSS(props.theme!, "messages")}
+  ${(props) => generateTypographyCSS(props.theme!, 'messages')}
 
   padding: 2px 0;
   color: ${(props) =>
-    props.sendStatus === "failed"
+    props.sendStatus === 'failed'
       ? props.theme!.customColours.error.color
       : props.theme!.colours.foreground};
   background: ${(props) =>
     props.mentioned
-      ? props.theme!.colours["messaging-message-mentioned-background"]
-      : "transparent"};
-  margin-top: ${(props) => (props.tail ? 0 : "12px")} !important;
+      ? props.theme!.colours['messaging-message-mentioned-background']
+      : 'transparent'};
+  margin-top: ${(props) => (props.tail ? 0 : '12px')} !important;
   border-radius: ${(props) => props.theme!.borderRadius.md};
   min-height: 1em;
 
-  ${(props) => (props.highlight ? "outline: 2px solid red;" : "")}
+  ${(props) => (props.highlight ? 'outline: 2px solid red;' : '')}
 
   .hidden {
     display: none;
@@ -135,12 +136,12 @@ const Base = styled(Column as Component, "Message")<
 /**
  * Left-side information or avatar
  */
-const Info = styled("div", "Info")<Pick<CommonProps, "tail" | "compact">>`
+const Info = styled('div', 'Info')<Pick<CommonProps, 'tail' | 'compact'>>`
   display: flex;
   flex-shrink: 0;
   justify-content: center;
   padding: ${(props) => (props.tail ? 0 : 2)}px 0;
-  ${(props) => (props.compact ? "" : "width: 62px;")}
+  ${(props) => (props.compact ? '' : 'width: 62px;')}
 `;
 
 /**
@@ -159,7 +160,7 @@ const Content = styled(Column)`
  */
 const InfoText = styled(Row)`
   color: var(--unset-fg);
-  ${(props) => generateTypographyCSS(props.theme!, "small")}
+  ${(props) => generateTypographyCSS(props.theme!, 'small')}
 `;
 
 /**
@@ -186,15 +187,15 @@ export function MessageContainer(props: Props) {
       use:ripple={{ enable: false }}
     >
       {props.header}
-      <Row gap="none">
+      <Row gap='none'>
         <Info tail={props.tail} compact={props.compact}>
           <Switch fallback={props.avatar}>
             {props.infoMatch ?? <Match when={false} children={null} />}
             <Match when={props.compact}>
-              <CompactInfo gap="sm" align>
-                <InfoText gap="sm">
+              <CompactInfo gap='sm' align>
+                <InfoText gap='sm'>
                   <Time
-                    format="time"
+                    format='time'
                     value={props.timestamp}
                     referenceTime={props._referenceTime}
                   />
@@ -204,13 +205,13 @@ export function MessageContainer(props: Props) {
               </CompactInfo>
             </Match>
             <Match when={props.tail}>
-              <InfoText class={!props.edited ? "hidden" : undefined}>
-                <Typography variant="small">
+              <InfoText class={!props.edited ? 'hidden' : undefined}>
+                <Typography variant='small'>
                   <Show when={props.edited}>(edited)</Show>
                   <Show when={!props.edited}>
                     <Time
                       value={props.timestamp}
-                      format="time"
+                      format='time'
                       referenceTime={props._referenceTime}
                     />
                   </Show>
@@ -221,15 +222,15 @@ export function MessageContainer(props: Props) {
         </Info>
         <Content>
           <Show when={!props.tail && !props.compact}>
-            <Row gap="sm" align>
+            <Row gap='sm' align>
               <OverflowingText>{props.username}</OverflowingText>
               <NonBreakingText>
-                <InfoText gap="sm" align>
+                <InfoText gap='sm' align>
                   {props.info}
                   <Switch fallback={props.timestamp as string}>
                     <Match when={props.timestamp instanceof Date}>
                       <Time
-                        format="calendar"
+                        format='calendar'
                         value={props.timestamp}
                         referenceTime={props._referenceTime}
                       />

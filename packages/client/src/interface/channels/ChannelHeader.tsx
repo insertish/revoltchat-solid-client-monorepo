@@ -1,30 +1,28 @@
+import { useTranslation } from '@revolt/i18n';
+import { TextWithEmoji } from '@revolt/markdown';
+import { modalController } from '@revolt/modal';
+import { state } from '@revolt/state';
+import { LAYOUT_SECTIONS } from '@revolt/state/stores/Layout';
+import {
+  Button,
+  NonBreakingText,
+  OverflowingText,
+  Spacer,
+  styled,
+  Typography,
+  UserStatus,
+} from '@revolt/ui';
+import type { Channel } from 'revolt.js';
 import {
   BiRegularAt,
   BiRegularHash,
   BiSolidCog,
   BiSolidGroup,
   BiSolidNotepad,
-} from "solid-icons/bi";
-import { Match, Show, Switch } from "solid-js";
+} from 'solid-icons/bi';
+import { Match, Show, Switch } from 'solid-js';
 
-import { Channel } from "revolt.js";
-
-import { useTranslation } from "@revolt/i18n";
-import { TextWithEmoji } from "@revolt/markdown";
-import { modalController } from "@revolt/modal";
-import { state } from "@revolt/state";
-import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
-import {
-  Button,
-  NonBreakingText,
-  OverflowingText,
-  Spacer,
-  Typography,
-  UserStatus,
-  styled,
-} from "@revolt/ui";
-
-import { HeaderIcon } from "../common/CommonHeader";
+import { HeaderIcon } from '../common/CommonHeader';
 
 interface Props {
   /**
@@ -44,7 +42,7 @@ export function ChannelHeader(props: Props) {
    */
   function openChannelInfo() {
     modalController.push({
-      type: "channel_info",
+      type: 'channel_info',
       channel: props.channel,
     });
   }
@@ -54,8 +52,8 @@ export function ChannelHeader(props: Props) {
    */
   function openChannelSettings() {
     modalController.push({
-      type: "settings",
-      config: "channel",
+      type: 'settings',
+      config: 'channel',
       context: props.channel,
     });
   }
@@ -65,9 +63,9 @@ export function ChannelHeader(props: Props) {
       <Switch>
         <Match
           when={
-            props.channel.type === "TextChannel" ||
-            props.channel.type === "VoiceChannel" ||
-            props.channel.type === "Group"
+            props.channel.type === 'TextChannel' ||
+            props.channel.type === 'VoiceChannel' ||
+            props.channel.type === 'Group'
           }
         >
           <HeaderIcon>
@@ -80,27 +78,27 @@ export function ChannelHeader(props: Props) {
             <Divider />
             <DescriptionLink onClick={openChannelInfo}>
               <OverflowingText>
-                <Typography variant="channel-topic">
+                <Typography variant='channel-topic'>
                   <TextWithEmoji
-                    content={props.channel.description?.split("\n").shift()}
+                    content={props.channel.description?.split('\n').shift()}
                   />
                 </Typography>
               </OverflowingText>
             </DescriptionLink>
           </Show>
         </Match>
-        <Match when={props.channel.type === "DirectMessage"}>
+        <Match when={props.channel.type === 'DirectMessage'}>
           <HeaderIcon>
             <BiRegularAt size={24} />
           </HeaderIcon>
           <TextWithEmoji content={props.channel.recipient?.username} />
-          <UserStatus status={props.channel.recipient?.presence} size="8px" />
+          <UserStatus status={props.channel.recipient?.presence} size='8px' />
         </Match>
-        <Match when={props.channel.type === "SavedMessages"}>
+        <Match when={props.channel.type === 'SavedMessages'}>
           <HeaderIcon>
             <BiSolidNotepad size={24} />
           </HeaderIcon>
-          {t("app.navigation.tabs.saved")}
+          {t('app.navigation.tabs.saved')}
         </Match>
       </Switch>
 
@@ -108,18 +106,18 @@ export function ChannelHeader(props: Props) {
 
       <Show
         when={
-          props.channel.type === "Group" ||
-          props.channel.orPermission("ManageChannel", "ManagePermissions")
+          props.channel.type === 'Group' ||
+          props.channel.orPermission('ManageChannel', 'ManagePermissions')
         }
       >
-        <Button variant="plain" size="fluid" onPress={openChannelSettings}>
+        <Button variant='plain' size='fluid' onPress={openChannelSettings}>
           <BiSolidCog size={24} />
         </Button>
       </Show>
 
       <Button
-        variant="plain"
-        size="fluid"
+        variant='plain'
+        size='fluid'
         onPress={() =>
           state.layout.toggleSectionState(LAYOUT_SECTIONS.MEMBER_SIDEBAR, true)
         }
@@ -133,7 +131,7 @@ export function ChannelHeader(props: Props) {
 /**
  * Vertical divider between name and topic
  */
-const Divider = styled("div", "Divider")`
+const Divider = styled('div', 'Divider')`
   height: 20px;
   margin: 0px 5px;
   padding-left: 1px;

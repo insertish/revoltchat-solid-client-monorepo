@@ -1,8 +1,8 @@
-import { ComponentProps, splitProps } from "solid-js";
+import { useClient } from '@revolt/client';
+import type { ComponentProps } from 'solid-js';
+import { splitProps } from 'solid-js';
 
-import { useClient } from "@revolt/client";
-
-import { EmojiBase } from ".";
+import { EmojiBase } from '.';
 
 /**
  * Display custom emoji
@@ -10,10 +10,10 @@ import { EmojiBase } from ".";
 export function CustomEmoji(
   props: { id: string } & Omit<
     ComponentProps<typeof EmojiBase>,
-    "loading" | "class" | "draggable" | "src"
+    'loading' | 'class' | 'draggable' | 'src'
   >
 ) {
-  const [local, remote] = splitProps(props, ["id"]);
+  const [local, remote] = splitProps(props, ['id']);
   const client = useClient();
 
   /**
@@ -25,8 +25,8 @@ export function CustomEmoji(
   return (
     <EmojiBase
       {...remote}
-      loading="lazy"
-      class="emoji"
+      loading='lazy'
+      class='emoji'
       draggable={false}
       src={url()}
       alt={`:${local.id}:`}

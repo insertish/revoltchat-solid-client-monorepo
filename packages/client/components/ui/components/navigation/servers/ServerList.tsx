@@ -1,30 +1,27 @@
-import { Accessor, For, Show, onCleanup, onMount } from "solid-js";
-import { JSX } from "solid-js";
-import { styled as styledLegacy } from "solid-styled-components";
+import MdAdd from '@material-design-icons/svg/filled/add.svg?component-solid';
+import MdExplore from '@material-design-icons/svg/filled/explore.svg?component-solid';
+import MdHome from '@material-design-icons/svg/filled/home.svg?component-solid';
+import MdSettings from '@material-design-icons/svg/filled/settings.svg?component-solid';
+import { KeybindAction } from '@revolt/keybinds';
+import { useNavigate } from '@revolt/routing';
+import type { Channel, Server, User } from 'revolt.js';
+import type { Accessor } from 'solid-js';
+import type { JSX } from 'solid-js';
+import { For, onCleanup, onMount, Show } from 'solid-js';
+import { styled as styledLegacy } from 'solid-styled-components';
+import { cva } from 'styled-system/css';
+import { styled } from 'styled-system/jsx';
 
-import { Channel, Server, User } from "revolt.js";
-import { cva } from "styled-system/css";
-import { styled } from "styled-system/jsx";
-
-import { KeybindAction } from "@revolt/keybinds";
-import { useNavigate } from "@revolt/routing";
-
-import MdAdd from "@material-design-icons/svg/filled/add.svg?component-solid";
-import MdExplore from "@material-design-icons/svg/filled/explore.svg?component-solid";
-import MdHome from "@material-design-icons/svg/filled/home.svg?component-solid";
-import MdSettings from "@material-design-icons/svg/filled/settings.svg?component-solid";
-
-import { Draggable } from "../../common/Draggable";
-import { useKeybindActions } from "../../context/Keybinds";
-import { Column, Typography } from "../../design";
-import { Avatar } from "../../design/atoms/display/Avatar";
+import { Draggable } from '../../common/Draggable';
+import { useKeybindActions } from '../../context/Keybinds';
+import { Column, Typography } from '../../design';
+import { Avatar } from '../../design/atoms/display/Avatar';
 import {
   UnreadsGraphic,
   UserStatusGraphic,
-} from "../../design/atoms/indicators";
-import { Tooltip } from "../../floating";
-
-import { Swoosh } from "./Swoosh";
+} from '../../design/atoms/indicators';
+import { Tooltip } from '../../floating';
+import { Swoosh } from './Swoosh';
 
 interface Props {
   /**
@@ -61,7 +58,7 @@ interface Props {
   /**
    * Menu generator
    */
-  menuGenerator: (target: Server | Channel) => JSX.Directives["floating"];
+  menuGenerator: (target: Server | Channel) => JSX.Directives['floating'];
 }
 
 /**
@@ -93,7 +90,7 @@ export const ServerList = (props: Props) => {
     const nextIndex = currentServerIndex + byOffset;
 
     if (nextIndex === -1) {
-      return navigate("/app");
+      return navigate('/app');
     }
 
     // this will wrap the index around
@@ -130,34 +127,34 @@ export const ServerList = (props: Props) => {
 
   return (
     <ServerListBase>
-      <div use:invisibleScrollable={{ direction: "y", class: listBase() }}>
+      <div use:invisibleScrollable={{ direction: 'y', class: listBase() }}>
         <EntryContainer>
           {/* <Show when={!props.selectedServer()}>
             <PositionSwoosh>
               <Swoosh topItem />
             </PositionSwoosh>
           </Show> */}
-          <a href="/app">
+          <a href='/app'>
             <Avatar size={42} fallback={<MdHome />} />
           </a>
         </EntryContainer>
         <Tooltip
-          placement="right"
+          placement='right'
           content={() => (
-            <Column gap="none">
+            <Column gap='none'>
               <span>{props.user.username}</span>
-              <Typography variant="small">{props.user.presence}</Typography>
+              <Typography variant='small'>{props.user.presence}</Typography>
             </Column>
           )}
           aria={props.user.username}
         >
           <EntryContainer>
             {/* TODO: Make this open user status context menu */}
-            <a href="/app">
+            <a href='/app'>
               <Avatar
                 size={42}
                 src={props.user.avatarURL}
-                holepunch={"bottom-right"}
+                holepunch={'bottom-right'}
                 overlay={<UserStatusGraphic status={props.user.presence} />}
                 interactive
               />
@@ -166,14 +163,14 @@ export const ServerList = (props: Props) => {
         </Tooltip>
         <For each={props.unreadConversations.slice(0, 9)}>
           {(conversation) => (
-            <Tooltip placement="right" content={conversation.displayName}>
+            <Tooltip placement='right' content={conversation.displayName}>
               <EntryContainer use:floating={props.menuGenerator(conversation)}>
                 <a href={`/channel/${conversation.id}`}>
                   <Avatar
                     size={42}
                     // TODO: fix this
                     src={conversation.iconURL}
-                    holepunch={conversation.unread ? "top-right" : "none"}
+                    holepunch={conversation.unread ? 'top-right' : 'none'}
                     overlay={
                       <>
                         <Show when={conversation.unread}>
@@ -213,7 +210,7 @@ export const ServerList = (props: Props) => {
                                  just check existence before continuing */
               }
             >
-              <Tooltip placement="right" content={item.name}>
+              <Tooltip placement='right' content={item.name}>
                 <EntryContainer use:floating={props.menuGenerator(item)}>
                   <Show when={props.selectedServer() === item.id}>
                     <PositionSwoosh>
@@ -224,7 +221,7 @@ export const ServerList = (props: Props) => {
                     <Avatar
                       size={42}
                       src={item.iconURL}
-                      holepunch={item.unread ? "top-right" : "none"}
+                      holepunch={item.unread ? 'top-right' : 'none'}
                       overlay={
                         <>
                           <Show when={item.unread}>
@@ -244,14 +241,14 @@ export const ServerList = (props: Props) => {
             </Show>
           )}
         </Draggable>
-        <Tooltip placement="right" content={"Create or join a server"}>
+        <Tooltip placement='right' content={'Create or join a server'}>
           <EntryContainer>
             <a onClick={() => props.onCreateOrJoinServer()}>
               <Avatar size={42} fallback={<MdAdd />} />
             </a>
           </EntryContainer>
         </Tooltip>
-        <Tooltip placement="right" content={"Find new servers to join"}>
+        <Tooltip placement='right' content={'Find new servers to join'}>
           <EntryContainer>
             <Avatar size={42} fallback={<MdExplore />} />
           </EntryContainer>
@@ -260,9 +257,9 @@ export const ServerList = (props: Props) => {
       <Shadow>
         <div />
       </Shadow>
-      <Tooltip placement="right" content="Settings">
+      <Tooltip placement='right' content='Settings'>
         <EntryContainer>
-          <a href="/settings">
+          <a href='/settings'>
             <Avatar size={42} fallback={<MdSettings />} interactive />
           </a>
         </EntryContainer>
@@ -274,11 +271,11 @@ export const ServerList = (props: Props) => {
 /**
  * Server list container
  */
-const ServerListBase = styled("div", {
+const ServerListBase = styled('div', {
   base: {
-    display: "flex",
-    flexDirection: "column",
-    background: "var(--colours-background)",
+    display: 'flex',
+    flexDirection: 'column',
+    background: 'var(--colours-background)',
   },
 });
 
@@ -294,7 +291,7 @@ const listBase = cva({
 /**
  * Server entries
  */
-const EntryContainer = styledLegacy("div", "Entry")`
+const EntryContainer = styledLegacy('div', 'Entry')`
   width: 56px;
   height: 56px;
   position: relative;
@@ -316,7 +313,7 @@ const LineDivider = styledLegacy.div`
   margin: 6px auto;
   width: calc(100% - 24px);
   background: ${({ theme }) =>
-    theme!.colours["sidebar-server-list-foreground"]};
+    theme!.colours['sidebar-server-list-foreground']};
 `;
 
 /**
@@ -331,7 +328,7 @@ const PositionSwoosh = styledLegacy.div`
 /**
  * Shadow at the bottom of the list
  */
-const Shadow = styledLegacy("div", "Shadow")`
+const Shadow = styledLegacy('div', 'Shadow')`
   height: 0;
   z-index: 1;
   display: relative;
@@ -343,7 +340,7 @@ const Shadow = styledLegacy("div", "Shadow")`
     background: linear-gradient(
       to bottom,
       transparent,
-      ${(props) => props.theme!.colours["background"]}
+      ${(props) => props.theme!.colours['background']}
     );
   }
 `;

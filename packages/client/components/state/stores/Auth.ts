@@ -1,34 +1,33 @@
-import { TransitionType } from "@revolt/client/Controller";
-import { CONFIGURATION, getController } from "@revolt/common";
+import { TransitionType } from '@revolt/client/Controller';
+import { CONFIGURATION, getController } from '@revolt/common';
 
-import { State } from "..";
+import type { State } from '..';
+import { AbstractStore } from '.';
 
-import { AbstractStore } from ".";
-
-export type Session = {
+export interface Session {
   _id: string;
   token: string;
   userId: string;
   valid: boolean;
-};
+}
 
-export type TypeAuth = {
+export interface TypeAuth {
   /**
    * Session information
    */
   session?: Session;
-};
+}
 
 /**
  * Authentication details store
  */
-export class Auth extends AbstractStore<"auth", TypeAuth> {
+export class Auth extends AbstractStore<'auth', TypeAuth> {
   /**
    * Construct store
    * @param state State
    */
   constructor(state: State) {
-    super(state, "auth");
+    super(state, 'auth');
   }
 
   /**
@@ -37,7 +36,7 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
   hydrate(): void {
     if (CONFIGURATION.DEVELOPMENT_TOKEN && CONFIGURATION.DEVELOPMENT_USER_ID) {
       this.setSession({
-        _id: CONFIGURATION.DEVELOPMENT_SESSION_ID ?? "0",
+        _id: CONFIGURATION.DEVELOPMENT_SESSION_ID ?? '0',
         token: CONFIGURATION.DEVELOPMENT_TOKEN,
         userId: CONFIGURATION.DEVELOPMENT_USER_ID,
         valid: true,
@@ -46,7 +45,7 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
 
     const session = this.getSession();
     if (session) {
-      const clientController = getController("client");
+      const clientController = getController('client');
       clientController.lifecycle.transition({
         type: TransitionType.LoginCached,
         session,
@@ -68,11 +67,11 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
    */
   clean(input: Partial<TypeAuth>): TypeAuth {
     let session;
-    if (typeof input.session === "object") {
+    if (typeof input.session === 'object') {
       if (
-        typeof input.session._id === "string" &&
-        typeof input.session.token === "string" &&
-        typeof input.session.userId === "string" &&
+        typeof input.session._id === 'string' &&
+        typeof input.session.token === 'string' &&
+        typeof input.session.userId === 'string' &&
         input.session.valid
       ) {
         session = {
@@ -102,14 +101,14 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
    * @param session Session
    */
   setSession(session: Session) {
-    this.set("session", session);
+    this.set('session', session);
   }
 
   /**
    * Remove existing session.
    */
   removeSession() {
-    this.set("session", undefined!);
+    this.set('session', undefined!);
   }
 
   /**
@@ -118,7 +117,7 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
   markValid() {
     const session = this.get().session;
     if (session && !session.valid) {
-      this.set("session", "valid", true);
+      this.set('session', 'valid', true);
     }
   }
 }

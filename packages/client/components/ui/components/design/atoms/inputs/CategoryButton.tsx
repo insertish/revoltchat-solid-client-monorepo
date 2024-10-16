@@ -1,28 +1,27 @@
-import { For, JSX, Match, Show, Switch } from "solid-js";
-import { styled } from "solid-styled-components";
+import MdChevronRight from '@material-design-icons/svg/outlined/chevron_right.svg?component-solid';
+import MdContentCopy from '@material-design-icons/svg/outlined/content_copy.svg?component-solid';
+import MdKeyboardDown from '@material-design-icons/svg/outlined/keyboard_arrow_down.svg?component-solid';
+import MdOpenInNew from '@material-design-icons/svg/outlined/open_in_new.svg?component-solid';
+import { iconSize } from '@revolt/ui';
+import type { JSX } from 'solid-js';
+import { For, Match, Show, Switch } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { iconSize } from "@revolt/ui";
-
-import MdChevronRight from "@material-design-icons/svg/outlined/chevron_right.svg?component-solid";
-import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
-import MdKeyboardDown from "@material-design-icons/svg/outlined/keyboard_arrow_down.svg?component-solid";
-import MdOpenInNew from "@material-design-icons/svg/outlined/open_in_new.svg?component-solid";
-
-import { Column, OverflowingText } from "../../layout";
+import { Column, OverflowingText } from '../../layout';
 
 /**
  * Permissible actions
  */
 type Action =
-  | "chevron"
-  | "collapse"
-  | "external"
-  | "edit"
-  | "copy"
+  | 'chevron'
+  | 'collapse'
+  | 'external'
+  | 'edit'
+  | 'copy'
   | JSX.Element;
 
 export interface Props {
-  readonly icon?: JSX.Element | "blank";
+  readonly icon?: JSX.Element | 'blank';
   readonly children?: JSX.Element;
   readonly description?: JSX.Element;
 
@@ -42,11 +41,11 @@ export function CategoryButton(props: Props) {
       aria-disabled={props.disabled}
       onClick={props.disabled ? undefined : props.onClick}
     >
-      <Show when={props.icon !== "blank"}>
+      <Show when={props.icon !== 'blank'}>
         <IconWrapper>{props.icon}</IconWrapper>
       </Show>
 
-      <Show when={props.icon === "blank"}>
+      <Show when={props.icon === 'blank'}>
         <BlankIconWrapper />
       </Show>
 
@@ -61,22 +60,22 @@ export function CategoryButton(props: Props) {
       <For each={Array.isArray(props.action) ? props.action : [props.action]}>
         {(action) => (
           <Switch fallback={action}>
-            <Match when={action === "chevron"}>
+            <Match when={action === 'chevron'}>
               <Action>
                 <MdChevronRight {...iconSize(18)} />
               </Action>
             </Match>
-            <Match when={action === "collapse"}>
+            <Match when={action === 'collapse'}>
               <Action>
                 <MdKeyboardDown {...iconSize(18)} />
               </Action>
             </Match>
-            <Match when={action === "external"}>
+            <Match when={action === 'external'}>
               <Action>
                 <MdOpenInNew {...iconSize(18)} />
               </Action>
             </Match>
-            <Match when={action === "copy"}>
+            <Match when={action === 'copy'}>
               <Action>
                 <MdContentCopy {...iconSize(18)} />
               </Action>
@@ -91,7 +90,7 @@ export function CategoryButton(props: Props) {
 /**
  * Base container for button
  */
-const Base = styled("a", "CategoryButton")<{
+const Base = styled('a', 'CategoryButton')<{
   isLink: boolean;
   disabled?: boolean;
 }>`
@@ -99,13 +98,13 @@ const Base = styled("a", "CategoryButton")<{
   padding: 13px; /*TODO: make this a prop*/
   border-radius: ${(props) => props.theme!.borderRadius.md};
 
-  color: ${(props) => props.theme!.colours["component-categorybtn-foreground"]};
+  color: ${(props) => props.theme!.colours['component-categorybtn-foreground']};
   background: ${(props) =>
-    props.theme!.colours["component-categorybtn-background"]};
+    props.theme!.colours['component-categorybtn-background']};
 
   user-select: none;
   cursor: ${(props) =>
-    props.disabled ? "not-allowed" : props.isLink ? "pointer" : "initial"};
+    props.disabled ? 'not-allowed' : props.isLink ? 'pointer' : 'initial'};
   transition: background-color 0.1s ease-in-out;
 
   display: flex;
@@ -118,12 +117,12 @@ const Base = styled("a", "CategoryButton")<{
 
   &:hover {
     background-color: ${(props) =>
-      props.theme!.colours["component-categorybtn-background-hover"]};
+      props.theme!.colours['component-categorybtn-background-hover']};
   }
 
   &:active {
     background-color: ${(props) =>
-      props.theme!.colours["component-categorybtn-background-active"]};
+      props.theme!.colours['component-categorybtn-background-active']};
   }
 `;
 
@@ -144,7 +143,7 @@ const Content = styled(Column)`
  */
 const IconWrapper = styled.div`
   background: ${(props) =>
-    props.theme!.colours["component-categorybtn-background-icon"]};
+    props.theme!.colours['component-categorybtn-background-icon']};
 
   width: 36px;
   height: 36px;
@@ -156,7 +155,7 @@ const IconWrapper = styled.div`
 
   svg {
     color: ${(props) =>
-      props.theme!.colours["component-categorybtn-foreground-description"]};
+      props.theme!.colours['component-categorybtn-foreground-description']};
   }
 `;
 
@@ -174,7 +173,7 @@ const Description = styled.span`
   font-weight: 500;
   font-size: 12px;
   color: ${(props) =>
-    props.theme!.colours["component-categorybtn-foreground-description"]};
+    props.theme!.colours['component-categorybtn-foreground-description']};
   text-wrap: wrap;
 
   a:hover {

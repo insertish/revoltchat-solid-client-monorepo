@@ -1,4 +1,4 @@
-import { styled } from "solid-styled-components";
+import { styled } from 'solid-styled-components';
 
 /**
  * Group a set of category buttons (M3+Fluent)

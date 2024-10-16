@@ -1,27 +1,26 @@
-import { Match, Switch } from "solid-js";
-import { useTheme } from "solid-styled-components";
+import { Match, Switch } from 'solid-js';
+import { useTheme } from 'solid-styled-components';
+import { styled } from 'styled-system/jsx';
 
-import { styled } from "styled-system/jsx";
-
-export type Props = {
+export interface Props {
   unread: boolean;
   count: number;
-};
+}
 
 /**
  * Styles for the counter
  */
-const UnreadCounter = styled("div", {
+const UnreadCounter = styled('div', {
   base: {
-    width: "10px",
-    height: "10px",
-    marginTop: "-1px",
-    textAlign: "center",
+    width: '10px',
+    height: '10px',
+    marginTop: '-1px',
+    textAlign: 'center',
 
-    fontSize: "8px",
+    fontSize: '8px',
     fontWeight: 600,
 
-    color: "var(--customColours-error-onColor)",
+    color: 'var(--customColours-error-onColor)',
   },
 });
 
@@ -34,13 +33,13 @@ export function UnreadsGraphic(props: Props) {
   return (
     <Switch>
       <Match when={props.count > 0}>
-        <circle cx="27" cy="5" r="5" fill={theme!.customColours.error.color} />
-        <foreignObject x="22" y="0" width="10" height="10">
-          <UnreadCounter>{props.count < 10 ? props.count : "9+"}</UnreadCounter>
+        <circle cx='27' cy='5' r='5' fill={theme!.customColours.error.color} />
+        <foreignObject x='22' y='0' width='10' height='10'>
+          <UnreadCounter>{props.count < 10 ? props.count : '9+'}</UnreadCounter>
         </foreignObject>
       </Match>
       <Match when={props.unread}>
-        <circle cx="27" cy="5" r="5" fill={theme!.colours.foreground} />
+        <circle cx='27' cy='5' r='5' fill={theme!.colours.foreground} />
       </Match>
     </Switch>
   );
@@ -51,7 +50,7 @@ export function UnreadsGraphic(props: Props) {
  */
 export function Unreads(props: Props & { size: string }) {
   return (
-    <svg viewBox="22 0 10 10" height={props.size}>
+    <svg viewBox='22 0 10 10' height={props.size}>
       <UnreadsGraphic {...props} />
     </svg>
   );

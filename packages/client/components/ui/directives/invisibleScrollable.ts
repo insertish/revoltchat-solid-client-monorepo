@@ -1,5 +1,5 @@
-import { Accessor, JSX } from "solid-js";
-import { css } from "solid-styled-components";
+import type { Accessor, JSX } from 'solid-js';
+import { css } from 'solid-styled-components';
 
 /**
  * Add styles for an invisible scrollable container
@@ -8,13 +8,13 @@ import { css } from "solid-styled-components";
  */
 export function invisibleScrollable(
   el: HTMLDivElement,
-  accessor: Accessor<JSX.Directives["invisibleScrollable"] & object>
+  accessor: Accessor<JSX.Directives['invisibleScrollable'] & object>
 ) {
   const props = accessor();
 
   el.classList.add(css`
     will-change: transform;
-    ${"overflow-" + (props?.direction ?? "y")}: scroll;
+    ${'overflow-' + (props?.direction ?? 'y')}: scroll;
 
     scrollbar-width: none;
 
@@ -24,6 +24,6 @@ export function invisibleScrollable(
   `);
 
   if (props.class) {
-    props.class.split(" ").forEach((cls) => el.classList.add(cls));
+    props.class.split(' ').forEach((cls) => el.classList.add(cls));
   }
 }

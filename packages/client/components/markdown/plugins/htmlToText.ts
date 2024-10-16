@@ -1,10 +1,10 @@
-import { Plugin } from "unified";
-import { visit } from "unist-util-visit";
+import type { Plugin } from 'unified';
+import { visit } from 'unist-util-visit';
 
 export const remarkHtmlToText: Plugin = () => {
   return (tree) => {
-    visit(tree, "html", (node: { type: string; value: string }) => {
-      node.type = "text";
+    visit(tree, 'html', (node: { type: string; value: string }) => {
+      node.type = 'text';
     });
   };
 };

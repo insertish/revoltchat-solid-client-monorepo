@@ -1,17 +1,16 @@
-import { Accessor, For, Setter, Show, createMemo, onMount } from "solid-js";
-
-import { Column, OverflowingText, styled } from "@revolt/ui";
+import { Column, OverflowingText, styled } from '@revolt/ui';
+import type { Accessor, Setter } from 'solid-js';
+import { createMemo, For, onMount, Show } from 'solid-js';
 
 // import MdError from "@material-design-icons/svg/filled/error.svg?component-solid";
 // import MdOpenInNew from "@material-design-icons/svg/filled/open_in_new.svg?component-solid";
-import { SettingsList } from "..";
-import { useSettingsNavigation } from "../Settings";
-
+import type { SettingsList } from '..';
+import { useSettingsNavigation } from '../Settings';
 import {
   SidebarButton,
   SidebarButtonContent,
   SidebarButtonTitle,
-} from "./SidebarButton";
+} from './SidebarButton';
 
 /**
  * Settings Sidebar Layout
@@ -44,7 +43,7 @@ export function SettingsSidebar(props: {
     <Base>
       <div use:invisibleScrollable>
         <Content>
-          <Column gap="lg">
+          <Column gap='lg'>
             {list().prepend}
             <For each={list().entries}>
               {(category) => (
@@ -53,15 +52,15 @@ export function SettingsSidebar(props: {
                     <Show when={category.title}>
                       <CategoryTitle>{category.title}</CategoryTitle>
                     </Show>
-                    <Column gap="s">
+                    <Column gap='s'>
                       <For each={category.entries}>
                         {(entry) => (
                           <Show when={!entry.hidden}>
                             <SidebarButton
                               onClick={() => navigate(entry)}
                               aria-selected={
-                                props.page()?.split("/")[0] ===
-                                entry.id?.split("/")[0]
+                                props.page()?.split('/')[0] ===
+                                entry.id?.split('/')[0]
                               }
                             >
                               <SidebarButtonTitle>
@@ -102,19 +101,19 @@ export function SettingsSidebar(props: {
 /**
  * Base layout of the sidebar
  */
-const Base = styled("div", "Sidebar")`
+const Base = styled('div', 'Sidebar')`
   display: flex;
   flex: 1 0 218px;
   padding-left: 8px;
   justify-content: flex-end;
 
-  color: ${(props) => props.theme!.colours["settings-foreground"]};
+  color: ${(props) => props.theme!.colours['settings-foreground']};
 `;
 
 /**
  * Aligned content within the sidebar
  */
-const Content = styled("div", "Content")`
+const Content = styled('div', 'Content')`
   min-width: 230px;
   max-width: 300px;
   padding: 74px 0 8px;
@@ -137,5 +136,5 @@ const CategoryTitle = styled(OverflowingText)`
   font-weight: 700;
   margin: 0 8px;
   margin-inline-end: 20px;
-  color: ${(props) => props.theme!.colours["settings-sidebar-category"]};
+  color: ${(props) => props.theme!.colours['settings-sidebar-category']};
 `;

@@ -1,16 +1,12 @@
 /* eslint-disable solid/reactivity */
-import { ComponentProps, For, JSX, Match, Show, Switch } from "solid-js";
-import { SetStoreFunction, createStore } from "solid-js/store";
+import type { ComponentProps, JSX } from 'solid-js';
+import { For, Match, Show, Switch } from 'solid-js';
+import type { SetStoreFunction } from 'solid-js/store';
+import { createStore } from 'solid-js/store';
 
-import { Button, Column } from "../design";
-
-import {
-  InputElement,
-  Type,
-  TypeProps,
-  Value,
-  emptyValue,
-} from "./InputElement";
+import { Button, Column } from '../design';
+import type { Type, TypeProps, Value } from './InputElement';
+import { emptyValue, InputElement } from './InputElement';
 
 /**
  * Form schema
@@ -73,7 +69,7 @@ export interface Props<T extends FormTemplate> {
   /**
    * Submit button properties
    */
-  submitBtn?: Omit<ComponentProps<typeof Button>, "type">;
+  submitBtn?: Omit<ComponentProps<typeof Button>, 'type'>;
 
   /**
    * Whether all elements are disabled
@@ -158,8 +154,8 @@ export function Form<T extends FormTemplate>(props: Props<T>) {
 
         <Show when={props.submitBtn}>
           <Button
-            type="submit"
-            children="Submit"
+            type='submit'
+            children='Submit'
             isDisabled={props.disabled}
             {...props.submitBtn}
           />

@@ -1,35 +1,34 @@
-import TextColourDecorator from "../../../decorators/TextColourDecorator";
-import type { ComponentStory } from "../../stories";
-
-import { Column } from "./Column";
+import TextColourDecorator from '../../../decorators/TextColourDecorator';
+import type { ComponentStory } from '../../stories';
+import { Column } from './Column';
 
 export default {
-  category: "Design System/Layout",
+  category: 'Design System/Layout',
   component: Column,
   stories: [
     {
-      title: "Default",
+      title: 'Default',
     },
     {
-      title: "No Gap",
+      title: 'No Gap',
       props: {
-        gap: "none",
+        gap: 'none',
       },
     },
     {
-      title: "Small Gap",
+      title: 'Small Gap',
       props: {
-        gap: "sm",
+        gap: 'sm',
       },
     },
     {
-      title: "Large Gap",
+      title: 'Large Gap',
       props: {
-        gap: "lg",
+        gap: 'lg',
       },
     },
     {
-      title: "Align (Center)",
+      title: 'Align (Center)',
       props: {
         children: (
           <>
@@ -42,21 +41,21 @@ export default {
       },
     },
     {
-      title: "Justify (End)",
+      title: 'Justify (End)',
       props: {
-        justify: "end",
+        justify: 'end',
         grow: true,
       },
       decorators: [
         (props) => (
-          <div style={{ height: "120px", display: "flex" }}>
+          <div style={{ height: '120px', display: 'flex' }}>
             {props.children}
           </div>
         ),
       ],
     },
     {
-      title: "Group",
+      title: 'Group',
       props: {
         group: true,
       },
@@ -70,19 +69,19 @@ export default {
         <div>Element 3</div>
       </>
     ),
-    gap: "md",
-    align: "start",
-    justify: "start",
+    gap: 'md',
+    align: 'start',
+    justify: 'start',
     grow: false,
     group: undefined,
   },
   decorators: [TextColourDecorator],
   propTypes: {
-    children: "component",
-    gap: ["none", "sm", "md", "lg"],
-    align: ["start", "end", "left", "right", "center", "stretch", true],
-    justify: ["start", "end", "left", "right", "center", "stretch", true],
-    grow: "boolean",
-    group: "boolean",
+    children: 'component',
+    gap: ['none', 'sm', 'md', 'lg'],
+    align: ['start', 'end', 'left', 'right', 'center', 'stretch', true],
+    justify: ['start', 'end', 'left', 'right', 'center', 'stretch', true],
+    grow: 'boolean',
+    group: 'boolean',
   },
 } as ComponentStory<typeof Column>;

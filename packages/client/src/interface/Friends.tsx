@@ -1,37 +1,28 @@
-import { BiSolidChevronDown, BiSolidUserDetail } from "solid-icons/bi";
-import {
-  Accessor,
-  For,
-  JSX,
-  Show,
-  createMemo,
-  createSignal,
-  splitProps,
-} from "solid-js";
-
-import { VirtualContainer } from "@minht11/solid-virtual-container";
-import type { User } from "revolt.js";
-import { styled } from "styled-system/jsx";
-
-import { useClient } from "@revolt/client";
-import { useTranslation } from "@revolt/i18n";
+import { VirtualContainer } from '@minht11/solid-virtual-container';
+import { useClient } from '@revolt/client';
+import { useTranslation } from '@revolt/i18n';
 import {
   Avatar,
   CategoryButton,
   Deferred,
   Header,
   OverflowingText,
+  styled as styledLegacy,
   Typography,
   UserStatusGraphic,
-  styled as styledLegacy,
-} from "@revolt/ui";
+} from '@revolt/ui';
+import type { User } from 'revolt.js';
+import { BiSolidChevronDown, BiSolidUserDetail } from 'solid-icons/bi';
+import type { Accessor, JSX } from 'solid-js';
+import { createMemo, createSignal, For, Show, splitProps } from 'solid-js';
+import { styled } from 'styled-system/jsx';
 
-import { HeaderIcon } from "./common/CommonHeader";
+import { HeaderIcon } from './common/CommonHeader';
 
 /**
  * Base layout of the friends page
  */
-const Base = styledLegacy("div")`
+const Base = styledLegacy('div')`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -41,10 +32,10 @@ const Base = styledLegacy("div")`
   }
 `;
 
-const ListBase = styled("div", {
+const ListBase = styled('div', {
   base: {
-    "&:not(:first-child)": {
-      paddingTop: "var(--gap-lg)",
+    '&:not(:first-child)': {
+      paddingTop: 'var(--gap-lg)',
     },
   },
 });
@@ -53,7 +44,7 @@ const ListBase = styled("div", {
  * Typed accessor for lists
  */
 type FriendLists = Accessor<{
-  [key in "online" | "offline" | "incoming" | "outgoing" | "blocked"]: User[];
+  [key in 'online' | 'offline' | 'incoming' | 'outgoing' | 'blocked']: User[];
 }>;
 
 /**
@@ -79,20 +70,20 @@ export function Friends() {
     const list = client()!.users.toList();
 
     const friends = list
-      .filter((user) => user.relationship === "Friend")
+      .filter((user) => user.relationship === 'Friend')
       .sort((a, b) => a.username.localeCompare(b.username));
 
     return {
       online: friends.filter((user) => user.online),
       offline: friends.filter((user) => !user.online),
       incoming: list
-        .filter((user) => user.relationship === "Incoming")
+        .filter((user) => user.relationship === 'Incoming')
         .sort((a, b) => a.username.localeCompare(b.username)),
       outgoing: list
-        .filter((user) => user.relationship === "Outgoing")
+        .filter((user) => user.relationship === 'Outgoing')
         .sort((a, b) => a.username.localeCompare(b.username)),
       blocked: list
-        .filter((user) => user.relationship === "Blocked")
+        .filter((user) => user.relationship === 'Blocked')
         .sort((a, b) => a.username.localeCompare(b.username)),
     };
   });
@@ -100,32 +91,32 @@ export function Friends() {
   return (
     // TODO: i18n
     <Base>
-      <Header placement="primary">
+      <Header placement='primary'>
         <HeaderIcon>
           <BiSolidUserDetail size={24} />
         </HeaderIcon>
         Friends
       </Header>
       <Deferred>
-        <div class="FriendsList" ref={scrollTargetElement} use:scrollable>
+        <div class='FriendsList' ref={scrollTargetElement} use:scrollable>
           {/* <PendingRequests lists={lists} /> */}
           <List
-            title="Outgoing"
+            title='Outgoing'
             users={lists().outgoing}
             scrollTargetElement={targetSignal}
           />
           <List
-            title="Online"
+            title='Online'
             users={lists().online}
             scrollTargetElement={targetSignal}
           />
           <List
-            title="Offline"
+            title='Offline'
             users={lists().offline}
             scrollTargetElement={targetSignal}
           />
           <List
-            title="Blocked"
+            title='Blocked'
             users={lists().blocked}
             scrollTargetElement={targetSignal}
           />
@@ -145,8 +136,8 @@ function List(props: {
 }) {
   return (
     <ListBase>
-      <Typography variant="category">
-        {props.title} {"–"} {props.users.length}
+      <Typography variant='category'>
+        {props.title} {'–'} {props.users.length}
       </Typography>
       <VirtualContainer
         items={props.users}
@@ -162,9 +153,9 @@ function List(props: {
               ...item.style,
             }}
           >
-            <div style={{ margin: "6px" }}>
+            <div style={{ margin: '6px' }}>
               <Entry
-                role="listitem"
+                role='listitem'
                 tabIndex={item.tabIndex}
                 style={item.style}
                 user={item.item}
@@ -180,12 +171,12 @@ function List(props: {
 /**
  * Some temporary styles for friend entries
  */
-const Friend = styled("div", {
+const Friend = styled('div', {
   base: {
     minWidth: 0,
-    display: "flex",
-    gap: "var(--gap-md)",
-    alignItems: "center",
+    display: 'flex',
+    gap: 'var(--gap-md)',
+    alignItems: 'center',
     // padding: "var(--gap-md)",
     // borderRadius: "var(--borderRadius-lg)",
     // background: "var(--colours-sidebar-channels-background)",
@@ -198,10 +189,10 @@ const Friend = styled("div", {
 function Entry(
   props: { user: User } & Omit<
     JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
-    "href"
+    'href'
   >
 ) {
-  const [local, remote] = splitProps(props, ["user"]);
+  const [local, remote] = splitProps(props, ['user']);
 
   return (
     <a {...remote}>
@@ -210,12 +201,12 @@ function Entry(
           size={36}
           src={local.user.animatedAvatarURL}
           holepunch={
-            props.user.relationship === "Friend" ? "bottom-right" : "none"
+            props.user.relationship === 'Friend' ? 'bottom-right' : 'none'
           }
           overlay={
-            <Show when={props.user.relationship === "Friend"}>
+            <Show when={props.user.relationship === 'Friend'}>
               <UserStatusGraphic
-                status={props.user.status?.presence ?? "Online"}
+                status={props.user.status?.presence ?? 'Online'}
               />
             </Show>
           }
@@ -229,7 +220,7 @@ function Entry(
 /**
  * Overlapping avatars
  */
-const Avatars = styledLegacy("div", "Avatars")`
+const Avatars = styledLegacy('div', 'Avatars')`
   flex-shrink: 0;
 
   svg:not(:first-child) {
@@ -259,21 +250,21 @@ function PendingRequests(props: { lists: FriendLists }) {
     const length = list.length;
 
     if (length === 1) {
-      return t("app.special.friends.from.single", { user: list[0].username });
+      return t('app.special.friends.from.single', { user: list[0].username });
     } else if (length <= 3) {
-      return t("app.special.friends.from.multiple", {
+      return t('app.special.friends.from.multiple', {
         userlist: list
           .slice(0, 2)
           .map((user) => user.username)
-          .join(", "),
+          .join(', '),
         user: list.slice(-1)[0].username,
       });
     } else {
-      return t("app.special.friends.from.several", {
+      return t('app.special.friends.from.several', {
         userlist: list
           .slice(0, 3)
           .map((user) => user.username)
-          .join(", "),
+          .join(', '),
         count: (length - 3).toString(),
       });
     }
@@ -282,7 +273,7 @@ function PendingRequests(props: { lists: FriendLists }) {
   return (
     <Show when={incoming().length}>
       <CategoryButton
-        action="chevron"
+        action='chevron'
         icon={
           <Avatars>
             <For each={incoming().slice(0, 3)}>
@@ -290,7 +281,7 @@ function PendingRequests(props: { lists: FriendLists }) {
                 <Avatar
                   src={user.animatedAvatarURL}
                   size={64}
-                  holepunch={index() == 2 ? "none" : "overlap"}
+                  holepunch={index() == 2 ? 'none' : 'overlap'}
                 />
               )}
             </For>

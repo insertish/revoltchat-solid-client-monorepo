@@ -1,15 +1,14 @@
-import { paramsFromPathname } from "@revolt/routing";
+import { paramsFromPathname } from '@revolt/routing';
 
-import { State } from "..";
-
-import { AbstractStore } from ".";
+import type { State } from '..';
+import { AbstractStore } from '.';
 
 /**
  * Static section IDs
  */
 export enum LAYOUT_SECTIONS {
-  MEMBER_SIDEBAR = "MEMBER_SIDEBAR",
-  MENTION_REPLY = "MENTION_REPLY",
+  MEMBER_SIDEBAR = 'MEMBER_SIDEBAR',
+  MENTION_REPLY = 'MENTION_REPLY',
 }
 
 export interface TypeLayout {
@@ -21,12 +20,12 @@ export interface TypeLayout {
    * - discover
    * - a server ID
    */
-  activeInterface: "home" | "discover" | string;
+  activeInterface: 'home' | 'discover' | string;
 
   /**
    * Current path within an interface
    */
-  activePath: Record<TypeLayout["activeInterface"], string>;
+  activePath: Record<TypeLayout['activeInterface'], string>;
 
   /**
    * Open (or closed) sections of the UI
@@ -39,13 +38,13 @@ export interface TypeLayout {
 /**
  * Handles layout and navigation of the app.
  */
-export class Layout extends AbstractStore<"layout", TypeLayout> {
+export class Layout extends AbstractStore<'layout', TypeLayout> {
   /**
    * Construct store
    * @param state State
    */
   constructor(state: State) {
-    super(state, "layout");
+    super(state, 'layout');
   }
 
   /**
@@ -60,10 +59,10 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
    */
   default(): TypeLayout {
     return {
-      activeInterface: "home",
+      activeInterface: 'home',
       activePath: {
-        home: "/",
-        discover: "/discover/servers",
+        home: '/',
+        discover: '/discover/servers',
       },
       openSections: {},
     };
@@ -75,21 +74,21 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
   clean(input: Partial<TypeLayout>): TypeLayout {
     const layout: TypeLayout = this.default();
 
-    if (typeof input.activeInterface === "string") {
+    if (typeof input.activeInterface === 'string') {
       layout.activeInterface = input.activeInterface;
     }
 
-    if (typeof input.activePath === "object") {
+    if (typeof input.activePath === 'object') {
       for (const interfaceId of Object.keys(input.activePath)) {
-        if (typeof input.activePath[interfaceId] === "string") {
+        if (typeof input.activePath[interfaceId] === 'string') {
           layout.activePath[interfaceId] = input.activePath[interfaceId];
         }
       }
     }
 
-    if (typeof input.openSections === "object") {
+    if (typeof input.openSections === 'object') {
       for (const section of Object.keys(input.openSections)) {
-        if (typeof input.openSections[section] === "boolean") {
+        if (typeof input.openSections[section] === 'boolean') {
           layout.openSections[section] = input.openSections[section];
         }
       }
@@ -103,7 +102,7 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
    */
   getLastActivePath() {
     const section = this.get().activeInterface;
-    return this.get().activePath[section] ?? "/";
+    return this.get().activePath[section] ?? '/';
   }
 
   /**
@@ -111,9 +110,9 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
    */
   setLastActivePath(pathname: string) {
     const params = paramsFromPathname(pathname);
-    const section = params.serverId ?? "home";
-    this.set("activeInterface", section);
-    this.set("activePath", section, pathname);
+    const section = params.serverId ?? 'home';
+    this.set('activeInterface', section);
+    this.set('activePath', section, pathname);
   }
 
   /**
@@ -133,7 +132,7 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
    * @param defaultValue Default state value
    */
   setSectionState(id: string, value: boolean, defaultValue = false) {
-    this.set("openSections", id, value === defaultValue ? undefined! : value);
+    this.set('openSections', id, value === defaultValue ? undefined! : value);
   }
 
   /**

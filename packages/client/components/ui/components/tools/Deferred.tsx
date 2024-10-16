@@ -1,7 +1,8 @@
-import { Match } from "solid-js";
-import { JSX, Switch, createSignal, onMount } from "solid-js";
+import type { JSX } from 'solid-js';
+import { Match } from 'solid-js';
+import { createSignal, onMount, Switch } from 'solid-js';
 
-import { Preloader } from "../design";
+import { Preloader } from '../design';
 
 /**
  * Render component after other elements have been drawn to DOM
@@ -12,7 +13,7 @@ export function Deferred(props: { children: JSX.Element }) {
   const [render, setRender] = createSignal(false);
   onMount(() => setTimeout(() => setRender(true)));
   return (
-    <Switch fallback={<Preloader type="ring" />}>
+    <Switch fallback={<Preloader type='ring' />}>
       <Match when={render()}>{props.children}</Match>
     </Switch>
   );

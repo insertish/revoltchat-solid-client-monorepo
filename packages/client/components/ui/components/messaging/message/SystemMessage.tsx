@@ -1,7 +1,4 @@
-import { JSX, Match, Switch } from "solid-js";
-import { styled } from "solid-styled-components";
-
-import {
+import type {
   ChannelEditSystemMessage,
   ChannelOwnershipChangeSystemMessage,
   ChannelRenamedSystemMessage,
@@ -10,9 +7,12 @@ import {
   User,
   UserModeratedSystemMessage,
   UserSystemMessage,
-} from "revolt.js";
+} from 'revolt.js';
+import type { JSX } from 'solid-js';
+import { Match, Switch } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { Typography } from "../../design";
+import { Typography } from '../../design';
 
 interface Props {
   /**
@@ -23,7 +23,7 @@ interface Props {
   /**
    * Menu generator
    */
-  menuGenerator: (user?: User) => JSX.Directives["floating"];
+  menuGenerator: (user?: User) => JSX.Directives['floating'];
 
   /**
    * Whether this is rendered within a server
@@ -34,7 +34,7 @@ interface Props {
 /**
  * Render the actual user
  */
-function Usr(props: { user?: User } & Pick<Props, "menuGenerator">) {
+function Usr(props: { user?: User } & Pick<Props, 'menuGenerator'>) {
   return (
     <Username use:floating={props.menuGenerator(props.user)}>
       {props.user?.username}
@@ -49,97 +49,97 @@ export function SystemMessage(props: Props) {
   // TODO: i18n with components
   return (
     <Base>
-      <Typography variant="system-message">
+      <Typography variant='system-message'>
         <Switch fallback={props.systemMessage.type}>
-          <Match when={props.systemMessage.type === "user_added"}>
+          <Match when={props.systemMessage.type === 'user_added'}>
             <Usr
               menuGenerator={props.menuGenerator}
               user={(props.systemMessage as UserModeratedSystemMessage).user}
-            />{" "}
-            has been added by{" "}
+            />{' '}
+            has been added by{' '}
             <Usr
               menuGenerator={props.menuGenerator}
               user={(props.systemMessage as UserModeratedSystemMessage).by}
             />
           </Match>
           <Match
-            when={props.systemMessage.type === "user_left" && !props.isServer}
+            when={props.systemMessage.type === 'user_left' && !props.isServer}
           >
             <Usr
               menuGenerator={props.menuGenerator}
               user={(props.systemMessage as UserSystemMessage).user}
-            />{" "}
+            />{' '}
             left the group
           </Match>
-          <Match when={props.systemMessage.type === "user_remove"}>
+          <Match when={props.systemMessage.type === 'user_remove'}>
             <Usr
               menuGenerator={props.menuGenerator}
               user={(props.systemMessage as UserModeratedSystemMessage).user}
-            />{" "}
-            has been removed by{" "}
+            />{' '}
+            has been removed by{' '}
             <Usr
               menuGenerator={props.menuGenerator}
               user={(props.systemMessage as UserModeratedSystemMessage).by}
             />
           </Match>
-          <Match when={props.systemMessage.type === "user_kicked"}>
+          <Match when={props.systemMessage.type === 'user_kicked'}>
             <Usr
               menuGenerator={props.menuGenerator}
               user={(props.systemMessage as UserSystemMessage).user}
-            />{" "}
+            />{' '}
             has been kicked from the server
           </Match>
-          <Match when={props.systemMessage.type === "user_banned"}>
+          <Match when={props.systemMessage.type === 'user_banned'}>
             <Usr
               menuGenerator={props.menuGenerator}
               user={(props.systemMessage as UserSystemMessage).user}
-            />{" "}
+            />{' '}
             has been banned from the server
           </Match>
-          <Match when={props.systemMessage.type === "user_joined"}>
+          <Match when={props.systemMessage.type === 'user_joined'}>
             <Usr
               menuGenerator={props.menuGenerator}
               user={(props.systemMessage as UserSystemMessage).user}
-            />{" "}
+            />{' '}
             joined the server
           </Match>
           <Match
-            when={props.systemMessage.type === "user_left" && props.isServer}
+            when={props.systemMessage.type === 'user_left' && props.isServer}
           >
             <Usr
               menuGenerator={props.menuGenerator}
               user={(props.systemMessage as UserSystemMessage).user}
-            />{" "}
+            />{' '}
             left the server
           </Match>
-          <Match when={props.systemMessage.type === "channel_renamed"}>
+          <Match when={props.systemMessage.type === 'channel_renamed'}>
             <Usr
               menuGenerator={props.menuGenerator}
               user={(props.systemMessage as ChannelRenamedSystemMessage).by}
-            />{" "}
-            updated the group name to{" "}
+            />{' '}
+            updated the group name to{' '}
             <Username>
               {(props.systemMessage as ChannelRenamedSystemMessage).name}
             </Username>
           </Match>
           <Match
-            when={props.systemMessage.type === "channel_description_changed"}
+            when={props.systemMessage.type === 'channel_description_changed'}
           >
             <Usr
               menuGenerator={props.menuGenerator}
               user={(props.systemMessage as ChannelEditSystemMessage).by}
-            />{" "}
+            />{' '}
             updated the group description
           </Match>
-          <Match when={props.systemMessage.type === "channel_icon_changed"}>
+          <Match when={props.systemMessage.type === 'channel_icon_changed'}>
             <Usr
               menuGenerator={props.menuGenerator}
               user={(props.systemMessage as ChannelEditSystemMessage).by}
-            />{" "}
+            />{' '}
             updated the group icon
           </Match>
           <Match
-            when={props.systemMessage.type === "channel_ownership_changed"}
+            when={props.systemMessage.type === 'channel_ownership_changed'}
           >
             <Usr
               menuGenerator={props.menuGenerator}
@@ -147,8 +147,8 @@ export function SystemMessage(props: Props) {
                 (props.systemMessage as ChannelOwnershipChangeSystemMessage)
                   .from
               }
-            />{" "}
-            transferred group ownership to{" "}
+            />{' '}
+            transferred group ownership to{' '}
             <Usr
               menuGenerator={props.menuGenerator}
               user={
@@ -156,7 +156,7 @@ export function SystemMessage(props: Props) {
               }
             />
           </Match>
-          <Match when={props.systemMessage.type === "text"}>
+          <Match when={props.systemMessage.type === 'text'}>
             {(props.systemMessage as TextSystemMessage).content}
           </Match>
         </Switch>
@@ -165,7 +165,7 @@ export function SystemMessage(props: Props) {
   );
 }
 
-const Base = styled("div", "SystemMessage")`
+const Base = styled('div', 'SystemMessage')`
   display: flex;
   min-height: 20px;
   align-items: center;
@@ -173,5 +173,5 @@ const Base = styled("div", "SystemMessage")`
 `;
 
 const Username = styled.span`
-  color: ${(props) => props.theme!.colours["foreground"]};
+  color: ${(props) => props.theme!.colours['foreground']};
 `;

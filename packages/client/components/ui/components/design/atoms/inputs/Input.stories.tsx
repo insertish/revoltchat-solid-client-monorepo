@@ -1,60 +1,59 @@
-import type { ComponentStory } from "../../../stories";
-
-import { Input } from "./Input";
+import type { ComponentStory } from '../../../stories';
+import { Input } from './Input';
 
 export default {
-  category: "Design System/Atoms/Inputs",
+  category: 'Design System/Atoms/Inputs',
   component: Input,
   stories: [
     {
-      title: "Primary",
+      title: 'Primary',
       props: {
-        palette: "primary",
+        palette: 'primary',
       },
     },
     {
-      title: "Secondary",
+      title: 'Secondary',
       props: {
-        palette: "secondary",
+        palette: 'secondary',
       },
     },
     {
-      title: "Primary (Disabled)",
+      title: 'Primary (Disabled)',
       props: {
-        palette: "primary",
+        palette: 'primary',
         disabled: true,
       },
     },
     {
-      title: "Secondary (Disabled)",
+      title: 'Secondary (Disabled)',
       props: {
-        palette: "secondary",
+        palette: 'secondary',
         disabled: true,
       },
     },
     {
-      title: "Primary (Placeholder)",
+      title: 'Primary (Placeholder)',
       props: {
-        palette: "secondary",
-        value: "",
-        placeholder: "Placeholder text",
+        palette: 'secondary',
+        value: '',
+        placeholder: 'Placeholder text',
       },
     },
     {
-      title: "Secondary (Placeholder)",
+      title: 'Secondary (Placeholder)',
       props: {
-        palette: "secondary",
-        value: "",
-        placeholder: "Placeholder text",
+        palette: 'secondary',
+        value: '',
+        placeholder: 'Placeholder text',
       },
     },
   ],
   props: {
-    value: "I am an input...",
+    value: 'I am an input...',
   },
   propTypes: {
-    palette: ["primary", "secondary"],
-    value: "string",
-    placeholder: "string",
+    palette: ['primary', 'secondary'],
+    value: 'string',
+    placeholder: 'string',
   },
 } as ComponentStory<typeof Input>;

@@ -1,25 +1,5 @@
-import {
-  Accessor,
-  For,
-  JSX,
-  Match,
-  Show,
-  Switch,
-  batch,
-  createEffect,
-  createMemo,
-  createSignal,
-  on,
-  onCleanup,
-  onMount,
-  splitProps,
-} from "solid-js";
-
-import isEqual from "lodash.isequal";
-import { Channel, Message as MessageInterface } from "revolt.js";
-
-import { useClient } from "@revolt/client";
-import { dayjs } from "@revolt/i18n";
+import { useClient } from '@revolt/client';
+import { dayjs } from '@revolt/i18n';
 import {
   BlockedMessage,
   ConversationStart,
@@ -27,9 +7,26 @@ import {
   ListView,
   MessageDivider,
   styled,
-} from "@revolt/ui";
+} from '@revolt/ui';
+import isEqual from 'lodash.isequal';
+import type { Channel, Message as MessageInterface } from 'revolt.js';
+import type { Accessor, JSX } from 'solid-js';
+import {
+  batch,
+  createEffect,
+  createMemo,
+  createSignal,
+  For,
+  Match,
+  on,
+  onCleanup,
+  onMount,
+  Show,
+  splitProps,
+  Switch,
+} from 'solid-js';
 
-import { Message } from "./Message";
+import { Message } from './Message';
 
 /**
  * Default fetch limit
@@ -110,7 +107,7 @@ export function Messages(props: Props) {
    * The current direction of fetching
    */
   const [fetching, setFetching] = createSignal<
-    "initial" | "upwards" | "downwards" | "jump_end" | "jump_msg"
+    'initial' | 'upwards' | 'downwards' | 'jump_end' | 'jump_msg'
   >();
 
   /**
@@ -185,7 +182,7 @@ export function Messages(props: Props) {
   async function caseInitialLoad(nearby?: string) {
     // Pre-empt any fetches
     preempt();
-    setFetching("initial");
+    setFetching('initial');
 
     // Handle incoming pre-emptions
     const preempted = newPreempted();
@@ -213,7 +210,7 @@ export function Messages(props: Props) {
 
       // Assume we are not at the end if we jumped to a message
       // NB. we set this late to not display the "jump to bottom" bar
-      if (typeof nearby === "string") {
+      if (typeof nearby === 'string') {
         setEnd(
           // If the messages fetched include the latest message,
           // then we are at the end and mark the channel as such.
@@ -262,7 +259,7 @@ export function Messages(props: Props) {
     if (atStart() || !canFetch()) return;
 
     // Indicate we are fetching upwards
-    setFetching("upwards");
+    setFetching('upwards');
 
     // Handle incoming pre-emptions
     const preempted = newPreempted();
@@ -334,7 +331,7 @@ export function Messages(props: Props) {
     if (atEnd() || !canFetch()) return;
 
     // Indicate we are fetching downwards
-    setFetching("downwards");
+    setFetching('downwards');
 
     // Handle incoming pre-emptions
     const preempted = newPreempted();
@@ -344,7 +341,7 @@ export function Messages(props: Props) {
       const result = await props.channel.fetchMessagesWithUsers({
         limit: props.fetchLimit,
         after: messages()[0].id,
-        sort: "Oldest",
+        sort: 'Oldest',
       });
 
       // Cancel if we've been pre-empted
@@ -407,7 +404,7 @@ export function Messages(props: Props) {
     function findScrollContainer(el: Element | null) {
       if (!el) {
         return null;
-      } else if (getComputedStyle(el).overflowY === "scroll") {
+      } else if (getComputedStyle(el).overflowY === 'scroll') {
         return el;
       } else {
         return el.parentElement;
@@ -418,15 +415,15 @@ export function Messages(props: Props) {
     if (atEnd()) {
       const containerChild = findScrollContainer(listRef!)!.children[0];
       containerChild!.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
+        behavior: 'smooth',
+        block: 'end',
       });
     }
     // Otherwise fetch present messages
     else {
       // Pre-empty any fetches
       preempt();
-      setFetching("jump_end");
+      setFetching('jump_end');
 
       // Handle incoming pre-emptions
       const preempted = newPreempted();
@@ -470,14 +467,14 @@ export function Messages(props: Props) {
           const containerChild = findScrollContainer(listRef!)!.children[0];
 
           containerChild!.scrollIntoView({
-            behavior: "instant",
-            block: "start",
+            behavior: 'instant',
+            block: 'start',
           });
 
           setTimeout(() => {
             containerChild!.scrollIntoView({
-              behavior: "smooth",
-              block: "end",
+              behavior: 'smooth',
+              block: 'end',
             });
 
             // Mark as fetching has ended
@@ -505,8 +502,8 @@ export function Messages(props: Props) {
       ); // use localeCompare
 
       listRef!.children[index + (atStart() ? 1 : 0)].scrollIntoView({
-        behavior: "smooth",
-        block: "center",
+        behavior: 'smooth',
+        block: 'center',
       });
     };
 
@@ -517,7 +514,7 @@ export function Messages(props: Props) {
 
     // Pre-empty any fetches
     preempt();
-    setFetching("jump_msg");
+    setFetching('jump_msg');
 
     // Handle incoming pre-emptions
     const preempted = newPreempted();
@@ -611,14 +608,14 @@ export function Messages(props: Props) {
   // Add listener for messages
   onMount(() => {
     const c = client();
-    c.addListener("messageCreate", onMessage);
-    c.addListener("messageDelete", onMessageDelete);
+    c.addListener('messageCreate', onMessage);
+    c.addListener('messageDelete', onMessageDelete);
   });
 
   onCleanup(() => {
     const c = client();
-    c.removeListener("messageCreate", onMessage);
-    c.removeListener("messageDelete", onMessageDelete);
+    c.removeListener('messageCreate', onMessage);
+    c.removeListener('messageDelete', onMessageDelete);
   });
 
   // We need to cache created objects to prevent needless re-rendering
@@ -627,7 +624,7 @@ export function Messages(props: Props) {
   // Determine which messages have a tail and add message dividers
   const messagesWithTail = createMemo<ListEntry[]>(() => {
     const messagesWithTail: ListEntry[] = [];
-    const lastReadId = props.lastReadId() ?? "0";
+    const lastReadId = props.lastReadId() ?? '0';
 
     let blockedMessages = 0;
     let insertedUnreadDivider = false;
@@ -698,7 +695,7 @@ export function Messages(props: Props) {
         );
       }
 
-      if (message.author?.relationship === "Blocked") {
+      if (message.author?.relationship === 'Blocked') {
         blockedMessages++;
       } else {
         // Push any blocked messages if they haven't been yet
@@ -719,7 +716,7 @@ export function Messages(props: Props) {
         messagesWithTail.push(
           objectCache.get(date) ?? {
             t: 1,
-            date: dayjs(date).format("LL"),
+            date: dayjs(date).format('LL'),
           }
         );
       }
@@ -837,8 +834,8 @@ type ListEntry =
 /**
  * Render individual list entry
  */
-function Entry(props: ListEntry & Pick<Props, "highlightedMessageId">) {
-  const [local, other] = splitProps(props, ["t", "highlightedMessageId"]);
+function Entry(props: ListEntry & Pick<Props, 'highlightedMessageId'>) {
+  const [local, other] = splitProps(props, ['t', 'highlightedMessageId']);
 
   return (
     <Switch>

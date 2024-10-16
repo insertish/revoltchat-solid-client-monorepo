@@ -1,16 +1,14 @@
-import { Show } from "solid-js";
-import { Portal } from "solid-js/web";
+import { Settings, SettingsConfigurations } from '@revolt/app';
+import { Show } from 'solid-js';
+import { Portal } from 'solid-js/web';
+import { Motion, Presence } from 'solid-motionone';
 
-import { Motion, Presence } from "@motionone/solid";
-
-import { Settings, SettingsConfigurations } from "@revolt/app";
-
-import { PropGenerator } from "../types";
+import type { PropGenerator } from '../types';
 
 /**
  * Modal to display server information
  */
-const SettingsModal: PropGenerator<"settings"> = ({
+const SettingsModal: PropGenerator<'settings'> = ({
   config: configKey,
   context,
 }) => {
@@ -19,25 +17,25 @@ const SettingsModal: PropGenerator<"settings"> = ({
   return {
     _children: (props) => {
       return (
-        <Portal mount={document.getElementById("floating")!}>
+        <Portal mount={document.getElementById('floating')!}>
           <div
             style={{
-              position: "fixed",
-              width: "100%",
-              height: "100vh",
+              position: 'fixed',
+              width: '100%',
+              height: '100vh',
               left: 0,
               top: 0,
-              "pointer-events": "none",
+              'pointer-events': 'none',
             }}
           >
             <Presence>
               <Show when={props?.show}>
                 <Motion.div
                   style={{
-                    height: "100%",
-                    "pointer-events": "all",
-                    display: "flex",
-                    background: "var(--colours-settings-background)",
+                    height: '100%',
+                    'pointer-events': 'all',
+                    display: 'flex',
+                    background: 'var(--colours-settings-background)',
                   }}
                   initial={{ opacity: 0, scale: 1.1 }}
                   animate={{ opacity: 1, scale: 1 }}

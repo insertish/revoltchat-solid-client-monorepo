@@ -1,4 +1,4 @@
-import { onCleanup, onMount } from "solid-js";
+import { onCleanup, onMount } from 'solid-js';
 
 interface Props {
   /**
@@ -18,11 +18,11 @@ export function FilePasteCollector(props: Props) {
    */
   function onPaste(event: ClipboardEvent) {
     const items = event.clipboardData?.items;
-    if (typeof items === "undefined") return;
+    if (typeof items === 'undefined') return;
 
     // Filter for files
     const files: File[] = [...items]
-      .filter((item) => !item.type.startsWith("text/"))
+      .filter((item) => !item.type.startsWith('text/'))
       .map((item) => item.getAsFile()!)
       .filter((item) => item);
 
@@ -32,8 +32,8 @@ export function FilePasteCollector(props: Props) {
     }
   }
 
-  onMount(() => document.addEventListener("paste", onPaste));
-  onCleanup(() => document.removeEventListener("paste", onPaste));
+  onMount(() => document.addEventListener('paste', onPaste));
+  onCleanup(() => document.removeEventListener('paste', onPaste));
 
   return <></>;
 }

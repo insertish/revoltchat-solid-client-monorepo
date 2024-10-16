@@ -1,23 +1,23 @@
-import { ComponentProps, JSX, Show, splitProps } from "solid-js";
+import type { ComponentProps, JSX } from 'solid-js';
+import { Show, splitProps } from 'solid-js';
+import { cva } from 'styled-system/css';
+import { styled } from 'styled-system/jsx';
 
-import { cva } from "styled-system/css";
-import { styled } from "styled-system/jsx";
+import type { Row } from '../../layout';
+import { Unreads } from '../indicators';
 
-import { Row } from "../../layout";
-import { Unreads } from "../indicators";
-
-export type Props = {
+export interface Props {
   /**
    * Button size
    * @default thin
    */
-  readonly size?: "thin" | "normal";
+  readonly size?: 'thin' | 'normal';
 
   /**
    * Button attention
    * @default normal
    */
-  readonly attention?: "muted" | "normal" | "active" | "selected";
+  readonly attention?: 'muted' | 'normal' | 'active' | 'selected';
 
   /**
    * Button icon
@@ -38,7 +38,7 @@ export type Props = {
    * Hover actions
    */
   readonly actions?: JSX.Element;
-};
+}
 
 /**
  * Top-level container
@@ -48,70 +48,70 @@ const base = cva({
     flexShrink: 0,
 
     fontWeight: 500,
-    fontSize: "15px",
-    userSelect: "none",
+    fontSize: '15px',
+    userSelect: 'none',
 
-    display: "flex",
-    margin: "0 var(--gap-lg)",
-    padding: "0 var(--gap-md)",
-    borderRadius: "var(--borderRadius-md)",
+    display: 'flex',
+    margin: '0 var(--gap-lg)',
+    padding: '0 var(--gap-md)',
+    borderRadius: 'var(--borderRadius-md)',
 
-    "& > svg": {
-      alignSelf: "center",
+    '& > svg': {
+      alignSelf: 'center',
     },
   },
   variants: {
     size: {
       normal: {
-        height: "42px",
-        gap: "var(--gap-md)",
+        height: '42px',
+        gap: 'var(--gap-md)',
       },
       thin: {
-        height: "32px",
-        gap: "var(--gap-sm)",
+        height: '32px',
+        gap: 'var(--gap-sm)',
 
         // implicitly align center since we won't stack anything
-        alignItems: "center",
+        alignItems: 'center',
       },
     },
     attention: {
       normal: {
-        color: "var(--colours-component-menubtn-default-foreground)",
-        background: "var(--colours-component-menubtn-default-background)",
+        color: 'var(--colours-component-menubtn-default-foreground)',
+        background: 'var(--colours-component-menubtn-default-background)',
       },
       muted: {
-        color: "var(--colours-component-menubtn-muted-foreground)",
-        background: "var(--colours-component-menubtn-muted-background)",
+        color: 'var(--colours-component-menubtn-muted-foreground)',
+        background: 'var(--colours-component-menubtn-muted-background)',
       },
       active: {
-        color: "var(--colours-component-menubtn-selected-foreground)",
-        background: "var(--colours-component-menubtn-default-background)",
+        color: 'var(--colours-component-menubtn-selected-foreground)',
+        background: 'var(--colours-component-menubtn-default-background)',
       },
       selected: {
-        color: "var(--colours-component-menubtn-selected-foreground)",
-        background: "var(--colours-component-menubtn-selected-background)",
+        color: 'var(--colours-component-menubtn-selected-foreground)',
+        background: 'var(--colours-component-menubtn-selected-background)',
       },
     },
     hasActions: {
       no: {},
       yes: {
-        "&:hover :last-child": {
-          display: "flex",
+        '&:hover :last-child': {
+          display: 'flex',
         },
       },
     },
   },
   defaultVariants: {
-    size: "normal",
-    attention: "normal",
-    hasActions: "no",
+    size: 'normal',
+    attention: 'normal',
+    hasActions: 'no',
   },
 });
 
 /**
  * Textual content
  */
-const Content = styled("div", {
+const Content = styled('div', {
   base: {
     flexGrow: 1,
     minWidth: 0,
@@ -121,14 +121,14 @@ const Content = styled("div", {
 /**
  * Right-side actions
  */
-const Actions = styled("div", {
+const Actions = styled('div', {
   base: {
-    alignSelf: "center",
+    alignSelf: 'center',
 
-    display: "none",
-    alignItems: "center",
-    flexDirection: "row",
-    gap: "var(--gap-sm)",
+    display: 'none',
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 'var(--gap-sm)',
   },
 });
 
@@ -137,12 +137,12 @@ const Actions = styled("div", {
  */
 export function MenuButton(props: Props & ComponentProps<typeof Row>) {
   const [local, other] = splitProps(props, [
-    "attention",
-    "size",
-    "icon",
-    "children",
-    "alert",
-    "actions",
+    'attention',
+    'size',
+    'icon',
+    'children',
+    'alert',
+    'actions',
   ]);
 
   return (
@@ -152,7 +152,7 @@ export function MenuButton(props: Props & ComponentProps<typeof Row>) {
       class={base({
         attention: local.attention,
         size: local.size,
-        hasActions: local.actions ? "yes" : "no",
+        hasActions: local.actions ? 'yes' : 'no',
       })}
       use:ripple
       // @codegen directives props=other include=floating
@@ -162,8 +162,8 @@ export function MenuButton(props: Props & ComponentProps<typeof Row>) {
       <Content>{local.children}</Content>
       <Show when={local.alert}>
         <Unreads
-          count={typeof local.alert === "number" ? local.alert : 0}
-          size={typeof local.alert === "number" ? "0.85rem" : "0.4rem"}
+          count={typeof local.alert === 'number' ? local.alert : 0}
+          size={typeof local.alert === 'number' ? '0.85rem' : '0.4rem'}
           unread
         />
       </Show>

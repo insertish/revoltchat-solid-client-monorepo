@@ -1,14 +1,10 @@
-import { Match, Switch, createSignal, onMount } from "solid-js";
+import { useClient } from '@revolt/client';
+import { Avatar, Column, Row, styled } from '@revolt/ui';
+import { createSignal, Match, onMount, Switch } from 'solid-js';
 
-import { useClient } from "@revolt/client";
-import { Avatar, Column, Row, styled } from "@revolt/ui";
-
-import { CustomEmoji, Emoji, RE_CUSTOM_EMOJI } from "../emoji";
-
-import {
-  CustomComponentProps,
-  createRegexComponent,
-} from "./remarkRegexComponent";
+import { CustomEmoji, Emoji, RE_CUSTOM_EMOJI } from '../emoji';
+import type { CustomComponentProps } from './remarkRegexComponent';
+import { createRegexComponent } from './remarkRegexComponent';
 
 /**
  * Render a custom emoji
@@ -30,7 +26,7 @@ export function RenderCustomEmoji(props: CustomComponentProps) {
    */
   const server = () =>
     client()!.servers.get(
-      (emoji()!.parent as { type: "Server"; id: string }).id
+      (emoji()!.parent as { type: 'Server'; id: string }).id
     )!;
 
   return (
@@ -39,10 +35,10 @@ export function RenderCustomEmoji(props: CustomComponentProps) {
         <TooltipTrigger
           use:floating={{
             tooltip: {
-              placement: "top",
+              placement: 'top',
               content: () => (
-                <Row align gap="lg">
-                  <span style={{ "--emoji-size": "3em" }}>
+                <Row align gap='lg'>
+                  <span style={{ '--emoji-size': '3em' }}>
                     <Emoji emoji={props.match} />
                   </span>
                   <Switch
@@ -53,10 +49,10 @@ export function RenderCustomEmoji(props: CustomComponentProps) {
                       </>
                     }
                   >
-                    <Match when={emoji()?.parent.type === "Server"}>
+                    <Match when={emoji()?.parent.type === 'Server'}>
                       <Column align>
                         <span>{`:${emoji()!.name}:`}</span>
-                        <Switch fallback="Private Server">
+                        <Switch fallback='Private Server'>
                           <Match when={server()}>
                             <Row align>
                               <Avatar
@@ -73,11 +69,11 @@ export function RenderCustomEmoji(props: CustomComponentProps) {
                 </Row>
               ),
               aria:
-                emoji()?.parent.type === "Server"
+                emoji()?.parent.type === 'Server'
                   ? `:${emoji()!.name}: from ${
-                      server()?.name ?? "Private Server"
+                      server()?.name ?? 'Private Server'
                     }`
-                  : "Unknown emote",
+                  : 'Unknown emote',
             },
           }}
         >
@@ -105,6 +101,6 @@ function FetchEmote(props: { id: string }) {
 }
 
 export const remarkCustomEmoji = createRegexComponent(
-  "cemoji",
+  'cemoji',
   RE_CUSTOM_EMOJI
 );

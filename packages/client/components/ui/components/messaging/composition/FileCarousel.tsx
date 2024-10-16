@@ -1,12 +1,11 @@
-import { BiRegularPlus, BiRegularXCircle, BiSolidFile } from "solid-icons/bi";
-import { For, Match, Show, Switch } from "solid-js";
-import { styled } from "solid-styled-components";
+import { CONFIGURATION } from '@revolt/common';
+import { BiRegularPlus, BiRegularXCircle, BiSolidFile } from 'solid-icons/bi';
+import { For, Match, Show, Switch } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { CONFIGURATION } from "@revolt/common";
-
-import { ALLOWED_IMAGE_TYPES } from "../../../../state/stores/Draft";
-import { OverflowingText } from "../../design";
-import { generateTypographyCSS } from "../../design/atoms/display/Typography";
+import { ALLOWED_IMAGE_TYPES } from '../../../../state/stores/Draft';
+import { OverflowingText } from '../../design';
+import { generateTypographyCSS } from '../../design/atoms/display/Typography';
 
 interface Props {
   /**
@@ -57,7 +56,7 @@ export function FileCarousel(props: Props) {
   return (
     <Show when={props.files.length}>
       <Container>
-        <Carousel use:scrollable={{ direction: "x" }}>
+        <Carousel use:scrollable={{ direction: 'x' }}>
           <For each={props.files}>
             {(id, index) => {
               /**
@@ -94,7 +93,7 @@ export function FileCarousel(props: Props) {
                           <Image
                             src={file().dataUri}
                             alt={file().file.name}
-                            loading="eager"
+                            loading='eager'
                           />
                         </Match>
                       </Switch>
@@ -126,9 +125,9 @@ export function FileCarousel(props: Props) {
 const PreviewBox = styled.div<{ image: boolean }>`
   display: grid;
   justify-items: center;
-  grid-template: "main" ${(props) =>
-      props.theme!.layout.height["attachment-preview"]} / minmax(
-      ${(props) => props.theme!.layout.height["attachment-preview"]},
+  grid-template: 'main' ${(props) =>
+      props.theme!.layout.height['attachment-preview']} / minmax(
+      ${(props) => props.theme!.layout.height['attachment-preview']},
       1fr
     );
 
@@ -138,7 +137,7 @@ const PreviewBox = styled.div<{ image: boolean }>`
 
   background: ${(props) =>
     props.theme!.colours[`messaging-upload-file-background`]};
-  color: ${(props) => props.theme!.colours["messaging-upload-file-foreground"]};
+  color: ${(props) => props.theme!.colours['messaging-upload-file-foreground']};
 
   > * {
     grid-area: main;
@@ -152,7 +151,7 @@ const Image = styled.img`
   width: 100%;
   object-fit: cover;
   margin-bottom: ${(props) => props.theme!.gap.md};
-  height: ${(props) => props.theme!.layout.height["attachment-preview"]};
+  height: ${(props) => props.theme!.layout.height['attachment-preview']};
 `;
 
 /**
@@ -183,8 +182,8 @@ const EmptyEntry = styled.div`
   display: grid;
   flex-shrink: 0;
   place-items: center;
-  width: ${(props) => props.theme!.layout.height["attachment-preview"]};
-  height: ${(props) => props.theme!.layout.height["attachment-preview"]};
+  width: ${(props) => props.theme!.layout.height['attachment-preview']};
+  height: ${(props) => props.theme!.layout.height['attachment-preview']};
 
   cursor: pointer;
   border-radius: ${(props) => props.theme!.gap.md};
@@ -198,7 +197,7 @@ const Entry = styled.div<{ ignored: boolean }>`
   display: flex;
   align-items: center;
   flex-direction: column;
-  opacity: ${(props) => (props.ignored ? "0.4" : "1")};
+  opacity: ${(props) => (props.ignored ? '0.4' : '1')};
 `;
 
 /**
@@ -206,8 +205,8 @@ const Entry = styled.div<{ ignored: boolean }>`
  */
 const FileName = styled.span`
   ${(props) =>
-    generateTypographyCSS(props.theme!, "composition-file-upload-name")}
-  max-width: ${(props) => props.theme!.layout.height["attachment-preview"]};
+    generateTypographyCSS(props.theme!, 'composition-file-upload-name')}
+  max-width: ${(props) => props.theme!.layout.height['attachment-preview']};
   text-align: center;
 `;
 
@@ -216,7 +215,7 @@ const FileName = styled.span`
  */
 const Size = styled.span`
   ${(props) =>
-    generateTypographyCSS(props.theme!, "composition-file-upload-size")}
+    generateTypographyCSS(props.theme!, 'composition-file-upload-size')}
 `;
 
 /**
@@ -227,7 +226,7 @@ const Divider = styled.div`
   flex-shrink: 0;
   width: ${(props) => props.theme!.gap.sm};
   border-radius: ${(props) => props.theme!.borderRadius.md};
-  background: ${(props) => props.theme!.colours["messaging-upload-divider"]};
+  background: ${(props) => props.theme!.colours['messaging-upload-divider']};
 `;
 
 /**
@@ -255,6 +254,6 @@ const Container = styled.div`
   border-radius: ${(props) => props.theme!.borderRadius.lg};
 
   background: ${(props) =>
-    props.theme!.colours["messaging-message-box-background"]};
-  color: ${(props) => props.theme!.colours["messaging-message-box-foreground"]};
+    props.theme!.colours['messaging-message-box-background']};
+  color: ${(props) => props.theme!.colours['messaging-message-box-foreground']};
 `;

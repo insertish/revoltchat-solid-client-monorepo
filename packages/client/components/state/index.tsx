@@ -1,21 +1,21 @@
-import { JSX, Show, createSignal, onMount } from "solid-js";
-import { SetStoreFunction, createStore } from "solid-js/store";
+import { registerController } from '@revolt/common';
+import equal from 'fast-deep-equal';
+import localforage from 'localforage';
+import type { JSX } from 'solid-js';
+import { createSignal, onMount, Show } from 'solid-js';
+import type { SetStoreFunction } from 'solid-js/store';
+import { createStore } from 'solid-js/store';
 
-import equal from "fast-deep-equal";
-import localforage from "localforage";
-
-import { registerController } from "@revolt/common";
-
-import { AbstractStore, Store } from "./stores";
-import { Auth } from "./stores/Auth";
-import { Draft } from "./stores/Draft";
-import { Experiments } from "./stores/Experiments";
-import { Keybinds } from "./stores/Keybinds";
-import { Layout } from "./stores/Layout";
-import { Locale } from "./stores/Locale";
-import { NotificationOptions } from "./stores/NotificationOptions";
-import { Ordering } from "./stores/Ordering";
-import { Settings } from "./stores/Settings";
+import type { AbstractStore, Store } from './stores';
+import { Auth } from './stores/Auth';
+import { Draft } from './stores/Draft';
+import { Experiments } from './stores/Experiments';
+import { Keybinds } from './stores/Keybinds';
+import { Layout } from './stores/Layout';
+import { Locale } from './stores/Locale';
+import { NotificationOptions } from './stores/NotificationOptions';
+import { Ordering } from './stores/Ordering';
+import { Settings } from './stores/Settings';
 
 /**
  * Introduce some delay before writing state to disk
@@ -25,7 +25,7 @@ const DISK_WRITE_WAIT_MS = 1200;
 /**
  * Stores for which we don't want to wait to write to
  */
-const IGNORE_WRITE_DELAY = ["auth"];
+const IGNORE_WRITE_DELAY = ['auth'];
 
 /**
  * Global application state
@@ -85,7 +85,7 @@ export class State {
     this.setStore = setStore;
     this.writeQueue = {};
 
-    registerController("state", this);
+    registerController('state', this);
   }
 
   /**
@@ -118,7 +118,7 @@ export class State {
         );
 
         if (import.meta.env.DEV) {
-          console.info("Wrote state to disk.");
+          console.info('Wrote state to disk.');
         }
       },
       IGNORE_WRITE_DELAY.includes(key) ? 0 : DISK_WRITE_WAIT_MS
@@ -134,7 +134,7 @@ export class State {
 
     // run side-effects
     if (import.meta.env.DEV) {
-      console.info("[store] updated data", args[0]);
+      console.info('[store] updated data', args[0]);
     }
   };
 

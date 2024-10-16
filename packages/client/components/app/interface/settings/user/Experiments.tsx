@@ -1,16 +1,15 @@
-import { For } from "solid-js";
-
-import { state } from "@revolt/state";
+import { state } from '@revolt/state';
 import {
   AVAILABLE_EXPERIMENTS,
   EXPERIMENTS,
-} from "@revolt/state/stores/Experiments";
+} from '@revolt/state/stores/Experiments';
 import {
   CategoryButton,
   CategoryButtonGroup,
   Checkbox,
   FormGroup,
-} from "@revolt/ui";
+} from '@revolt/ui';
+import { For } from 'solid-js';
 
 /**
  * Experiments

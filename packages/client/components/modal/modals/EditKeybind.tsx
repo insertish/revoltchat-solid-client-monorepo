@@ -1,22 +1,19 @@
-import { BiRegularReset } from "solid-icons/bi";
-import { createSignal, onMount } from "solid-js";
+import { useTranslation } from '@revolt/i18n';
+import type { KeyComboSequence as TKeySequence } from '@revolt/keybinds';
+import { KEYBINDING_MODIFIER_KEYS } from '@revolt/keybinds';
+import { Button, KeySequence, styled } from '@revolt/ui';
+import { BiRegularReset } from 'solid-icons/bi';
+import { createSignal, onMount } from 'solid-js';
 
-import { useTranslation } from "@revolt/i18n";
-import {
-  KEYBINDING_MODIFIER_KEYS,
-  KeyComboSequence as TKeySequence,
-} from "@revolt/keybinds";
-import { Button, KeySequence, styled } from "@revolt/ui";
+import type { PropGenerator } from '../types';
 
-import { PropGenerator } from "../types";
-
-const Container = styled("div", "EditKeybind-Container")`
+const Container = styled('div', 'EditKeybind-Container')`
   display: flex;
   gap: 1ch;
   place-items: center;
 `;
 
-const KeybindInput = styled("output", "EditKeybind-KeybindInput")`
+const KeybindInput = styled('output', 'EditKeybind-KeybindInput')`
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -34,11 +31,11 @@ const KeybindInput = styled("output", "EditKeybind-KeybindInput")`
 `;
 
 const REPLACEMENTS: Record<string, string> = {
-  " ": "Space",
+  ' ': 'Space',
 };
 
 // TODO: maybe add warning if the user doesn't have a modifier included?
-export const EditKeybind: PropGenerator<"edit_keybind"> = (props) => {
+export const EditKeybind: PropGenerator<'edit_keybind'> = (props) => {
   const t = useTranslation();
 
   const [sequence, setSequence] = createSignal<TKeySequence>([]);
@@ -118,7 +115,7 @@ export const EditKeybind: PropGenerator<"edit_keybind"> = (props) => {
 
   return {
     // TODO: the way this reads and looks is awkward, find a better way
-    title: t("app.special.modals.edit_keybind.title", {
+    title: t('app.special.modals.edit_keybind.title', {
       action: t(`app.settings.pages.keybinds.action.${props.action}.title`),
     }),
     actions: [
@@ -129,12 +126,12 @@ export const EditKeybind: PropGenerator<"edit_keybind"> = (props) => {
           return true;
         },
         confirmation: true,
-        children: t("app.special.modals.actions.ok"),
+        children: t('app.special.modals.actions.ok'),
       },
       {
         onClick: () => true,
         confirmation: false,
-        children: t("app.special.modals.actions.cancel"),
+        children: t('app.special.modals.actions.cancel'),
       },
     ],
     children: (
@@ -152,7 +149,7 @@ export const EditKeybind: PropGenerator<"edit_keybind"> = (props) => {
           // title="clear input"
           onPress={reset}
         >
-          <BiRegularReset size={20}></BiRegularReset>
+          <BiRegularReset size={20} />
         </Button>
       </Container>
     ),

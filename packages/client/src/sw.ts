@@ -1,11 +1,10 @@
-// eslint-disable-next-line
 /// <reference lib="webworker" />
-import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
+import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching';
 
 declare let self: ServiceWorkerGlobalScope;
 
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 cleanupOutdatedCaches();
@@ -18,12 +17,12 @@ const locale_keys = ["af","am","ar-dz","ar-kw","ar-ly","ar-ma","ar-sa","ar-tn","
 precacheAndRoute(
   self.__WB_MANIFEST.filter((entry) => {
     try {
-      const url = typeof entry === "string" ? entry : entry.url;
-      if (url.includes("-legacy")) return false;
+      const url = typeof entry === 'string' ? entry : entry.url;
+      if (url.includes('-legacy')) return false;
 
-      const fn = url.split("/").pop();
+      const fn = url.split('/').pop();
       if (fn) {
-        if (fn.endsWith("css") && !isNaN(parseInt(fn.substring(0, 3)))) {
+        if (fn.endsWith('css') && !isNaN(parseInt(fn.substring(0, 3)))) {
           return false;
         }
 

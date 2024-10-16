@@ -1,20 +1,20 @@
-import { resolve } from "node:path";
-import { defineConfig, mergeConfig } from "vite";
-import solidPlugin from "vite-plugin-solid";
+import { resolve } from 'node:path';
 
-import viteConfig from "./vite.config";
+import { defineConfig, mergeConfig } from 'vite';
+
+import viteConfig from './vite.config';
 
 export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
       globals: true,
-      environment: "jsdom",
-      setupFiles: ["node_modules/@testing-library/jest-dom/dist/index.js"],
+      environment: 'jsdom',
+      setupFiles: ['node_modules/@testing-library/jest-dom/dist/index.js'],
       testTransformMode: {
-        web: ["/.[jt]sx?$/"],
+        web: ['/.[jt]sx?$/'],
       },
-      pool: "forks",
+      pool: 'forks',
       poolOptions: {
         forks: {
           isolate: false,
@@ -23,23 +23,23 @@ export default mergeConfig(
       deps: {
         optimizer: {
           web: {
-            exclude: ["solid-js"],
+            exclude: ['solid-js'],
           },
         },
       },
       server: {
         deps: {
-          inline: ["solid-icons", "@solid-aria/focus"],
+          inline: ['solid-icons', '@solid-aria/focus'],
         },
       },
       coverage: {
-        reporter: ["text", "json", "html"],
+        reporter: ['text', 'json', 'html'],
       },
     },
     resolve: {
-      conditions: ["development", "browser"],
+      conditions: ['development', 'browser'],
       alias: {
-        "@test": resolve(__dirname, "test"),
+        '@test': resolve(__dirname, 'test'),
       },
     },
   })

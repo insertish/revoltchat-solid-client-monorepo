@@ -1,71 +1,71 @@
-import { API, Server, User } from "revolt.js";
+import { Message } from '@revolt/app';
+import { useTranslation } from '@revolt/i18n';
+import { Avatar, Column, Initials, styled } from '@revolt/ui';
+import type { API } from 'revolt.js';
+import { Server, User } from 'revolt.js';
 
-import { Message } from "@revolt/app";
-import { useTranslation } from "@revolt/i18n";
-import { Avatar, Column, Initials, styled } from "@revolt/ui";
-
-import { createFormModal } from "../form";
-import { PropGenerator } from "../types";
+import { createFormModal } from '../form';
+import type { PropGenerator } from '../types';
 
 const CONTENT_REPORT_REASONS: API.ContentReportReason[] = [
-  "Illegal",
-  "IllegalGoods",
-  "IllegalExtortion",
-  "IllegalPornography",
-  "IllegalHacking",
-  "ExtremeViolence",
-  "PromotesHarm",
-  "UnsolicitedSpam",
-  "Raid",
-  "SpamAbuse",
-  "ScamsFraud",
-  "Malware",
-  "Harassment",
-  "NoneSpecified",
+  'Illegal',
+  'IllegalGoods',
+  'IllegalExtortion',
+  'IllegalPornography',
+  'IllegalHacking',
+  'ExtremeViolence',
+  'PromotesHarm',
+  'UnsolicitedSpam',
+  'Raid',
+  'SpamAbuse',
+  'ScamsFraud',
+  'Malware',
+  'Harassment',
+  'NoneSpecified',
 ];
 
 const USER_REPORT_REASONS: API.UserReportReason[] = [
-  "UnsolicitedSpam",
-  "SpamAbuse",
-  "InappropriateProfile",
-  "Impersonation",
-  "BanEvasion",
-  "Underage",
-  "NoneSpecified",
+  'UnsolicitedSpam',
+  'SpamAbuse',
+  'InappropriateProfile',
+  'Impersonation',
+  'BanEvasion',
+  'Underage',
+  'NoneSpecified',
 ];
 
 /**
  * Modal to report content
  */
-const ReportContent: PropGenerator<"report_content"> = (props) => {
+const ReportContent: PropGenerator<'report_content'> = (props) => {
   const t = useTranslation();
 
   return createFormModal({
     modalProps: {
       title: `Tell us what's wrong with this ${
         /* TEMP TODO */ props.target instanceof User
-          ? "user"
+          ? 'user'
           : props.target instanceof Server
-          ? "server"
-          : "message"
+            ? 'server'
+            : 'message'
       }`,
     },
     schema: {
-      preview: "custom",
-      category: "combo",
-      detail: "text",
+      preview: 'custom',
+      category: 'combo',
+      detail: 'text',
     },
     data: {
       preview: {
         element: (
           <ContentContainer use:scrollable>
             {props.target instanceof User ? (
-              <Column align="center">
+              <Column align='center'>
                 <Avatar src={props.target.animatedAvatarURL} size={64} />
                 {props.target.displayName}
               </Column>
             ) : props.target instanceof Server ? (
-              <Column align="center">
+              <Column align='center'>
                 <Avatar
                   src={props.target.animatedIconURL}
                   fallback={<Initials input={props.target.name} />}
@@ -82,8 +82,8 @@ const ReportContent: PropGenerator<"report_content"> = (props) => {
       category: {
         options: [
           {
-            name: "Please select a reason",
-            value: "",
+            name: 'Please select a reason',
+            value: '',
             disabled: true,
             selected: true,
           },
@@ -99,41 +99,41 @@ const ReportContent: PropGenerator<"report_content"> = (props) => {
             value,
           })),
         ],
-        field: "Pick a category",
+        field: 'Pick a category',
       },
       detail: {
-        field: "Give us some detail",
+        field: 'Give us some detail',
       },
     },
     callback: async ({ category, detail }) => {
-      if (!category || (category === "NoneSpecified" && !detail))
-        throw "NoReasonProvided";
+      if (!category || (category === 'NoneSpecified' && !detail))
+        throw 'NoReasonProvided';
 
-      await props.client.api.post("/safety/report", {
+      await props.client.api.post('/safety/report', {
         content:
           props.target instanceof User
             ? {
-                type: "User",
+                type: 'User',
                 id: props.target.id,
                 report_reason: category as API.UserReportReason,
                 message_id: props.contextMessage?.id,
               }
             : props.target instanceof Server
-            ? {
-                type: "Server",
-                id: props.target.id,
-                report_reason: category as API.ContentReportReason,
-              }
-            : {
-                type: "Message",
-                id: props.target.id,
-                report_reason: category as API.ContentReportReason,
-              },
+              ? {
+                  type: 'Server',
+                  id: props.target.id,
+                  report_reason: category as API.ContentReportReason,
+                }
+              : {
+                  type: 'Message',
+                  id: props.target.id,
+                  report_reason: category as API.ContentReportReason,
+                },
         additional_context: detail,
       });
     },
     submit: {
-      children: "Report",
+      children: 'Report',
     },
   });
 };

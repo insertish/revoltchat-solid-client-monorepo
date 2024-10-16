@@ -1,41 +1,38 @@
-import { For, Match, Show, Switch, onMount } from "solid-js";
-
-import { Message as MessageInterface, WebsiteEmbed } from "revolt.js";
-import { decodeTime } from "ulid";
-
-import { useClient } from "@revolt/client";
-import { dayjs, useTranslation } from "@revolt/i18n";
-import { Markdown } from "@revolt/markdown";
-import { state } from "@revolt/state";
+import MdCloud from '@material-design-icons/svg/filled/cloud.svg?component-solid';
+import MdLink from '@material-design-icons/svg/filled/link.svg?component-solid';
+import MdNotificationsOff from '@material-design-icons/svg/filled/notifications_off.svg?component-solid';
+import MdShield from '@material-design-icons/svg/filled/shield.svg?component-solid';
+import MdSmartToy from '@material-design-icons/svg/filled/smart_toy.svg?component-solid';
+import MdSpa from '@material-design-icons/svg/filled/spa.svg?component-solid';
+import { useClient } from '@revolt/client';
+import { dayjs, useTranslation } from '@revolt/i18n';
+import { Markdown } from '@revolt/markdown';
+import { state } from '@revolt/state';
 import {
   Attachment,
   Avatar,
   BreakText,
   Column,
   Embed,
+  iconSize,
   MessageContainer,
   MessageReply,
   Reactions,
+  styled,
   SystemMessage,
   SystemMessageIcon,
   Tooltip,
   Username,
-  iconSize,
-  styled,
-} from "@revolt/ui";
+} from '@revolt/ui';
+import type { Message as MessageInterface, WebsiteEmbed } from 'revolt.js';
+import { For, Match, onMount, Show, Switch } from 'solid-js';
+import { decodeTime } from 'ulid';
 
-import MdCloud from "@material-design-icons/svg/filled/cloud.svg?component-solid";
-import MdLink from "@material-design-icons/svg/filled/link.svg?component-solid";
-import MdNotificationsOff from "@material-design-icons/svg/filled/notifications_off.svg?component-solid";
-import MdShield from "@material-design-icons/svg/filled/shield.svg?component-solid";
-import MdSmartToy from "@material-design-icons/svg/filled/smart_toy.svg?component-solid";
-import MdSpa from "@material-design-icons/svg/filled/spa.svg?component-solid";
-
-import { MessageContextMenu } from "../../../menus/MessageContextMenu";
+import { MessageContextMenu } from '../../../menus/MessageContextMenu';
 import {
   floatingUserMenus,
   floatingUserMenusFromMessage,
-} from "../../../menus/UserContextMenu";
+} from '../../../menus/UserContextMenu';
 
 /**
  * Regex for matching URLs
@@ -73,10 +70,10 @@ export function Message(props: Props) {
   const isOnlyGIF = () =>
     props.message.embeds &&
     props.message.embeds.length === 1 &&
-    props.message.embeds[0].type === "Website" &&
-    (props.message.embeds[0] as WebsiteEmbed).specialContent?.type === "GIF" &&
+    props.message.embeds[0].type === 'Website' &&
+    (props.message.embeds[0] as WebsiteEmbed).specialContent?.type === 'GIF' &&
     props.message.content &&
-    !props.message.content.replace(RE_URL, "").length;
+    !props.message.content.replace(RE_URL, '').length;
 
   /**
    * React with an emoji
@@ -112,7 +109,7 @@ export function Message(props: Props) {
       edited={props.message.editedAt}
       mentioned={props.message.mentioned}
       highlight={props.highlight}
-      tail={props.tail || state.settings.getValue("appearance:compact_mode")}
+      tail={props.tail || state.settings.getValue('appearance:compact_mode')}
       header={
         <Show when={props.message.replyIds}>
           <For each={props.message.replyIds}>
@@ -145,46 +142,46 @@ export function Message(props: Props) {
           <Match
             when={
               props.message.masquerade &&
-              props.message.authorId === "01FHGJ3NPP7XANQQH8C2BE44ZY"
+              props.message.authorId === '01FHGJ3NPP7XANQQH8C2BE44ZY'
             }
           >
-            <Tooltip content={t("app.main.channel.bridged")} placement="top">
+            <Tooltip content={t('app.main.channel.bridged')} placement='top'>
               <MdLink {...iconSize(16)} />
             </Tooltip>
           </Match>
           <Match when={props.message.author?.privileged}>
-            <Tooltip content={t("app.main.channel.team")} placement="top">
+            <Tooltip content={t('app.main.channel.team')} placement='top'>
               <MdShield {...iconSize(16)} />
             </Tooltip>
           </Match>
           <Match when={props.message.author?.bot}>
-            <Tooltip content={t("app.main.channel.bot")} placement="top">
+            <Tooltip content={t('app.main.channel.bot')} placement='top'>
               <MdSmartToy {...iconSize(16)} />
             </Tooltip>
           </Match>
           <Match when={props.message.webhook}>
-            <Tooltip content={t("app.main.channel.webhook")} placement="top">
+            <Tooltip content={t('app.main.channel.webhook')} placement='top'>
               <MdCloud {...iconSize(16)} />
             </Tooltip>
           </Match>
           <Match when={props.message.webhook}>
-            <Tooltip content={t("app.main.channel.webhook")} placement="top">
+            <Tooltip content={t('app.main.channel.webhook')} placement='top'>
               <MdCloud {...iconSize(16)} />
             </Tooltip>
           </Match>
           <Match when={props.message.isSuppressed}>
-            <Tooltip content={"Silent" /* TODO: i18n */} placement="top">
+            <Tooltip content={'Silent' /* TODO: i18n */} placement='top'>
               <MdNotificationsOff {...iconSize(16)} />
             </Tooltip>
           </Match>
           <Match
             when={
               props.message.authorId &&
-              dayjs().diff(decodeTime(props.message.authorId), "day") < 1
+              dayjs().diff(decodeTime(props.message.authorId), 'day') < 1
             }
           >
             <NewUser>
-              <Tooltip content="New to Revolt" placement="top">
+              <Tooltip content='New to Revolt' placement='top'>
                 <MdSpa {...iconSize(16)} />
               </Tooltip>
             </NewUser>
@@ -192,16 +189,16 @@ export function Message(props: Props) {
           <Match
             when={
               props.message.member &&
-              dayjs().diff(props.message.member.joinedAt, "day") < 1
+              dayjs().diff(props.message.member.joinedAt, 'day') < 1
             }
           >
             <NewUser>
-              <Tooltip content="New to the server" placement="top">
+              <Tooltip content='New to the server' placement='top'>
                 <MdSpa {...iconSize(16)} />
               </Tooltip>
             </NewUser>
           </Match>
-          <Match when={props.message.authorId === "01EX2NCWQ0CHS3QJF0FEQS1GR4"}>
+          <Match when={props.message.authorId === '01EX2NCWQ0CHS3QJF0FEQS1GR4'}>
             <span />
             <span>he/him &middot; </span>
           </Match>
@@ -209,7 +206,7 @@ export function Message(props: Props) {
       }
       compact={
         !!props.message.systemMessage ||
-        state.settings.getValue("appearance:compact_mode")
+        state.settings.getValue('appearance:compact_mode')
       }
       infoMatch={
         <Match when={props.message.systemMessage}>
@@ -221,7 +218,7 @@ export function Message(props: Props) {
         </Match>
       }
     >
-      <Column gap="sm">
+      <Column gap='sm'>
         <Show when={props.message.systemMessage}>
           <SystemMessage
             systemMessage={props.message.systemMessage!}

@@ -1,14 +1,12 @@
-import { For, Show, createMemo } from "solid-js";
-import { styled } from "solid-styled-components";
+import { useTranslation } from '@revolt/i18n';
+import { Emoji } from '@revolt/markdown';
+import { useUsers } from '@revolt/markdown/users';
+import type { API } from 'revolt.js';
+import { createMemo, For, Show } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { API } from "revolt.js";
-
-import { useTranslation } from "@revolt/i18n";
-import { Emoji } from "@revolt/markdown";
-import { useUsers } from "@revolt/markdown/users";
-
-import { OverflowingText, Row, Typography } from "../../design";
-import { Tooltip } from "../../floating";
+import { OverflowingText, Row, Typography } from '../../design';
+import { Tooltip } from '../../floating';
 
 interface Props {
   /**
@@ -19,7 +17,7 @@ interface Props {
   /**
    * Interactions
    */
-  interactions: API.Message["interactions"];
+  interactions: API.Message['interactions'];
 
   /**
    * ID of current user
@@ -110,7 +108,7 @@ export function Reactions(props: Props) {
             />
           )}
         </For>
-        <AddReaction class="add">{"+"}</AddReaction>
+        <AddReaction class='add'>{'+'}</AddReaction>
       </List>
     </Show>
   );
@@ -152,23 +150,23 @@ function Reaction(props: {
     const usernames = list
       .slice(0, 2)
       .map((user) => user?.username)
-      .join(", ");
+      .join(', ');
 
     if (unknown) {
       if (usernames) {
-        return t("app.main.channel.reactions.others_reacted", {
+        return t('app.main.channel.reactions.others_reacted', {
           userlist: usernames,
           count: unknown.toString(),
         });
       } else if (unknown === 1) {
-        return t("app.main.channel.reactions.single_reacted");
+        return t('app.main.channel.reactions.single_reacted');
       } else {
-        return t("app.main.channel.reactions.unknown_reacted", {
+        return t('app.main.channel.reactions.unknown_reacted', {
           count: unknown.toString(),
         });
       }
     } else {
-      return t("app.main.channel.reactions.people_reacted", {
+      return t('app.main.channel.reactions.people_reacted', {
         people: usernames,
       });
     }
@@ -176,13 +174,13 @@ function Reaction(props: {
 
   return (
     <Tooltip
-      placement="top"
+      placement='top'
       content={() => (
-        <Row align gap="lg">
-          <span style={{ "--emoji-size": "3em" }}>
+        <Row align gap='lg'>
+          <span style={{ '--emoji-size': '3em' }}>
             <Emoji emoji={props.reaction} />
           </span>
-          <Typography variant="messages">
+          <Typography variant='messages'>
             <PeopleList>{peopleList()}</PeopleList>
           </Typography>
         </Row>
@@ -199,7 +197,7 @@ function Reaction(props: {
 /**
  * Reaction styling
  */
-const ReactionBase = styled("div", "Reaction")<{ active?: boolean }>`
+const ReactionBase = styled('div', 'Reaction')<{ active?: boolean }>`
   display: flex;
   flex-direction: row;
   gap: ${(props) => props.theme!.gap.md};
@@ -213,19 +211,19 @@ const ReactionBase = styled("div", "Reaction")<{ active?: boolean }>`
   color: ${(props) =>
     props.theme!.colours[
       `messaging-component-reaction${
-        props.active ? "-selected" : ""
+        props.active ? '-selected' : ''
       }-foreground`
     ]};
   background: ${(props) =>
     props.theme!.colours[
       `messaging-component-reaction${
-        props.active ? "-selected" : ""
+        props.active ? '-selected' : ''
       }-background`
     ]};
   transition: ${(props) => props.theme!.transitions.fast} all;
 
   font-weight: 600;
-  font-feature-settings: "tnum" 1;
+  font-feature-settings: 'tnum' 1;
 
   img {
     width: 1.2em;
@@ -251,7 +249,7 @@ const AddReaction = styled(ReactionBase)`
 
   font-size: var(--emoji-size);
   background: ${(props) =>
-    props.theme!.colours["messaging-component-reaction-background"]};
+    props.theme!.colours['messaging-component-reaction-background']};
 
   height: 33px;
   aspect-ratio: 1/1;
@@ -265,7 +263,7 @@ const Divider = styled.div`
   width: 1px;
   height: 14px;
   background: ${(props) =>
-    props.theme!.colours["messaging-component-reaction-foreground"]};
+    props.theme!.colours['messaging-component-reaction-foreground']};
 `;
 
 /**

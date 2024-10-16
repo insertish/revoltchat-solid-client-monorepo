@@ -1,3 +1,9 @@
+import { useUser } from '@revolt/client';
+import { getController } from '@revolt/common';
+import { useTranslation } from '@revolt/i18n';
+import { TextWithEmoji } from '@revolt/markdown';
+import { ColouredText, useTheme } from '@revolt/ui';
+import type { Server } from 'revolt.js';
 import {
   BiSolidEnvelope,
   BiSolidFlagAlt,
@@ -6,19 +12,10 @@ import {
   BiSolidInfoCircle,
   BiSolidTrash,
   BiSolidUserX,
-} from "solid-icons/bi";
+} from 'solid-icons/bi';
 
-import { Server } from "revolt.js";
-
-import { useUser } from "@revolt/client";
-import { getController } from "@revolt/common";
-import { useTranslation } from "@revolt/i18n";
-import { TextWithEmoji } from "@revolt/markdown";
-import { ColouredText, useTheme } from "@revolt/ui";
-
-import { SettingsConfiguration } from "..";
-
-import Overview from "./Overview";
+import type { SettingsConfiguration } from '..';
+import Overview from './Overview';
 
 const Config: SettingsConfiguration<Server> = {
   /**
@@ -28,7 +25,7 @@ const Config: SettingsConfiguration<Server> = {
   title(key) {
     const t = useTranslation();
     return t(
-      `app.settings.server_pages.${key.replaceAll("/", ".")}.title`,
+      `app.settings.server_pages.${key.replaceAll('/', '.')}.title`,
       undefined,
       key
     );
@@ -38,16 +35,15 @@ const Config: SettingsConfiguration<Server> = {
    * Render the current server settings page
    */
   render(props, server) {
-    // eslint-disable-next-line solid/reactivity
     const id = props.page();
 
     if (!server.$exists) {
-      getController("modal").pop();
+      getController('modal').pop();
       return null;
     }
 
     switch (id) {
-      case "overview":
+      case 'overview':
         return <Overview server={server} />;
       default:
         return null;
@@ -69,14 +65,14 @@ const Config: SettingsConfiguration<Server> = {
           title: <TextWithEmoji content={server.name} />,
           entries: [
             {
-              id: "overview",
+              id: 'overview',
               icon: <BiSolidInfoCircle size={20} />,
-              title: t("app.settings.server_pages.overview.title"),
+              title: t('app.settings.server_pages.overview.title'),
             },
             {
-              id: "members",
+              id: 'members',
               icon: <BiSolidGroup size={20} />,
-              title: t("app.settings.server_pages.members.title"),
+              title: t('app.settings.server_pages.members.title'),
             },
             /*{ TODO: deprecate
             id: "categories",
@@ -85,43 +81,43 @@ const Config: SettingsConfiguration<Server> = {
           },*/
             {
               hidden: !(
-                server.havePermission("ManageRole") ||
-                server.havePermission("AssignRoles")
+                server.havePermission('ManageRole') ||
+                server.havePermission('AssignRoles')
               ),
-              id: "roles",
+              id: 'roles',
               icon: <BiSolidFlagAlt size={20} />,
-              title: t("app.settings.server_pages.roles.title"),
+              title: t('app.settings.server_pages.roles.title'),
             },
           ],
         },
         {
-          hidden: !server.havePermission("ManageCustomisation"),
-          title: t("app.settings.server_pages.customisation.title"),
+          hidden: !server.havePermission('ManageCustomisation'),
+          title: t('app.settings.server_pages.customisation.title'),
           entries: [
             {
-              id: "emojis",
+              id: 'emojis',
               icon: <BiSolidHappyBeaming size={20} />,
-              title: t("app.settings.server_pages.emojis.title"),
+              title: t('app.settings.server_pages.emojis.title'),
             },
           ],
         },
         {
           hidden:
-            !server.havePermission("ManageServer") &&
-            !server.havePermission("BanMembers"),
-          title: t("app.settings.server_pages.management.title"),
+            !server.havePermission('ManageServer') &&
+            !server.havePermission('BanMembers'),
+          title: t('app.settings.server_pages.management.title'),
           entries: [
             {
-              hidden: !server.havePermission("ManageServer"),
-              id: "invites",
+              hidden: !server.havePermission('ManageServer'),
+              id: 'invites',
               icon: <BiSolidEnvelope size={20} />,
-              title: t("app.settings.server_pages.invites.title"),
+              title: t('app.settings.server_pages.invites.title'),
             },
             {
-              hidden: !server.havePermission("BanMembers"),
-              id: "bans",
+              hidden: !server.havePermission('BanMembers'),
+              id: 'bans',
               icon: <BiSolidUserX size={20} />,
-              title: t("app.settings.server_pages.bans.title"),
+              title: t('app.settings.server_pages.bans.title'),
             },
           ],
         },
@@ -137,15 +133,15 @@ const Config: SettingsConfiguration<Server> = {
               ),
               title: (
                 <ColouredText colour={theme!.customColours.error.color}>
-                  {t("app.context_menu.delete_server")}
+                  {t('app.context_menu.delete_server')}
                 </ColouredText>
               ),
               /**
                * Handle server deletion request
                */
               onClick() {
-                getController("modal").push({
-                  type: "delete_server",
+                getController('modal').push({
+                  type: 'delete_server',
                   server,
                 });
               },
@@ -159,9 +155,9 @@ const Config: SettingsConfiguration<Server> = {
 
 export default Config;
 
-export type ServerSettingsProps = {
+export interface ServerSettingsProps {
   /**
    * Server
    */
   server: Server;
-};
+}

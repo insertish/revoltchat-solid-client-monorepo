@@ -1,21 +1,20 @@
-import { JSX } from "solid-js";
+import type { JSX } from 'solid-js';
+import { styled } from 'styled-system/jsx';
 
-import { styled } from "styled-system/jsx";
-
-const Codeblock = styled("pre", {
+const Codeblock = styled('pre', {
   base: {
-    color: "#c9d1d9",
-    background: "#0d1117",
+    color: '#c9d1d9',
+    background: '#0d1117',
 
-    padding: "var(--gap-md)",
-    borderRadius: "var(--borderRadius-md)",
+    padding: 'var(--gap-md)',
+    borderRadius: 'var(--borderRadius-md)',
 
-    wordWrap: "break-word",
-    whiteSpace: "pre-wrap",
+    wordWrap: 'break-word',
+    whiteSpace: 'pre-wrap',
 
-    "&> code": {
-      color: "inherit !important",
-      background: "transparent !important",
+    '&> code': {
+      color: 'inherit !important',
+      background: 'transparent !important',
     },
   },
 });

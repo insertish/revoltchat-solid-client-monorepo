@@ -1,13 +1,13 @@
+import { useTranslation } from '@revolt/i18n';
 import {
   FaSolidArrowDown,
   FaSolidArrowLeft,
   FaSolidArrowRight,
   FaSolidArrowUp,
-} from "solid-icons/fa";
-import { Component, JSXElement, createMemo } from "solid-js";
-import { styled } from "solid-styled-components";
-
-import { useTranslation } from "@revolt/i18n";
+} from 'solid-icons/fa';
+import type { Component, JSXElement } from 'solid-js';
+import { createMemo } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
 export interface Props {
   children: string;
@@ -16,7 +16,7 @@ export interface Props {
   simple?: boolean;
 }
 
-const Base = styled("kbd", "Key")<Pick<Props, "simple">>`
+const Base = styled('kbd', 'Key')<Pick<Props, 'simple'>>`
   display: inline-flex;
   color: var(--colours-component-key-foreground);
   background: var(--colours-component-key-background);
@@ -52,10 +52,10 @@ const Base = styled("kbd", "Key")<Pick<Props, "simple">>`
 `;
 
 const REPLACEMENTS: Record<string, () => JSXElement> = {
-  ArrowUp: () => <FaSolidArrowUp size="1em" />,
-  ArrowDown: () => <FaSolidArrowDown size="1em" />,
-  ArrowLeft: () => <FaSolidArrowLeft size="1em" />,
-  ArrowRight: () => <FaSolidArrowRight size="1em" />,
+  ArrowUp: () => <FaSolidArrowUp size='1em' />,
+  ArrowDown: () => <FaSolidArrowDown size='1em' />,
+  ArrowLeft: () => <FaSolidArrowLeft size='1em' />,
+  ArrowRight: () => <FaSolidArrowRight size='1em' />,
 };
 
 export const Key: Component<Props> = (props) => {

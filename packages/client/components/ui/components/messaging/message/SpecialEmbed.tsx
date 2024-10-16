@@ -1,6 +1,6 @@
-import type { WebsiteEmbed } from "revolt.js";
+import type { WebsiteEmbed } from 'revolt.js';
 
-import { SizedContent } from "../../design";
+import { SizedContent } from '../../design';
 
 /**
  * Special Embed
@@ -15,28 +15,28 @@ export function SpecialEmbed(props: { embed: WebsiteEmbed }) {
     let width = 0,
       height = 0;
     switch (special.type) {
-      case "YouTube": {
+      case 'YouTube': {
         width = props.embed.video?.width ?? 1280;
         height = props.embed.video?.height ?? 720;
         break;
       }
-      case "Twitch": {
+      case 'Twitch': {
         (width = 1280), (height = 720);
         break;
       }
-      case "Lightspeed": {
+      case 'Lightspeed': {
         (width = 1280), (height = 720);
         break;
       }
-      case "Spotify": {
+      case 'Spotify': {
         (width = 420), (height = 355);
         break;
       }
-      case "Soundcloud": {
+      case 'Soundcloud': {
         (width = 480), (height = 460);
         break;
       }
-      case "Bandcamp": {
+      case 'Bandcamp': {
         width = props.embed.video?.width ?? 1280;
         height = props.embed.video?.height ?? 720;
         break;
@@ -49,13 +49,13 @@ export function SpecialEmbed(props: { embed: WebsiteEmbed }) {
   return (
     <SizedContent width={getSize()?.width} height={getSize()?.height}>
       <iframe
-        loading="lazy"
+        loading='lazy'
         // @ts-expect-error attributes are not recognised
-        scrolling="no"
+        scrolling='no'
         allowFullScreen
         allowTransparency
         frameBorder={0}
-        style={{ width: getSize()?.width + "px" }}
+        style={{ width: getSize()?.width + 'px' }}
         src={props.embed.embedURL}
       />
     </SizedContent>

@@ -1,13 +1,13 @@
-import { Accessor, JSX, createSignal, onCleanup } from "solid-js";
+import { type Accessor, createSignal, type JSX, onCleanup } from 'solid-js';
 
-type Props = JSX.Directives["floating"] & object;
+type Props = JSX.Directives['floating'] & object;
 
-export type FloatingElement = {
+export interface FloatingElement {
   config: () => Props;
   element: HTMLElement;
   hide: () => void;
   show: Accessor<Props | undefined>;
-};
+}
 
 const [floatingElements, setFloatingElements] = createSignal<FloatingElement[]>(
   []
@@ -63,7 +63,7 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
     const current = show();
     const config = accessor();
 
-    if (target === "userCard" && config.userCard) {
+    if (target === 'userCard' && config.userCard) {
       if (current?.userCard) {
         setShow(undefined);
       } else if (!current) {
@@ -74,7 +74,7 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
       }
     }
 
-    if (target === "tooltip" && config.tooltip) {
+    if (target === 'tooltip' && config.tooltip) {
       if (current?.tooltip) {
         if (desiredState !== true) {
           setShow(undefined);
@@ -86,7 +86,7 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
       }
     }
 
-    if (target === "contextMenu" && config.contextMenu) {
+    if (target === 'contextMenu' && config.contextMenu) {
       if (current?.contextMenu) {
         setShow(undefined);
       } else if (!current) {
@@ -103,7 +103,7 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
    */
   function onClick() {
     // TODO: handle shift+click for mention
-    trigger("userCard");
+    trigger('userCard');
   }
 
   /**
@@ -112,41 +112,41 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
   function onContextMenu(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
-    trigger("contextMenu");
+    trigger('contextMenu');
   }
 
   /**
    * Handle mouse entering
    */
   function onMouseEnter() {
-    trigger("tooltip", true);
+    trigger('tooltip', true);
   }
 
   /**
    * Handle mouse leaving
    */
   function onMouseLeave() {
-    trigger("tooltip", false);
+    trigger('tooltip', false);
   }
 
   if (config.userCard) {
-    element.style.cursor = "pointer";
-    element.style.userSelect = "none";
-    element.addEventListener("click", onClick);
+    element.style.cursor = 'pointer';
+    element.style.userSelect = 'none';
+    element.addEventListener('click', onClick);
   }
 
   if (config.tooltip) {
     element.ariaLabel =
-      typeof config.tooltip.content === "string"
+      typeof config.tooltip.content === 'string'
         ? config.tooltip.content
         : config.tooltip!.aria!;
 
-    element.addEventListener("mouseenter", onMouseEnter);
-    element.addEventListener("mouseleave", onMouseLeave);
+    element.addEventListener('mouseenter', onMouseEnter);
+    element.addEventListener('mouseleave', onMouseLeave);
   }
 
   if (config.contextMenu) {
-    element.addEventListener("contextmenu", onContextMenu);
+    element.addEventListener('contextmenu', onContextMenu);
     // TODO: iOS events for touch
   }
 
@@ -154,16 +154,16 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
     unregisterFloatingElement(element);
 
     if (config.userCard) {
-      element.removeEventListener("click", onClick);
+      element.removeEventListener('click', onClick);
     }
 
     if (config.tooltip) {
-      element.removeEventListener("mouseenter", onMouseEnter);
-      element.removeEventListener("mouseleave", onMouseLeave);
+      element.removeEventListener('mouseenter', onMouseEnter);
+      element.removeEventListener('mouseleave', onMouseLeave);
     }
 
     if (config.contextMenu) {
-      element.removeEventListener("contextmenu", onContextMenu);
+      element.removeEventListener('contextmenu', onContextMenu);
     }
   });
 }

@@ -1,20 +1,17 @@
-import { BiSolidCloud, BiSolidTrash } from "solid-icons/bi";
-import { For, Match, Show, Switch, createSignal, onMount } from "solid-js";
-
-import type { ChannelWebhook } from "revolt.js";
-
-import { useClient } from "@revolt/client";
+import { useClient } from '@revolt/client';
 import {
   Avatar,
   CategoryButton,
   Column,
   Preloader,
   Typography,
-} from "@revolt/ui";
+} from '@revolt/ui';
+import type { ChannelWebhook } from 'revolt.js';
+import { BiSolidCloud, BiSolidTrash } from 'solid-icons/bi';
+import { createSignal, For, Match, onMount, Show, Switch } from 'solid-js';
 
-import { useSettingsNavigation } from "../Settings";
-
-import { ChannelSettingsProps } from ".";
+import { useSettingsNavigation } from '../Settings';
+import type { ChannelSettingsProps } from '.';
 
 /**
  * Webhooks
@@ -37,9 +34,9 @@ export default function Webhooks(props: ChannelSettingsProps) {
   });
 
   return (
-    <Column gap="xl">
+    <Column gap='xl'>
       <CategoryButton
-        action="chevron"
+        action='chevron'
         icon={<BiSolidCloud size={24} />}
         onClick={() => void 0}
       >
@@ -48,8 +45,8 @@ export default function Webhooks(props: ChannelSettingsProps) {
 
       <Show when={!webhooks() || webhooks()!.length !== 0}>
         <Column>
-          <Typography variant="label">My Bots</Typography>
-          <Switch fallback={<Preloader type="ring" />}>
+          <Typography variant='label'>My Bots</Typography>
+          <Switch fallback={<Preloader type='ring' />}>
             <Match when={webhooks()?.length}>
               <For each={webhooks()}>
                 {(webhook) => (
@@ -57,7 +54,7 @@ export default function Webhooks(props: ChannelSettingsProps) {
                     icon={<Avatar src={webhook.avatarURL} size={24} />}
                     description={webhook.id}
                     onClick={() => navigate(`webhooks/${webhook.id}`)}
-                    action="chevron"
+                    action='chevron'
                   >
                     {webhook.name}
                   </CategoryButton>
@@ -76,9 +73,9 @@ export default function Webhooks(props: ChannelSettingsProps) {
  */
 export function Webhook(props: { webhook: ChannelWebhook }) {
   return (
-    <Column gap="xl">
+    <Column gap='xl'>
       <CategoryButton
-        action="chevron"
+        action='chevron'
         icon={<BiSolidTrash size={24} />}
         onClick={() => void 0}
       >

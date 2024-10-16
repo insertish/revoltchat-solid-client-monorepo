@@ -1,6 +1,6 @@
-import { JSX } from "solid-js";
+import type { JSX } from 'solid-js';
 
-import { CustomEmoji, RE_ANY_EMOJI, UnicodeEmoji } from ".";
+import { CustomEmoji, RE_ANY_EMOJI, UnicodeEmoji } from '.';
 
 /**
  * Convert any arbitrary text to rich text with emoji

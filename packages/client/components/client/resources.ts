@@ -1,7 +1,7 @@
-import { createQuery } from "@tanstack/solid-query";
-import { User } from "revolt.js";
+import { createQuery } from '@tanstack/solid-query';
+import type { User } from 'revolt.js';
 
-import { useClient } from ".";
+import { useClient } from '.';
 
 /**
  * Create a new resource for current account's MFA configuration
@@ -11,7 +11,7 @@ export function createMfaResource() {
   const client = useClient();
 
   return createQuery(() => ({
-    queryKey: ["mfa", client().user!.id],
+    queryKey: ['mfa', client().user!.id],
     queryFn: () => client().account.mfa(),
     throwOnError: true,
   }));
@@ -24,7 +24,7 @@ export function createMfaResource() {
  */
 export function createProfileResource(user: User) {
   return createQuery(() => ({
-    queryKey: ["profile", user.id],
+    queryKey: ['profile', user.id],
     queryFn: () => user!.fetchProfile(),
     throwOnError: true,
   }));
@@ -46,7 +46,7 @@ export function createOwnProfileResource() {
 export function createOwnBotsResource() {
   const client = useClient();
   return createQuery(() => ({
-    queryKey: ["bots", client().user!.id],
+    queryKey: ['bots', client().user!.id],
     queryFn: () => client().bots.fetchOwned(),
     throwOnError: true,
   }));

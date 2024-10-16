@@ -1,13 +1,14 @@
-import { Accessor, JSX } from "solid-js";
+import type { Accessor, JSX } from 'solid-js';
 
-import { Settings, SettingsProps } from "./Settings";
-import channel from "./channel";
-import server from "./server";
-import user from "./user";
+import channel from './channel';
+import server from './server';
+import type { SettingsProps } from './Settings';
+import { Settings } from './Settings';
+import user from './user';
 
-export { Settings } from "./Settings";
+export { Settings } from './Settings';
 
-export type SettingsConfiguration<T> = {
+export interface SettingsConfiguration<T> {
   /**
    * Generate list of categories and entries
    * @returns List
@@ -28,12 +29,12 @@ export type SettingsConfiguration<T> = {
     props: { page: Accessor<undefined | string> },
     context: T
   ) => JSX.Element;
-};
+}
 
 /**
  * List of categories and entries
  */
-export type SettingsList = {
+export interface SettingsList {
   prepend?: JSX.Element;
   append?: JSX.Element;
   entries: {
@@ -41,12 +42,12 @@ export type SettingsList = {
     title?: JSX.Element;
     entries: SettingsEntry[];
   }[];
-};
+}
 
 /**
  * Individual settings entry
  */
-export type SettingsEntry = {
+export interface SettingsEntry {
   id?: string;
   href?: string;
   onClick?: () => void;
@@ -55,7 +56,7 @@ export type SettingsEntry = {
 
   icon: JSX.Element;
   title: JSX.Element;
-};
+}
 
 export const SettingsConfigurations: Record<
   string,
@@ -75,7 +76,7 @@ export function SettingsUsingConfiguration(
   props: SettingsProps & { configKey: string }
 ) {
   // eslint-disable-next-line solid/reactivity
-  const config = SettingsConfigurations[props.configKey ?? "client"];
+  const config = SettingsConfigurations[props.configKey ?? 'client'];
 
   return (
     <Settings

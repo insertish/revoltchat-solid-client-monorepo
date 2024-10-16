@@ -1,10 +1,8 @@
-import { For } from "solid-js";
+import { state } from '@revolt/state';
+import type { Channel } from 'revolt.js';
+import { For } from 'solid-js';
 
-import { Channel } from "revolt.js";
-
-import { state } from "@revolt/state";
-
-import { DraftMessage } from "./DraftMessage";
+import { DraftMessage } from './DraftMessage';
 
 interface Props {
   channel: Channel;
@@ -19,12 +17,12 @@ export function DraftMessages(props: Props) {
   const unsent = () =>
     state.draft
       .getPendingMessages(props.channel.id)
-      .filter((draft) => draft.status === "sending");
+      .filter((draft) => draft.status === 'sending');
 
   const failed = () =>
     state.draft
       .getPendingMessages(props.channel.id)
-      .filter((draft) => draft.status !== "sending");
+      .filter((draft) => draft.status !== 'sending');
 
   return (
     <>

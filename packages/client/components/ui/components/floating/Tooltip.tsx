@@ -1,15 +1,16 @@
-import { JSX, splitProps } from "solid-js";
-import { styled } from "solid-styled-components";
+import type { JSX } from 'solid-js';
+import { splitProps } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { generateTypographyCSS } from "../design/atoms/display/Typography";
+import { generateTypographyCSS } from '../design/atoms/display/Typography';
 
 /**
  * Base element for the tooltip
  */
-export const TooltipBase = styled("div", "Tooltip")`
+export const TooltipBase = styled('div', 'Tooltip')`
   color: white;
   background: black;
-  ${(props) => generateTypographyCSS(props.theme!, "tooltip")};
+  ${(props) => generateTypographyCSS(props.theme!, 'tooltip')};
 
   padding: ${(props) => props.theme!.gap.md};
   border-radius: ${(props) => props.theme!.borderRadius.md};
@@ -20,13 +21,13 @@ type Props = {
    * Tooltip trigger area
    */
   children: JSX.Element;
-} & (JSX.Directives["floating"] & object)["tooltip"];
+} & (JSX.Directives['floating'] & object)['tooltip'];
 
 /**
  * Tooltip component
  */
 export function Tooltip(props: Props) {
-  const [local, remote] = splitProps(props, ["children"]);
+  const [local, remote] = splitProps(props, ['children']);
 
   return (
     <div

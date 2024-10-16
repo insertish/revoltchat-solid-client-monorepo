@@ -1,30 +1,28 @@
-import { BiRegularArchive, BiSolidKey, BiSolidKeyboard } from "solid-icons/bi";
+import { useTranslation } from '@revolt/i18n';
+import { CategoryButton, Input, Preloader, Typography } from '@revolt/ui';
+import type { API } from 'revolt.js';
+import { BiRegularArchive, BiSolidKey, BiSolidKeyboard } from 'solid-icons/bi';
 import {
-  For,
-  Match,
-  Switch,
   createEffect,
   createSignal,
+  For,
+  Match,
   onMount,
-} from "solid-js";
+  Switch,
+} from 'solid-js';
 
-import type { API } from "revolt.js";
-
-import { useTranslation } from "@revolt/i18n";
-import { CategoryButton, Input, Preloader, Typography } from "@revolt/ui";
-
-import { PropGenerator } from "../types";
+import type { PropGenerator } from '../types';
 
 /**
  * Modal to create an MFA ticket
  */
-const MFAFlow: PropGenerator<"mfa_flow"> = (props) => {
+const MFAFlow: PropGenerator<'mfa_flow'> = (props) => {
   const t = useTranslation();
 
   // Keep track of available methods
   const [methods, setMethods] = createSignal<API.MFAMethod[] | undefined>(
     // eslint-disable-next-line solid/reactivity
-    props.state === "unknown" ? props.available_methods : undefined
+    props.state === 'unknown' ? props.available_methods : undefined
   );
 
   // Current state of the modal
@@ -33,7 +31,7 @@ const MFAFlow: PropGenerator<"mfa_flow"> = (props) => {
 
   // Fetch available methods if they have not been provided.
   onMount(() => {
-    if (!methods() && props.state === "known") {
+    if (!methods() && props.state === 'known') {
       setMethods(props.mfa.availableMethods);
     }
   });
@@ -42,7 +40,7 @@ const MFAFlow: PropGenerator<"mfa_flow"> = (props) => {
   createEffect(() => {
     const list = methods();
     if (list) {
-      setSelected(list.find((entry) => entry !== "Recovery"));
+      setSelected(list.find((entry) => entry !== 'Recovery'));
     }
   });
 
@@ -53,7 +51,7 @@ const MFAFlow: PropGenerator<"mfa_flow"> = (props) => {
     const mfa_response = response();
     if (!mfa_response) return false;
 
-    if (props.state === "known") {
+    if (props.state === 'known') {
       const ticket = await props.mfa.createTicket(mfa_response);
       props.callback(ticket);
     } else {
@@ -64,11 +62,11 @@ const MFAFlow: PropGenerator<"mfa_flow"> = (props) => {
   };
 
   return {
-    title: t("app.special.modals.confirm"),
+    title: t('app.special.modals.confirm'),
     description: (
-      <Switch fallback={t("app.special.modals.mfa.select_method")}>
+      <Switch fallback={t('app.special.modals.mfa.select_method')}>
         <Match when={selectedMethod()}>
-          {t("app.special.modals.mfa.confirm")}
+          {t('app.special.modals.mfa.confirm')}
         </Match>
       </Switch>
     ),
@@ -76,16 +74,16 @@ const MFAFlow: PropGenerator<"mfa_flow"> = (props) => {
       selectedMethod()
         ? [
             {
-              palette: "primary",
-              children: t("app.special.modals.actions.confirm"),
+              palette: 'primary',
+              children: t('app.special.modals.actions.confirm'),
               onClick: generateTicket,
               confirmation: true,
             },
             {
-              palette: "plain",
+              palette: 'plain',
               children: t(
                 `app.special.modals.actions.${
-                  methods()!.length === 1 ? "cancel" : "back"
+                  methods()!.length === 1 ? 'cancel' : 'back'
                 }`
               ),
               onClick: () => {
@@ -100,8 +98,8 @@ const MFAFlow: PropGenerator<"mfa_flow"> = (props) => {
           ]
         : [
             {
-              palette: "plain",
-              children: t("app.special.modals.actions.cancel"),
+              palette: 'plain',
+              children: t('app.special.modals.actions.cancel'),
               onClick: () => {
                 props.callback();
                 return true;
@@ -115,35 +113,35 @@ const MFAFlow: PropGenerator<"mfa_flow"> = (props) => {
     // or when switching to your password manager.
     nonDismissable:
       // eslint-disable-next-line solid/reactivity
-      props.state === "unknown" || typeof selectedMethod !== "undefined",
+      props.state === 'unknown' || typeof selectedMethod !== 'undefined',
     children: (
-      <Switch fallback={<Preloader type="ring" />}>
+      <Switch fallback={<Preloader type='ring' />}>
         <Match when={selectedMethod()}>
-          <Typography variant="label">
+          <Typography variant='label'>
             {t(`login.${selectedMethod()!.toLowerCase()}`)}
           </Typography>
           <Switch>
-            <Match when={selectedMethod() === "Password"}>
+            <Match when={selectedMethod() === 'Password'}>
               <Input
-                type="password"
+                type='password'
                 value={(response() as { password: string })?.password}
                 onChange={(e) =>
                   setResponse({ password: e.currentTarget.value })
                 }
               />
             </Match>
-            <Match when={selectedMethod() === "Totp"}>
+            <Match when={selectedMethod() === 'Totp'}>
               <Input
-                type="text"
+                type='text'
                 value={(response() as { totp_code: string })?.totp_code}
                 onChange={(e) =>
                   setResponse({ totp_code: e.currentTarget.value })
                 }
               />
             </Match>
-            <Match when={selectedMethod() === "Recovery"}>
+            <Match when={selectedMethod() === 'Recovery'}>
               <Input
-                type="text"
+                type='text'
                 value={(response() as { recovery_code: string })?.recovery_code}
                 onChange={(e) =>
                   setResponse({ recovery_code: e.currentTarget.value })
@@ -156,16 +154,16 @@ const MFAFlow: PropGenerator<"mfa_flow"> = (props) => {
           <For each={methods()}>
             {(method) => (
               <CategoryButton
-                action="chevron"
+                action='chevron'
                 icon={
                   <Switch>
-                    <Match when={method === "Password"}>
+                    <Match when={method === 'Password'}>
                       <BiSolidKeyboard size={24} />
                     </Match>
-                    <Match when={method === "Totp"}>
+                    <Match when={method === 'Totp'}>
                       <BiSolidKey size={24} />
                     </Match>
-                    <Match when={method === "Recovery"}>
+                    <Match when={method === 'Recovery'}>
                       <BiRegularArchive size={24} />
                     </Match>
                   </Switch>

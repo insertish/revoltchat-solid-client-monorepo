@@ -1,17 +1,11 @@
-import {
-  Accessor,
-  createContext,
-  createSignal,
-  untrack,
-  useContext,
-} from "solid-js";
+import { Rerun } from '@solid-primitives/keyed';
+import type { Accessor } from 'solid-js';
+import { createContext, createSignal, untrack, useContext } from 'solid-js';
+import { Motion, Presence } from 'solid-motionone';
 
-import { Motion, Presence } from "@motionone/solid";
-import { Rerun } from "@solid-primitives/keyed";
-
-import { SettingsConfiguration, SettingsEntry } from ".";
-import { SettingsContent } from "./_layout/Content";
-import { SettingsSidebar } from "./_layout/Sidebar";
+import type { SettingsConfiguration, SettingsEntry } from '.';
+import { SettingsContent } from './_layout/Content';
+import { SettingsSidebar } from './_layout/Sidebar';
 
 export interface SettingsProps {
   /**
@@ -28,7 +22,7 @@ export interface SettingsProps {
 /**
  * Transition animation
  */
-export type SettingsTransition = "normal" | "to-child" | "to-parent";
+export type SettingsTransition = 'normal' | 'to-child' | 'to-parent';
 
 /**
  * Provide navigation to child components
@@ -44,18 +38,18 @@ const SettingsNavigationContext = createContext<{
 export function Settings(props: SettingsProps & SettingsConfiguration<never>) {
   const [page, setPage] = createSignal<undefined | string>();
   const [transition, setTransition] =
-    createSignal<SettingsTransition>("normal");
+    createSignal<SettingsTransition>('normal');
 
   /**
    * Navigate to a certain page
    */
   function navigate(entry: string | SettingsEntry) {
     let id;
-    if (typeof entry === "object") {
+    if (typeof entry === 'object') {
       if (entry.onClick) {
         entry.onClick();
       } else if (entry.href) {
-        window.open(entry.href, "_blank");
+        window.open(entry.href, '_blank');
       } else if (entry.id) {
         id = entry.id;
       }
@@ -67,11 +61,11 @@ export function Settings(props: SettingsProps & SettingsConfiguration<never>) {
 
     const current = page();
     if (current?.startsWith(id)) {
-      setTransition("to-parent");
+      setTransition('to-parent');
     } else if (current && id.startsWith(current)) {
-      setTransition("to-child");
+      setTransition('to-child');
     } else {
-      setTransition("normal");
+      setTransition('normal');
     }
 
     setPage(id);
@@ -95,20 +89,20 @@ export function Settings(props: SettingsProps & SettingsConfiguration<never>) {
           <Rerun on={page}>
             <Motion.div
               style={
-                untrack(transition) === "normal" ? {} : { visibility: "hidden" }
+                untrack(transition) === 'normal' ? {} : { visibility: 'hidden' }
               }
               ref={(el) =>
-                untrack(transition) !== "normal" &&
-                setTimeout(() => (el.style.visibility = "visible"), 250)
+                untrack(transition) !== 'normal' &&
+                setTimeout(() => (el.style.visibility = 'visible'), 250)
               }
               initial={
-                transition() === "normal"
+                transition() === 'normal'
                   ? { opacity: 0, y: 50 }
-                  : transition() === "to-child"
-                  ? {
-                      x: "100vw",
-                    }
-                  : { x: "-100vw" }
+                  : transition() === 'to-child'
+                    ? {
+                        x: '100vw',
+                      }
+                    : { x: '-100vw' }
               }
               animate={{
                 opacity: 1,
@@ -116,13 +110,13 @@ export function Settings(props: SettingsProps & SettingsConfiguration<never>) {
                 y: 0,
               }}
               exit={
-                transition() === "normal"
+                transition() === 'normal'
                   ? undefined
-                  : transition() === "to-child"
-                  ? {
-                      x: "-100vw",
-                    }
-                  : { x: "100vw" }
+                  : transition() === 'to-child'
+                    ? {
+                        x: '-100vw',
+                      }
+                    : { x: '100vw' }
               }
               transition={{ duration: 0.2, easing: [0.17, 0.67, 0.58, 0.98] }}
             >

@@ -1,4 +1,4 @@
-import { styled } from "solid-styled-components";
+import { styled } from 'solid-styled-components';
 
 /**
  * An empty container that fills all available space

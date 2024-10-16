@@ -1,5 +1,5 @@
-import { Accessor, JSX, onCleanup } from "solid-js";
-import { css, useTheme } from "solid-styled-components";
+import { type Accessor, type JSX, onCleanup } from 'solid-js';
+import { css, useTheme } from 'solid-styled-components';
 
 /**
  * Add styles and events for a scrollable container
@@ -8,7 +8,7 @@ import { css, useTheme } from "solid-styled-components";
  */
 export function scrollable(
   el: HTMLDivElement,
-  accessor: Accessor<JSX.Directives["scrollable"] & object>
+  accessor: Accessor<JSX.Directives['scrollable'] & object>
 ) {
   const props = accessor();
   if (!props) return;
@@ -17,29 +17,29 @@ export function scrollable(
 
   el.classList.add(css`
     will-change: transform;
-    ${props.offsetTop ? "padding-top: " + props.offsetTop + "px;" : ""}
-    ${"overflow-" + (props?.direction ?? "y")}: scroll;
-    ${"overflow-" + ((props?.direction ?? "y") === "y" ? "x" : "y")}: hidden;
+    ${props.offsetTop ? 'padding-top: ' + props.offsetTop + 'px;' : ''}
+    ${'overflow-' + (props?.direction ?? 'y')}: scroll;
+    ${'overflow-' + ((props?.direction ?? 'y') === 'y' ? 'x' : 'y')}: hidden;
 
-    scrollbar-width: ${props?.showOnHover ? "none" : "initial"};
+    scrollbar-width: ${props?.showOnHover ? 'none' : 'initial'};
     scrollbar-color: ${props.foreground ??
-      theme!.colours["component-scrollbar-foreground"]}
-      ${props.background ?? theme!.colours["component-scrollbar-background"]};
+      theme!.colours['component-scrollbar-foreground']}
+      ${props.background ?? theme!.colours['component-scrollbar-background']};
 
     &::-webkit-scrollbar {
       width: 8px;
       height: 8px;
-      ${props?.showOnHover ? "display: none;" : ""}
+      ${props?.showOnHover ? 'display: none;' : ''}
     }
 
     &::-webkit-scrollbar-track {
       background: ${props.background ??
-      theme!.colours["component-scrollbar-background"]};
+      theme!.colours['component-scrollbar-background']};
     }
 
     &::-webkit-scrollbar-thumb {
       background: ${props.foreground ??
-      theme!.colours["component-scrollbar-foreground"]};
+      theme!.colours['component-scrollbar-foreground']};
       background-clip: content-box;
 
       border: 1px solid transparent;
@@ -49,7 +49,7 @@ export function scrollable(
   `);
 
   if (props.class) {
-    props.class.split(" ").forEach((cls) => el.classList.add(cls));
+    props.class.split(' ').forEach((cls) => el.classList.add(cls));
   }
 
   if (props.showOnHover) {
@@ -75,12 +75,12 @@ export function scrollable(
       el.classList.remove(showClass);
     };
 
-    el.addEventListener("mouseenter", onMouseEnter);
-    el.addEventListener("mouseleave", onMouseLeave);
+    el.addEventListener('mouseenter', onMouseEnter);
+    el.addEventListener('mouseleave', onMouseLeave);
 
     onCleanup(() => {
-      el.removeEventListener("mouseenter", onMouseEnter);
-      el.removeEventListener("mouseleave", onMouseLeave);
+      el.removeEventListener('mouseenter', onMouseEnter);
+      el.removeEventListener('mouseleave', onMouseLeave);
     });
   }
 }

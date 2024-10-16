@@ -1,13 +1,13 @@
-import { useFloating } from "solid-floating-ui";
-import { For, JSX, Ref, Show, createEffect, createSignal, on } from "solid-js";
-import { Portal } from "solid-js/web";
-import { styled } from "solid-styled-components";
+import { autoUpdate, flip, offset, shift } from '@floating-ui/dom';
+import { useFloating } from 'solid-floating-ui';
+import type { JSX, Ref } from 'solid-js';
+import { createEffect, createSignal, For, on, Show } from 'solid-js';
+import { Portal } from 'solid-js/web';
+import { Motion, Presence } from 'solid-motionone';
+import { styled } from 'solid-styled-components';
 
-import { autoUpdate, flip, offset, shift } from "@floating-ui/dom";
-import { Motion, Presence } from "@motionone/solid";
-
-import { scrollable } from "../../directives";
-import { Column, Input } from "../design";
+import { scrollable } from '../../directives';
+import { Column, Input } from '../design';
 
 /**
  * Base element
@@ -22,7 +22,7 @@ const Base = styled(Column)`
 /**
  * Container element for the picker
  */
-const Container = styled("div", "Picker")`
+const Container = styled('div', 'Picker')`
   flex-grow: 1;
   display: flex;
   height: 400px;
@@ -59,7 +59,7 @@ interface Props {
   sendGIFMessage: (content: string) => void;
 }
 
-type GifBoxFile = {
+interface GifBoxFile {
   _id: string;
   fileName: string;
   originalFileName: string;
@@ -70,9 +70,9 @@ type GifBoxFile = {
   author: string;
   size: number;
   sha512: string;
-};
+}
 
-type Gif = {
+interface Gif {
   author: {
     _id: string;
     displayName: string;
@@ -88,7 +88,7 @@ type Gif = {
   file: GifBoxFile;
   createdAt: string;
   views: number;
-};
+}
 
 /**
  * CompositionPicker component
@@ -101,7 +101,7 @@ export function CompositionPicker(props: Props) {
   const [show, setShow] = createSignal(false);
 
   const position = useFloating(anchor, floating, {
-    placement: "top-end",
+    placement: 'top-end',
     whileElementsMounted: autoUpdate,
     middleware: [offset(5), flip(), shift()],
   });
@@ -115,7 +115,7 @@ export function CompositionPicker(props: Props) {
       () => show(),
       (show) => {
         if (show && !fetched) {
-          fetch("https://api.gifbox.me/post/popular")
+          fetch('https://api.gifbox.me/post/popular')
             .then((x) => x.json())
             .then(setData);
 
@@ -147,7 +147,7 @@ export function CompositionPicker(props: Props) {
         onClickGif: () => setShow(!show()),
         onClickEmoji: () => setShow(!show()),
       })}
-      <Portal mount={document.getElementById("floating")!}>
+      <Portal mount={document.getElementById('floating')!}>
         <Presence>
           <Show when={show()}>
             <Motion
@@ -163,13 +163,13 @@ export function CompositionPicker(props: Props) {
                   top: `${position.y ?? 0}px`,
                   left: `${position.x ?? 0}px`,
                 }}
-                role="tooltip"
+                role='tooltip'
               >
                 <Container>
                   <Input
-                    placeholder="search for gifs :)"
+                    placeholder='search for gifs :)'
                     onKeyDown={(e) => {
-                      if (e.key === "Enter") {
+                      if (e.key === 'Enter') {
                         e.preventDefault();
                         search(e.currentTarget.value);
                       }
@@ -187,7 +187,7 @@ export function CompositionPicker(props: Props) {
                             }
                           >
                             <img
-                              style={{ width: "100%" }}
+                              style={{ width: '100%' }}
                               src={`https://api.gifbox.me/file/${entry.file.bucket}/${entry.file.fileName}`}
                             />
                           </a>

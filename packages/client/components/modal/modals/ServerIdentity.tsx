@@ -1,15 +1,14 @@
-import { Accessor, createEffect, createSignal } from "solid-js";
+import { useTranslation } from '@revolt/i18n';
+import { Avatar, Column, Input, MessageContainer, Username } from '@revolt/ui';
+import type { ServerMember } from 'revolt.js';
+import type { Accessor } from 'solid-js';
+import { createEffect, createSignal } from 'solid-js';
 
-import { ServerMember } from "revolt.js";
-
-import { useTranslation } from "@revolt/i18n";
-import { Avatar, Column, Input, MessageContainer, Username } from "@revolt/ui";
-
-import { PropGenerator } from "../types";
+import type { PropGenerator } from '../types';
 
 function Preview(props: { nickname: Accessor<string>; member: ServerMember }) {
   createEffect(() => {
-    console.info("n:", props.nickname());
+    console.info('n:', props.nickname());
   });
 
   return (
@@ -34,20 +33,20 @@ function Preview(props: { nickname: Accessor<string>; member: ServerMember }) {
 /**
  * Modal to update the user's server identity
  */
-const ServerIdentity: PropGenerator<"server_identity"> = (props) => {
+const ServerIdentity: PropGenerator<'server_identity'> = (props) => {
   const t = useTranslation();
-  const [nickname, setNickname] = createSignal(props.member.nickname ?? "");
+  const [nickname, setNickname] = createSignal(props.member.nickname ?? '');
 
   const [avatarFile, setAvatarFile] = createSignal<File>();
 
   return {
-    title: t("app.special.popovers.server_identity.title", {
+    title: t('app.special.popovers.server_identity.title', {
       server: props.member.server!.name,
     }),
     children: (
       <Column>
         {/* <span>developer ui</span> */}
-        <span>{t("app.special.popovers.server_identity.nickname")}</span>
+        <span>{t('app.special.popovers.server_identity.nickname')}</span>
         <Input
           value={nickname()}
           onChange={(e) => setNickname(e.currentTarget.value)}
@@ -59,7 +58,7 @@ const ServerIdentity: PropGenerator<"server_identity"> = (props) => {
     ),
     actions: [
       {
-        children: t("app.special.modals.actions.save"),
+        children: t('app.special.modals.actions.save'),
         async onClick() {
           await props.member.edit(
             nickname()
@@ -67,7 +66,7 @@ const ServerIdentity: PropGenerator<"server_identity"> = (props) => {
                   nickname: nickname(),
                 }
               : {
-                  remove: ["Nickname"],
+                  remove: ['Nickname'],
                 }
           );
 

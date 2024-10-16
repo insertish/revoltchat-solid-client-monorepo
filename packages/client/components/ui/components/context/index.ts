@@ -1,1 +1,1 @@
-export { KeybindsProvider } from "./Keybinds";
+export { KeybindsProvider } from './Keybinds';

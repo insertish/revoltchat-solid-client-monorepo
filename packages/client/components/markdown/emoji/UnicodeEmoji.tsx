@@ -1,6 +1,7 @@
-import { ComponentProps, splitProps } from "solid-js";
+import type { ComponentProps } from 'solid-js';
+import { splitProps } from 'solid-js';
 
-import { EmojiBase, toCodepoint } from ".";
+import { EmojiBase, toCodepoint } from '.';
 
 /**
  * Display Unicode emoji
@@ -8,16 +9,16 @@ import { EmojiBase, toCodepoint } from ".";
 export function UnicodeEmoji(
   props: { emoji: string } & Omit<
     ComponentProps<typeof EmojiBase>,
-    "loading" | "class" | "alt" | "draggable" | "src"
+    'loading' | 'class' | 'alt' | 'draggable' | 'src'
   >
 ) {
-  const [local, remote] = splitProps(props, ["emoji"]);
+  const [local, remote] = splitProps(props, ['emoji']);
 
   return (
     <EmojiBase
       {...remote}
-      loading="lazy"
-      class="emoji"
+      loading='lazy'
+      class='emoji'
       alt={local.emoji}
       draggable={false}
       src={`https://static.revolt.chat/emoji/fluent-3d/${toCodepoint(

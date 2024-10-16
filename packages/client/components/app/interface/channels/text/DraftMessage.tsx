@@ -1,13 +1,11 @@
-import { For } from "solid-js";
+import { useClient, useUser } from '@revolt/client';
+import { userInformation } from '@revolt/markdown/users';
+import type { UnsentMessage } from '@revolt/state/stores/Draft';
+import { Avatar, MessageContainer, MessageReply, Username } from '@revolt/ui';
+import type { Channel } from 'revolt.js';
+import { For } from 'solid-js';
 
-import type { Channel } from "revolt.js";
-
-import { useClient, useUser } from "@revolt/client";
-import { userInformation } from "@revolt/markdown/users";
-import type { UnsentMessage } from "@revolt/state/stores/Draft";
-import { Avatar, MessageContainer, MessageReply, Username } from "@revolt/ui";
-
-import { DraftMessageContextMenu } from "../../../menus/DraftMessageContextMenu";
+import { DraftMessageContextMenu } from '../../../menus/DraftMessageContextMenu';
 
 interface Props {
   draft: UnsentMessage;
@@ -31,13 +29,13 @@ export function DraftMessage(props: Props) {
       timestamp={
         // TODO
         // i18n missing
-        props.draft.status === "sending"
-          ? "Sending..."
-          : props.draft.status === "failed"
-          ? "Failed to send" // add icons here
-          : "Unsent message" // add icons here
+        props.draft.status === 'sending'
+          ? 'Sending...'
+          : props.draft.status === 'failed'
+            ? 'Failed to send' // add icons here
+            : 'Unsent message' // add icons here
       }
-      sendStatus={props.draft.status === "sending" ? "sending" : "failed"}
+      sendStatus={props.draft.status === 'sending' ? 'sending' : 'failed'}
       username={<Username username={userInfo().username} />}
       header={
         <For each={props.draft.replies}>

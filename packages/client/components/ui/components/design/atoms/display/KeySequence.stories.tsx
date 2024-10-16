@@ -1,40 +1,39 @@
-import type { ComponentProps } from "solid-js";
+import type { ComponentProps } from 'solid-js';
 
-import TextColourDecorator from "../../../../decorators/TextColourDecorator";
-import type { ComponentStory } from "../../../stories";
-
-import { KeySequence } from "./KeySequence";
+import TextColourDecorator from '../../../../decorators/TextColourDecorator';
+import type { ComponentStory } from '../../../stories';
+import { KeySequence } from './KeySequence';
 
 export default {
-  category: "Design System/Atoms/Display",
+  category: 'Design System/Atoms/Display',
   component: KeySequence,
   stories: [
     {
-      title: "Default",
+      title: 'Default',
       props: {
-        sequence: "Control+Alt+ArrowUp",
+        sequence: 'Control+Alt+ArrowUp',
         short: true,
       },
     },
     {
-      title: "Simple",
+      title: 'Simple',
       props: {
-        sequence: "Control+Alt+ArrowUp",
+        sequence: 'Control+Alt+ArrowUp',
         simple: true,
         short: true,
       },
     },
     {
-      title: "Long",
+      title: 'Long',
       props: {
-        sequence: "Control+Alt+ArrowUp",
+        sequence: 'Control+Alt+ArrowUp',
         short: false,
       },
     },
   ],
   propTypes: {
-    sequence: "string",
-    short: "boolean",
-    simple: "boolean",
+    sequence: 'string',
+    short: 'boolean',
+    simple: 'boolean',
   },
 } as ComponentStory<typeof KeySequence, ComponentProps<typeof KeySequence>>;

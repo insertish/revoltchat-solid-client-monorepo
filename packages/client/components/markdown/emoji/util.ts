@@ -1,6 +1,6 @@
-import emojiRegex from "emoji-regex";
+import emojiRegex from 'emoji-regex';
 
-import { MarkdownProps } from "..";
+import type { MarkdownProps } from '..';
 
 /**
  * Regex for custom emoji
@@ -11,8 +11,8 @@ export const RE_CUSTOM_EMOJI = /:([0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}):/g;
  * Regex for any emoji
  */
 export const RE_ANY_EMOJI = new RegExp(
-  RE_CUSTOM_EMOJI.source + "|" + emojiRegex().source,
-  "g"
+  RE_CUSTOM_EMOJI.source + '|' + emojiRegex().source,
+  'g'
 );
 
 /**
@@ -21,7 +21,7 @@ export const RE_ANY_EMOJI = new RegExp(
  * @returns Whether it is only emoji
  */
 export function isOnlyEmoji(text: string) {
-  return text.replaceAll(RE_ANY_EMOJI, "").trim().length === 0;
+  return text.replaceAll(RE_ANY_EMOJI, '').trim().length === 0;
 }
 
 /**
@@ -33,7 +33,7 @@ export function injectEmojiSize(
   props: MarkdownProps,
   hastNode: { children?: { properties: Record<string, string> }[] }
 ) {
-  const content = props.content ?? "";
+  const content = props.content ?? '';
 
   // inject emoji size information
   const properties = (
@@ -48,15 +48,15 @@ export function injectEmojiSize(
       RE_ANY_EMOJI.exec(content);
 
       // large by default
-      let size = "large";
+      let size = 'large';
 
       // check if we match more than one
       // if so, make it slightly smaller
       if (RE_ANY_EMOJI.exec(content)) {
-        size = "medium";
+        size = 'medium';
       }
 
-      properties["emojiSize"] = size;
+      properties['emojiSize'] = size;
     }
   }
 }
@@ -94,8 +94,8 @@ export function toCodepoint(input: string) {
       }
     }
 
-    return pairs.map((char) => char.toString(16)).join("-");
+    return pairs.map((char) => char.toString(16)).join('-');
   }
 
-  return "";
+  return '';
 }

@@ -1,27 +1,27 @@
-import { ComponentProps, createSignal } from "solid-js";
+import type { ComponentProps } from 'solid-js';
+import { createSignal } from 'solid-js';
 
-import type { ComponentStory } from "../../../stories";
+import type { ComponentStory } from '../../../stories';
+import { Tabs } from './Tabs';
 
-import { Tabs } from "./Tabs";
-
-const [tab, onSelect] = createSignal("a");
+const [tab, onSelect] = createSignal('a');
 
 export default {
-  category: "Design System/Atoms/Inputs",
+  category: 'Design System/Atoms/Inputs',
   component: Tabs,
   stories: [
     {
-      title: "Default",
+      title: 'Default',
       props: {
         tabs: () => ({
           a: {
-            label: "First",
+            label: 'First',
           },
           b: {
-            label: "Second",
+            label: 'Second',
           },
           c: {
-            label: "Last",
+            label: 'Last',
           },
         }),
         tab,

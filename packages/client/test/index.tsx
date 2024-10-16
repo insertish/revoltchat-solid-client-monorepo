@@ -1,10 +1,8 @@
-import type { JSX } from "solid-js";
-
-import { HashRouter } from "@solidjs/router";
-import { render } from "@solidjs/testing-library";
-
-import i18n, { I18nContext } from "@revolt/i18n";
-import { Masks, ThemeProvider, darkTheme } from "@revolt/ui";
+import i18n, { I18nContext } from '@revolt/i18n';
+import { darkTheme, Masks, ThemeProvider } from '@revolt/ui';
+import { HashRouter } from '@solidjs/router';
+import { render } from '@solidjs/testing-library';
+import type { JSX } from 'solid-js';
 
 /**
  * Inject Context above children

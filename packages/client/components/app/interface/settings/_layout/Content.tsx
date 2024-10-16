@@ -1,12 +1,10 @@
-import { Accessor, JSX, Show } from "solid-js";
+import MdClose from '@material-design-icons/svg/outlined/close.svg?component-solid';
+import { Breadcrumbs, Column, iconSize, styled, Typography } from '@revolt/ui';
+import type { Accessor, JSX } from 'solid-js';
+import { Show } from 'solid-js';
+import { cva } from 'styled-system/css';
 
-import { cva } from "styled-system/css";
-
-import { Breadcrumbs, Column, Typography, iconSize, styled } from "@revolt/ui";
-
-import MdClose from "@material-design-icons/svg/outlined/close.svg?component-solid";
-
-import { useSettingsNavigation } from "../Settings";
+import { useSettingsNavigation } from '../Settings';
 
 /**
  * Content portion of the settings menu
@@ -22,19 +20,19 @@ export function SettingsContent(props: {
   return (
     <div
       use:scrollable={{
-        foreground: "var(--colours-settings-content-scroll-thumb)",
-        background: "var(--colours-settings-content-background)",
+        foreground: 'var(--colours-settings-content-scroll-thumb)',
+        background: 'var(--colours-settings-content-background)',
         class: base(),
       }}
     >
       <Show when={props.page()}>
         <InnerContent>
-          <InnerColumn gap="x">
-            <Typography variant="settings-title">
+          <InnerColumn gap='x'>
+            <Typography variant='settings-title'>
               <Breadcrumbs
-                elements={props.page()!.split("/")}
+                elements={props.page()!.split('/')}
                 renderElement={(key) => props.title(key)}
-                navigate={(keys) => navigate(keys.join("/"))}
+                navigate={(keys) => navigate(keys.join('/'))}
               />
             </Typography>
             {props.children}
@@ -58,17 +56,17 @@ export function SettingsContent(props: {
 const base = cva({
   base: {
     minWidth: 0,
-    flex: "1 1 800px",
-    flexDirection: "row",
+    flex: '1 1 800px',
+    flexDirection: 'row',
 
-    display: "flex",
-    background: "var(--colours-settings-content-background)",
+    display: 'flex',
+    background: 'var(--colours-settings-content-background)',
 
-    borderStartStartRadius: "30px",
-    borderEndStartRadius: "30px",
+    borderStartStartRadius: '30px',
+    borderEndStartRadius: '30px',
 
-    "& > a": {
-      textDecoration: "none",
+    '& > a': {
+      textDecoration: 'none',
     },
   },
 });
@@ -76,7 +74,7 @@ const base = cva({
 /**
  * Settings pane
  */
-const InnerContent = styled("div", "Pane")`
+const InnerContent = styled('div', 'Pane')`
   gap: 13px;
   min-width: 0;
   width: 100%;
@@ -106,22 +104,22 @@ const CloseAnchor = styled.a`
   justify-content: center;
 
   border-radius: ${(props) => props.theme!.borderRadius.full};
-  border: 3px solid ${(props) => props.theme!.colours["settings-close-anchor"]};
+  border: 3px solid ${(props) => props.theme!.colours['settings-close-anchor']};
   transition: ${(props) => props.theme!.transitions.fast} background-color;
 
   svg {
     transition: ${(props) => props.theme!.transitions.fast} background-color;
     color: ${(props) =>
-      props.theme!.colours["settings-close-anchor"]} !important;
+      props.theme!.colours['settings-close-anchor']} !important;
   }
 
   &:hover {
-    background: ${(props) => props.theme!.colours["settings-close-anchor"]};
+    background: ${(props) => props.theme!.colours['settings-close-anchor']};
   }
 
   &:hover svg {
     color: ${(props) =>
-      props.theme!.colours["settings-close-anchor-hover"]} !important;
+      props.theme!.colours['settings-close-anchor-hover']} !important;
   }
 
   &:active {
@@ -141,13 +139,13 @@ const CloseAction = styled.div`
   top: 0;
 
   &:after {
-    content: "ESC";
+    content: 'ESC';
     margin-top: 4px;
     display: flex;
     justify-content: center;
     width: 36px;
     font-weight: 600;
-    color: ${(props) => props.theme!.colours["settings-content-foreground"]};
+    color: ${(props) => props.theme!.colours['settings-content-foreground']};
     font-size: 0.75rem;
   }
 `;

@@ -1,21 +1,18 @@
+import { useClient } from '@revolt/client';
+import { getController } from '@revolt/common';
+import { useTranslation } from '@revolt/i18n';
+import { TextWithEmoji } from '@revolt/markdown';
+import { ColouredText, useTheme } from '@revolt/ui';
+import type { Channel } from 'revolt.js';
 import {
   BiRegularListUl,
   BiSolidCloud,
   BiSolidInfoCircle,
   BiSolidTrash,
-} from "solid-icons/bi";
+} from 'solid-icons/bi';
 
-import { Channel } from "revolt.js";
-
-import { useClient } from "@revolt/client";
-import { getController } from "@revolt/common";
-import { useTranslation } from "@revolt/i18n";
-import { TextWithEmoji } from "@revolt/markdown";
-import { ColouredText, useTheme } from "@revolt/ui";
-
-import { SettingsConfiguration } from "..";
-
-import Webhooks, { Webhook } from "./Webhooks";
+import type { SettingsConfiguration } from '..';
+import Webhooks, { Webhook } from './Webhooks';
 
 const Config: SettingsConfiguration<Channel> = {
   /**
@@ -26,29 +23,28 @@ const Config: SettingsConfiguration<Channel> = {
     const t = useTranslation();
     const client = useClient();
 
-    if (key.startsWith("webhooks/")) {
+    if (key.startsWith('webhooks/')) {
       const webhook = client().channelWebhooks.get(key.substring(9));
       return webhook!.name;
     }
 
-    return t(`app.settings.channel_pages.${key.replaceAll("/", ".")}.title`);
+    return t(`app.settings.channel_pages.${key.replaceAll('/', '.')}.title`);
   },
 
   /**
    * Render the current channel settings page
    */
   render(props, channel) {
-    // eslint-disable-next-line solid/reactivity
     const id = props.page();
     const client = useClient();
 
-    if (id?.startsWith("webhooks/")) {
+    if (id?.startsWith('webhooks/')) {
       const webhook = client().channelWebhooks.get(id.substring(9));
       return <Webhook webhook={webhook!} />;
     }
 
     switch (id) {
-      case "webhooks":
+      case 'webhooks':
         return <Webhooks channel={channel} />;
       default:
         return null;
@@ -69,27 +65,27 @@ const Config: SettingsConfiguration<Channel> = {
           title: <TextWithEmoji content={channel.name} />,
           entries: [
             {
-              id: "overview",
+              id: 'overview',
               icon: <BiSolidInfoCircle size={20} />,
-              title: t("app.settings.channel_pages.overview.title"),
+              title: t('app.settings.channel_pages.overview.title'),
             },
             {
-              hidden: !channel.havePermission("ManagePermissions"),
-              id: "permissions",
+              hidden: !channel.havePermission('ManagePermissions'),
+              id: 'permissions',
               icon: <BiRegularListUl size={20} />,
-              title: t("app.settings.channel_pages.permissions.title"),
+              title: t('app.settings.channel_pages.permissions.title'),
             },
             {
-              hidden: !channel.havePermission("ManageWebhooks"),
-              id: "webhooks",
+              hidden: !channel.havePermission('ManageWebhooks'),
+              id: 'webhooks',
               icon: <BiSolidCloud size={20} />,
-              title: t("app.settings.channel_pages.webhooks.title"),
+              title: t('app.settings.channel_pages.webhooks.title'),
             },
           ],
         },
         {
           hidden: !(
-            channel.type !== "Group" && channel.havePermission("ManageChannel")
+            channel.type !== 'Group' && channel.havePermission('ManageChannel')
           ),
           entries: [
             {
@@ -101,15 +97,15 @@ const Config: SettingsConfiguration<Channel> = {
               ),
               title: (
                 <ColouredText colour={theme!.customColours.error.color}>
-                  {t("app.context_menu.delete_channel")}
+                  {t('app.context_menu.delete_channel')}
                 </ColouredText>
               ),
               /**
                * Handle server deletion request
                */
               onClick() {
-                getController("modal").push({
-                  type: "delete_channel",
+                getController('modal').push({
+                  type: 'delete_channel',
                   channel,
                 });
               },
@@ -123,9 +119,9 @@ const Config: SettingsConfiguration<Channel> = {
 
 export default Config;
 
-export type ChannelSettingsProps = {
+export interface ChannelSettingsProps {
   /**
    * Channel
    */
   channel: Channel;
-};
+}

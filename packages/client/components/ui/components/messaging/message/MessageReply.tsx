@@ -1,24 +1,22 @@
-import { BiSolidFile } from "solid-icons/bi";
-import { Match, Switch } from "solid-js";
-import { Show } from "solid-js";
-import { styled as styledL } from "solid-styled-components";
-
-import type { Message } from "revolt.js";
-import { styled } from "styled-system/jsx";
-
-import { useTranslation } from "@revolt/i18n";
-import { TextWithEmoji } from "@revolt/markdown";
+import { useTranslation } from '@revolt/i18n';
+import { TextWithEmoji } from '@revolt/markdown';
+import type { Message } from 'revolt.js';
+import { BiSolidFile } from 'solid-icons/bi';
+import { Match, Switch } from 'solid-js';
+import { Show } from 'solid-js';
+import { styled as styledL } from 'solid-styled-components';
+import { styled } from 'styled-system/jsx';
 
 import {
   Avatar,
   ColouredText,
   NonBreakingText,
   OverflowingText,
-} from "../../design";
+} from '../../design';
 import {
-  Typography,
   generateTypographyCSS,
-} from "../../design/atoms/display/Typography";
+  Typography,
+} from '../../design/atoms/display/Typography';
 
 interface Props {
   /**
@@ -37,17 +35,17 @@ interface Props {
   noDecorations?: boolean;
 }
 
-export const Base = styledL("div", "Reply")<Pick<Props, "noDecorations">>`
+export const Base = styledL('div', 'Reply')<Pick<Props, 'noDecorations'>>`
   min-width: 0;
   flex-grow: 1;
   display: flex;
   user-select: none;
   align-items: center;
 
-  margin-inline-end: ${(props) => (props.noDecorations ? "0" : "12px")};
-  margin-inline-start: ${(props) => (props.noDecorations ? "0" : "30px")};
+  margin-inline-end: ${(props) => (props.noDecorations ? '0' : '12px')};
+  margin-inline-start: ${(props) => (props.noDecorations ? '0' : '30px')};
 
-  ${(props) => generateTypographyCSS(props.theme!, "reply")}
+  ${(props) => generateTypographyCSS(props.theme!, 'reply')}
 
   gap: ${(props) => props.theme!.gap.md};
 
@@ -56,7 +54,7 @@ export const Base = styledL("div", "Reply")<Pick<Props, "noDecorations">>`
   }
 
   &::before {
-    display: ${(props) => (props.noDecorations ? "none" : "block")};
+    display: ${(props) => (props.noDecorations ? 'none' : 'block')};
 
     content: "";
     width: 22px;
@@ -88,12 +86,12 @@ const InfoText = styledL.a`
 /**
  * Link styling
  */
-const Link = styled("a", {
+const Link = styled('a', {
   base: {
     minWidth: 0,
-    display: "flex",
-    alignItems: "center",
-    gap: "var(--gap-md)",
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--gap-md)',
   },
 });
 
@@ -106,20 +104,20 @@ export function MessageReply(props: Props) {
   return (
     <Base noDecorations={props.noDecorations}>
       <Switch
-        fallback={<InfoText>{t("app.main.channel.misc.not_loaded")}</InfoText>}
+        fallback={<InfoText>{t('app.main.channel.misc.not_loaded')}</InfoText>}
       >
-        <Match when={props.message?.author?.relationship === "Blocked"}>
-          {t("app.main.channel.misc.blocked_user")}
+        <Match when={props.message?.author?.relationship === 'Blocked'}>
+          {t('app.main.channel.misc.blocked_user')}
         </Match>
         <Match when={props.message}>
           <Avatar src={props.message!.avatarURL} size={14} />
           <NonBreakingText>
             <ColouredText
               colour={props.message!.roleColour!}
-              clip={props.message!.roleColour?.includes("gradient")}
+              clip={props.message!.roleColour?.includes('gradient')}
             >
-              <Typography variant="username">
-                {props.mention && "@"}
+              <Typography variant='username'>
+                {props.mention && '@'}
                 {props.message!.username}
               </Typography>
             </ColouredText>
@@ -129,8 +127,8 @@ export function MessageReply(props: Props) {
               <Attachments>
                 <BiSolidFile size={16} />
                 {props.message!.attachments!.length > 1
-                  ? t("app.main.channel.misc.sent_multiple_files")
-                  : t("app.main.channel.misc.sent_file")}
+                  ? t('app.main.channel.misc.sent_multiple_files')
+                  : t('app.main.channel.misc.sent_file')}
               </Attachments>
             </Show>
             <Show when={props.message!.content}>

@@ -1,4 +1,4 @@
-import { styled } from "@revolt/ui";
+import { styled } from '@revolt/ui';
 
 // TODO: move to @revolt/ui package
 
@@ -19,11 +19,11 @@ export const SidebarButton = styled.a<Props>`
   font-size: 15px;
   user-select: none;
   transition: background-color 0.1s ease-in-out;
-  color: ${(props) => props.theme!.colours["settings-sidebar-foreground"]};
+  color: ${(props) => props.theme!.colours['settings-sidebar-foreground']};
   background: ${(props) =>
-    props["aria-selected"]
-      ? props.theme!.colours["settings-sidebar-button-hover"]
-      : "unset"};
+    props['aria-selected']
+      ? props.theme!.colours['settings-sidebar-button-hover']
+      : 'unset'};
 
   svg {
     flex-shrink: 0;
@@ -31,12 +31,12 @@ export const SidebarButton = styled.a<Props>`
 
   &:hover {
     background-color: ${(props) =>
-      props.theme!.colours["settings-sidebar-button-hover"]};
+      props.theme!.colours['settings-sidebar-button-hover']};
   }
 
   &:active {
     background-color: ${(props) =>
-      props.theme!.colours["settings-sidebar-button-active"]};
+      props.theme!.colours['settings-sidebar-button-active']};
   }
 `;
 

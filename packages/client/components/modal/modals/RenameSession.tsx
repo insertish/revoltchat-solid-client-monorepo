@@ -1,33 +1,33 @@
-import { useTranslation } from "@revolt/i18n";
+import { useTranslation } from '@revolt/i18n';
 
-import { createFormModal } from "../form";
-import { PropGenerator } from "../types";
+import { createFormModal } from '../form';
+import type { PropGenerator } from '../types';
 
 /**
  * Modal for renaming session
  */
-const RenameSession: PropGenerator<"rename_session"> = (props) => {
+const RenameSession: PropGenerator<'rename_session'> = (props) => {
   const t = useTranslation();
 
   return createFormModal({
     modalProps: {
-      title: "Rename Session",
+      title: 'Rename Session',
     },
     schema: {
-      name: "text",
+      name: 'text',
     },
     defaults: {
       name: props.session.name,
     },
     data: {
       name: {
-        field: "Name",
-        placeholder: "Enter a new name for this session",
+        field: 'Name',
+        placeholder: 'Enter a new name for this session',
       },
     },
     callback: async ({ name }) => void (await props.session.rename(name)),
     submit: {
-      children: t("app.special.modals.actions.update"),
+      children: t('app.special.modals.actions.update'),
     },
   });
 };

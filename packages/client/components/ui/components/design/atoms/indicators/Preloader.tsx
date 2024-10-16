@@ -1,4 +1,4 @@
-import { keyframes, styled } from "solid-styled-components";
+import { keyframes, styled } from 'solid-styled-components';
 
 /**
  * Animation for spinner
@@ -29,8 +29,8 @@ const prRing = keyframes`
 /**
  * Preloader component styling
  */
-const PreloaderBase = styled("div")<{ grow?: boolean }>`
-  height: ${(props) => (props.grow ? "100%" : "fit-content")};
+const PreloaderBase = styled('div')<{ grow?: boolean }>`
+  height: ${(props) => (props.grow ? '100%' : 'fit-content')};
 
   display: flex;
   align-items: center;
@@ -96,7 +96,7 @@ const PreloaderBase = styled("div")<{ grow?: boolean }>`
 `;
 
 export interface Props {
-  type: "spinner" | "ring";
+  type: 'spinner' | 'ring';
   grow?: boolean;
 }
 

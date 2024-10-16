@@ -1,14 +1,8 @@
-import {
-  KeyCombo,
-  KeyComboSequence,
-  KeybindAction,
-  KeybindActions,
-  KeybindSequence,
-} from "@revolt/keybinds";
+import type { KeybindActions, KeyComboSequence } from '@revolt/keybinds';
+import { KeybindAction, KeybindSequence, KeyCombo } from '@revolt/keybinds';
 
-import { State } from "..";
-
-import { AbstractStore } from ".";
+import type { State } from '..';
+import { AbstractStore } from '.';
 
 /** utility to make writing the default keybinds easier, requires all `KeybindAction` values to be filled out */
 function keybindMap(
@@ -23,36 +17,36 @@ function keybindMap(
 }
 
 export const DEFAULT_VALUES: KeybindActions = keybindMap({
-  [KeybindAction.NavigateChannelUp]: ["Alt+ArrowUp"],
-  [KeybindAction.NavigateChannelDown]: ["Alt+ArrowDown"],
+  [KeybindAction.NavigateChannelUp]: ['Alt+ArrowUp'],
+  [KeybindAction.NavigateChannelDown]: ['Alt+ArrowDown'],
   // temporary, Control+Alt+ArrowUp does not seem to work on chrome or firefox at the moment
-  [KeybindAction.NavigateServerUp]: ["Control+ArrowUp"],
-  [KeybindAction.NavigateServerDown]: ["Control+ArrowDown"],
+  [KeybindAction.NavigateServerUp]: ['Control+ArrowUp'],
+  [KeybindAction.NavigateServerDown]: ['Control+ArrowDown'],
 
-  [KeybindAction.AutoCompleteUp]: ["ArrowUp"],
-  [KeybindAction.AutoCompleteDown]: ["ArrowDown"],
-  [KeybindAction.AutoCompleteSelect]: ["Enter", "Tab"],
+  [KeybindAction.AutoCompleteUp]: ['ArrowUp'],
+  [KeybindAction.AutoCompleteDown]: ['ArrowDown'],
+  [KeybindAction.AutoCompleteSelect]: ['Enter', 'Tab'],
 
   [KeybindAction.NavigatePreviousContext]: [], //["Escape"],
   [KeybindAction.NavigatePreviousContextModal]: [],
   [KeybindAction.NavigatePreviousContextSettings]: [],
 
-  [KeybindAction.InputForceSubmit]: ["Control+Enter"],
-  [KeybindAction.InputSubmit]: ["Enter"],
+  [KeybindAction.InputForceSubmit]: ['Control+Enter'],
+  [KeybindAction.InputSubmit]: ['Enter'],
   [KeybindAction.InputCancel]: [], // ["Escape"],
 
   [KeybindAction.MessagingMarkChannelRead]: [], // ["Escape"],
-  [KeybindAction.MessagingScrollToBottom]: ["Escape"],
-  [KeybindAction.MessagingEditPreviousMessage]: ["ArrowUp"],
+  [KeybindAction.MessagingScrollToBottom]: ['Escape'],
+  [KeybindAction.MessagingEditPreviousMessage]: ['ArrowUp'],
 
   [KeybindAction.DeveloperToggleAllExperiments]: [],
 });
 
-export type TypeKeybinds = {
+export interface TypeKeybinds {
   keybinds: KeybindActions;
-};
+}
 
-export class Keybinds extends AbstractStore<"keybinds", TypeKeybinds> {
+export class Keybinds extends AbstractStore<'keybinds', TypeKeybinds> {
   keybinds = Map;
 
   /**
@@ -60,7 +54,7 @@ export class Keybinds extends AbstractStore<"keybinds", TypeKeybinds> {
    * @param state State
    */
   constructor(state: State) {
-    super(state, "keybinds");
+    super(state, 'keybinds');
   }
 
   /**
@@ -105,7 +99,7 @@ export class Keybinds extends AbstractStore<"keybinds", TypeKeybinds> {
    * @param sequence the keybind sequence
    */
   setKeybind(action: KeybindAction, index: number, sequence: KeyComboSequence) {
-    this.set("keybinds", action, index, sequence);
+    this.set('keybinds', action, index, sequence);
   }
 
   /**
@@ -114,7 +108,7 @@ export class Keybinds extends AbstractStore<"keybinds", TypeKeybinds> {
    * @param sequence the keybind sequence to add
    */
   addKeybind(action: KeybindAction, sequence: KeyComboSequence) {
-    this.set("keybinds", action, (keybinds) => [...keybinds, sequence]);
+    this.set('keybinds', action, (keybinds) => [...keybinds, sequence]);
   }
 
   /**
@@ -126,10 +120,10 @@ export class Keybinds extends AbstractStore<"keybinds", TypeKeybinds> {
   resetKeybindToDefault(action: KeybindAction, index: number) {
     const defaultValue = this.getDefaultKeybind(action, index);
     if (defaultValue) {
-      this.set("keybinds", action, index, defaultValue);
+      this.set('keybinds', action, index, defaultValue);
     } else {
       // todo: maybe convert into a more efficient utility
-      this.set("keybinds", action, (keybinds) => {
+      this.set('keybinds', action, (keybinds) => {
         // shallow copy so splice doesn't mutate the original
         keybinds = [...keybinds];
         keybinds.splice(index, 1);

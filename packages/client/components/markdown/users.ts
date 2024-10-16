@@ -1,9 +1,8 @@
-import { Accessor, createMemo } from "solid-js";
-
-import { ServerMember, User } from "revolt.js";
-
-import { useClient } from "@revolt/client";
-import { useParams } from "@revolt/routing";
+import { useClient } from '@revolt/client';
+import { useParams } from '@revolt/routing';
+import type { ServerMember, User } from 'revolt.js';
+import type { Accessor } from 'solid-js';
+import { createMemo } from 'solid-js';
 
 // TODO: move to @revolt/common?
 
@@ -45,7 +44,7 @@ interface UserInformation {
  */
 export function userInformation(user?: User, member?: ServerMember) {
   return {
-    username: member?.nickname ?? user?.displayName ?? "Unknown User",
+    username: member?.nickname ?? user?.displayName ?? 'Unknown User',
     avatar: member?.animatedAvatarURL ?? user?.animatedAvatarURL,
     colour: member?.roleColour,
     user,
@@ -71,7 +70,7 @@ export function useUsers(
   // eslint-disable-next-line solid/reactivity
   return createMemo(() => {
     const client = clientAccessor()!;
-    const list = (typeof ids === "function" ? ids() : ids).map((id) => {
+    const list = (typeof ids === 'function' ? ids() : ids).map((id) => {
       const user = client.users.get(id)!;
 
       if (user) {
@@ -98,5 +97,5 @@ export function useUsers(
  */
 export function useUser(id: string): Accessor<UserInformation> {
   const users = useUsers([id]);
-  return () => users()[0] ?? { username: "Unknown User" };
+  return () => users()[0] ?? { username: 'Unknown User' };
 }

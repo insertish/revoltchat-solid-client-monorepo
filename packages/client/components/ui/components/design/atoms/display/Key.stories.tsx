@@ -1,37 +1,36 @@
-import type { ComponentProps } from "solid-js";
+import type { ComponentProps } from 'solid-js';
 
-import TextColourDecorator from "../../../../decorators/TextColourDecorator";
-import type { ComponentStory } from "../../../stories";
-
-import { Key } from "./Key";
+import TextColourDecorator from '../../../../decorators/TextColourDecorator';
+import type { ComponentStory } from '../../../stories';
+import { Key } from './Key';
 
 export default {
-  category: "Design System/Atoms/Display",
+  category: 'Design System/Atoms/Display',
   component: Key,
   stories: [
     {
-      title: "Default",
+      title: 'Default',
       props: {
-        children: "K",
+        children: 'K',
       },
     },
     {
-      title: "Simple",
+      title: 'Simple',
       props: {
-        children: "ArrowUp",
+        children: 'ArrowUp',
         simple: true,
       },
     },
     {
-      title: "Special Key Replacement",
+      title: 'Special Key Replacement',
       props: {
-        children: "ArrowUp",
+        children: 'ArrowUp',
       },
     },
   ],
   propTypes: {
-    children: "string",
-    short: "boolean",
-    simple: "boolean",
+    children: 'string',
+    short: 'boolean',
+    simple: 'boolean',
   },
 } as ComponentStory<typeof Key, ComponentProps<typeof Key>>;

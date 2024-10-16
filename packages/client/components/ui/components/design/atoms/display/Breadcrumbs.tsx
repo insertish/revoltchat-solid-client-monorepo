@@ -1,8 +1,9 @@
-import { BiSolidChevronRight } from "solid-icons/bi";
-import { For, JSX, Match, Show, Switch } from "solid-js";
-import { styled } from "solid-styled-components";
+import { BiSolidChevronRight } from 'solid-icons/bi';
+import type { JSX } from 'solid-js';
+import { For, Match, Show, Switch } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { Row } from "../../layout";
+import { Row } from '../../layout';
 
 interface Props {
   elements: string[];
@@ -31,18 +32,18 @@ export function Breadcrumbs(props: Props) {
           return (
             <>
               <Show when={index() !== 0}>
-                <BiSolidChevronRight size="0.6em" />
+                <BiSolidChevronRight size='0.6em' />
               </Show>
               <Switch
                 fallback={
                   <Unselected onClick={navigate}>
-                    {props.renderElement(segments().join("/"))}
+                    {props.renderElement(segments().join('/'))}
                   </Unselected>
                 }
               >
                 <Match when={index() === props.elements.length - 1}>
                   <Selected>
-                    {props.renderElement(segments().join("/"))}
+                    {props.renderElement(segments().join('/'))}
                   </Selected>
                 </Match>
               </Switch>
@@ -59,7 +60,7 @@ export function Breadcrumbs(props: Props) {
  */
 const Base = styled(Row)`
   user-select: none;
-  color: ${(props) => props.theme!.colours["foreground-300"]};
+  color: ${(props) => props.theme!.colours['foreground-300']};
 `;
 
 /**
@@ -82,5 +83,5 @@ const Unselected = styled.div`
  * Selected styles
  */
 const Selected = styled.div`
-  color: ${(props) => props.theme!.colours["foreground"]};
+  color: ${(props) => props.theme!.colours['foreground']};
 `;
