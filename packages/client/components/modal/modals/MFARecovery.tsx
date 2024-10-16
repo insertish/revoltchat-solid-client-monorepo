@@ -1,10 +1,9 @@
-import { For, createSignal } from "solid-js";
+import { useTranslation } from '@revolt/i18n';
+import { styled } from '@revolt/ui';
+import { createSignal, For } from 'solid-js';
 
-import { useTranslation } from "@revolt/i18n";
-import { styled } from "@revolt/ui";
-
-import { modalController } from "..";
-import { PropGenerator } from "../types";
+import { modalController } from '..';
+import type { PropGenerator } from '../types';
 
 /**
  * List of recovery codes
@@ -28,7 +27,7 @@ const List = styled.div`
 /**
  * Modal to display a list of recovery codes
  */
-const MFARecovery: PropGenerator<"mfa_recovery"> = (props) => {
+const MFARecovery: PropGenerator<'mfa_recovery'> = (props) => {
   const t = useTranslation();
 
   // Keep track of changes to recovery codes
@@ -49,18 +48,18 @@ const MFARecovery: PropGenerator<"mfa_recovery"> = (props) => {
   };
 
   return {
-    title: t("app.special.modals.mfa.recovery_codes"),
-    description: t("app.special.modals.mfa.save_codes"),
+    title: t('app.special.modals.mfa.recovery_codes'),
+    description: t('app.special.modals.mfa.save_codes'),
     actions: [
       {
-        palette: "primary",
-        children: t("app.special.modals.actions.done"),
+        palette: 'primary',
+        children: t('app.special.modals.actions.done'),
         onClick: () => true,
         confirmation: true,
       },
       {
-        palette: "plain",
-        children: t("app.special.modals.actions.reset"),
+        palette: 'plain',
+        children: t('app.special.modals.actions.reset'),
         onClick: reset,
       },
     ],
@@ -69,7 +68,7 @@ const MFARecovery: PropGenerator<"mfa_recovery"> = (props) => {
         <For each={known()}>
           {(code, index) => (
             <span>
-              {code} {index() !== known.length && <i>{","}</i>}
+              {code} {index() !== known.length && <i>{','}</i>}
             </span>
           )}
         </For>

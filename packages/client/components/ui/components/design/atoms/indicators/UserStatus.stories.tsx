@@ -1,48 +1,47 @@
-import type { ComponentProps } from "solid-js";
+import type { ComponentProps } from 'solid-js';
 
-import makeSvgDecorator from "../../../../decorators/SvgDecorator";
-import type { ComponentStory } from "../../../stories";
-
-import { UserStatusGraphic } from "./UserStatus";
+import makeSvgDecorator from '../../../../decorators/SvgDecorator';
+import type { ComponentStory } from '../../../stories';
+import { UserStatusGraphic } from './UserStatus';
 
 export default {
-  category: "Design System/Atoms/Indicators",
+  category: 'Design System/Atoms/Indicators',
   component: UserStatusGraphic,
   stories: [
     {
-      title: "Online",
+      title: 'Online',
     },
     {
-      title: "Idle",
+      title: 'Idle',
       props: {
-        status: "Idle",
+        status: 'Idle',
       },
     },
     {
-      title: "Busy",
+      title: 'Busy',
       props: {
-        status: "Busy",
+        status: 'Busy',
       },
     },
     {
-      title: "Focus",
+      title: 'Focus',
       props: {
-        status: "Focus",
+        status: 'Focus',
       },
     },
     {
-      title: "Invisible",
+      title: 'Invisible',
       props: {
-        status: "Invisible",
+        status: 'Invisible',
       },
     },
   ],
   props: {
-    status: "Online",
+    status: 'Online',
   },
   decorators: [makeSvgDecorator(32, 128)],
   propTypes: {
-    status: "string",
+    status: 'string',
   },
 } as ComponentStory<
   typeof UserStatusGraphic,

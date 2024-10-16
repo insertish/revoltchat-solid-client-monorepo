@@ -1,27 +1,27 @@
-import { mapAndRethrowError } from "@revolt/client";
-import { useTranslation } from "@revolt/i18n";
-import { useNavigate } from "@revolt/routing";
+import { mapAndRethrowError } from '@revolt/client';
+import { useTranslation } from '@revolt/i18n';
+import { useNavigate } from '@revolt/routing';
 
-import { createFormModal } from "../form";
-import { PropGenerator } from "../types";
+import { createFormModal } from '../form';
+import type { PropGenerator } from '../types';
 
 /**
  * Modal to create a new group channel
  */
-const CreateGroup: PropGenerator<"create_group"> = (props) => {
+const CreateGroup: PropGenerator<'create_group'> = (props) => {
   const t = useTranslation();
   const navigate = useNavigate();
 
   return createFormModal({
     modalProps: {
-      title: t("app.main.groups.create"),
+      title: t('app.main.groups.create'),
     },
     schema: {
-      name: "text",
+      name: 'text',
     },
     data: {
       name: {
-        field: t("app.main.groups.name"),
+        field: t('app.main.groups.name'),
       },
     },
     callback: async ({ name }) => {
@@ -32,7 +32,7 @@ const CreateGroup: PropGenerator<"create_group"> = (props) => {
       navigate(`/channel/${group.id}`);
     },
     submit: {
-      children: t("app.special.modals.actions.create"),
+      children: t('app.special.modals.actions.create'),
     },
   });
 };

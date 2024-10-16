@@ -1,26 +1,25 @@
-import type { ComponentProps } from "solid-js";
+import type { ComponentProps } from 'solid-js';
 
-import { Button } from "../design";
-import type { ComponentStory } from "../stories";
-
-import { Tooltip } from "./Tooltip";
+import { Button } from '../design';
+import type { ComponentStory } from '../stories';
+import { Tooltip } from './Tooltip';
 
 export default {
-  category: "Floating/Tooltip",
+  category: 'Floating/Tooltip',
   component: Tooltip,
-  stories: [{ title: "Default" }],
+  stories: [{ title: 'Default' }],
   props: {
     /**
      * Render the children
      */
     children(fn) {
       return (
-        <Button {...fn} type="button">
+        <Button {...fn} type='button'>
           Example
         </Button>
       );
     },
-    content: "Hello, I am a tooltip!",
+    content: 'Hello, I am a tooltip!',
     initialState: true,
   },
   propTypes: {},

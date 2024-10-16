@@ -3,7 +3,7 @@
  * @param error Error object
  */
 export function mapAnyError(error: any) {
-  console.error("Encountered an error:", error);
+  console.error('Encountered an error:', error);
 
   // Check if Axios error
   if (error.response) {
@@ -16,19 +16,19 @@ export function mapAnyError(error: any) {
     // Otherwise infer from status
     switch (error.response.status) {
       case 429:
-        return "TooManyRequests";
+        return 'TooManyRequests';
       case 401:
       case 403:
-        return "Unauthorized";
+        return 'Unauthorized';
       default:
-        return "UnknownError";
+        return 'UnknownError';
     }
     // Check if network issue
   } else if (error.request) {
-    return "NetworkError";
+    return 'NetworkError';
   }
 
-  return typeof error === "string" ? error : "UnknownError";
+  return typeof error === 'string' ? error : 'UnknownError';
 }
 
 /**

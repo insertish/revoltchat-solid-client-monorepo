@@ -1,28 +1,27 @@
-import type { ComponentProps } from "solid-js";
+import type { ComponentProps } from 'solid-js';
 
-import type { ComponentStory } from "../../../stories";
-
-import { Preloader } from "./Preloader";
+import type { ComponentStory } from '../../../stories';
+import { Preloader } from './Preloader';
 
 export default {
-  category: "Design System/Atoms/Indicators",
+  category: 'Design System/Atoms/Indicators',
   component: Preloader,
   stories: [
     {
-      title: "Ring",
+      title: 'Ring',
       props: {
-        type: "ring",
+        type: 'ring',
       },
     },
     {
-      title: "Spinner",
+      title: 'Spinner',
       props: {
-        type: "spinner",
+        type: 'spinner',
       },
     },
   ],
   propTypes: {
-    type: ["ring", "spinner"],
-    grow: "boolean",
+    type: ['ring', 'spinner'],
+    grow: 'boolean',
   },
 } as ComponentStory<typeof Preloader, ComponentProps<typeof Preloader>>;

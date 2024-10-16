@@ -1,9 +1,4 @@
-import { BiRegularAbacus, BiRegularGlobe, BiSolidFlag } from "solid-icons/bi";
-import { Show } from "solid-js";
-
-import { ServerFlags } from "revolt.js";
-
-import { useClient } from "@revolt/client";
+import { useClient } from '@revolt/client';
 import {
   CategoryButton,
   CategoryButtonGroup,
@@ -12,9 +7,12 @@ import {
   Column,
   FormGroup,
   Typography,
-} from "@revolt/ui";
+} from '@revolt/ui';
+import { ServerFlags } from 'revolt.js';
+import { BiRegularAbacus, BiRegularGlobe, BiSolidFlag } from 'solid-icons/bi';
+import { Show } from 'solid-js';
 
-import { ServerSettingsProps } from ".";
+import type { ServerSettingsProps } from '.';
 
 /**
  * Server overview
@@ -23,19 +21,19 @@ export default function ServerOverview(props: ServerSettingsProps) {
   const user = useClient();
 
   return (
-    <Column gap="xl">
+    <Column gap='xl'>
       <Show when={user().user?.privileged}>
         <Column>
-          <Typography variant="label">Platform</Typography>
+          <Typography variant='label'>Platform</Typography>
           <CategoryButtonGroup>
             <CategoryCollapse
-              title="Flags"
+              title='Flags'
               icon={<BiSolidFlag size={24} />}
-              description="Set visible badges on server"
+              description='Set visible badges on server'
             >
               <FormGroup>
                 <CategoryButton
-                  icon="blank"
+                  icon='blank'
                   action={
                     <Checkbox
                       value={!props.server.flags}
@@ -53,7 +51,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
               </FormGroup>
               <FormGroup>
                 <CategoryButton
-                  icon="blank"
+                  icon='blank'
                   action={
                     <Checkbox
                       value={props.server.flags === ServerFlags.Official}
@@ -71,7 +69,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
               </FormGroup>
               <FormGroup>
                 <CategoryButton
-                  icon="blank"
+                  icon='blank'
                   action={
                     <Checkbox
                       value={props.server.flags === ServerFlags.Verified}
@@ -90,7 +88,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
             </CategoryCollapse>
             <FormGroup>
               <CategoryButton
-                description="Message counts will be collected for server"
+                description='Message counts will be collected for server'
                 icon={<BiRegularAbacus size={24} />}
                 action={
                   <Checkbox
@@ -109,7 +107,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
             </FormGroup>
             <FormGroup>
               <CategoryButton
-                description="Server can be joined from Discover"
+                description='Server can be joined from Discover'
                 icon={<BiRegularGlobe size={24} />}
                 action={
                   <Checkbox

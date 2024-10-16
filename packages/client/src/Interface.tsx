@@ -1,18 +1,17 @@
-import { Component, JSX, Match, Switch, onCleanup, onMount } from "solid-js";
+import { ChannelContextMenu, ServerContextMenu } from '@revolt/app';
+import { clientController } from '@revolt/client';
+import { State, TransitionType } from '@revolt/client/Controller';
+import { KeybindAction } from '@revolt/keybinds';
+import { modalController } from '@revolt/modal';
+import { Navigate, useBeforeLeave } from '@revolt/routing';
+import { state } from '@revolt/state';
+import { Button, Preloader, styled } from '@revolt/ui';
+import { useKeybindActions } from '@revolt/ui/components/context/Keybinds';
+import { Server } from 'revolt.js';
+import type { JSX } from 'solid-js';
+import { Component, Match, onCleanup, onMount, Switch } from 'solid-js';
 
-import { Server } from "revolt.js";
-
-import { ChannelContextMenu, ServerContextMenu } from "@revolt/app";
-import { clientController } from "@revolt/client";
-import { State, TransitionType } from "@revolt/client/Controller";
-import { KeybindAction } from "@revolt/keybinds";
-import { modalController } from "@revolt/modal";
-import { Navigate, useBeforeLeave } from "@revolt/routing";
-import { state } from "@revolt/state";
-import { Button, Preloader, styled } from "@revolt/ui";
-import { useKeybindActions } from "@revolt/ui/components/context/Keybinds";
-
-import { Sidebar } from "./interface/Sidebar";
+import { Sidebar } from './interface/Sidebar';
 
 /**
  * Application layout
@@ -22,13 +21,13 @@ const Interface = (props: { children: JSX.Element }) => {
 
   useBeforeLeave((e) => {
     if (!e.defaultPrevented) {
-      if (e.to === "/settings") {
+      if (e.to === '/settings') {
         e.preventDefault();
         modalController.push({
-          type: "settings",
-          config: "user",
+          type: 'settings',
+          config: 'user',
         });
-      } else if (typeof e.to === "string") {
+      } else if (typeof e.to === 'string') {
         state.layout.setLastActivePath(e.to);
       }
     }
@@ -49,20 +48,20 @@ const Interface = (props: { children: JSX.Element }) => {
   });
 
   return (
-    <Switch fallback={<Preloader grow type="spinner" />}>
+    <Switch fallback={<Preloader grow type='spinner' />}>
       <Match when={!clientController.isLoggedIn()}>
-        <Navigate href="/login" />
+        <Navigate href='/login' />
       </Match>
       <Match when={clientController.lifecycle.loadedOnce()}>
         <div
           style={{
-            display: "flex",
-            "flex-direction": "column",
-            height: "100%",
+            display: 'flex',
+            'flex-direction': 'column',
+            height: '100%',
           }}
         >
           <Notice>
-            ⚠️ This is beta software, things will break! State:{" "}
+            ⚠️ This is beta software, things will break! State:{' '}
             <Switch>
               <Match
                 when={clientController.lifecycle.state() === State.Connecting}
@@ -77,7 +76,7 @@ const Interface = (props: { children: JSX.Element }) => {
               <Match
                 when={clientController.lifecycle.state() === State.Disconnected}
               >
-                Disconnected{" "}
+                Disconnected{' '}
                 <a
                   onClick={() =>
                     clientController.lifecycle.transition({
@@ -101,9 +100,9 @@ const Interface = (props: { children: JSX.Element }) => {
             </Switch>
           </Notice>
           <Layout
-            style={{ "flex-grow": 1, "min-height": 0 }}
+            style={{ 'flex-grow': 1, 'min-height': 0 }}
             onDragOver={(e) => {
-              if (e.dataTransfer) e.dataTransfer.dropEffect = "none";
+              if (e.dataTransfer) e.dataTransfer.dropEffect = 'none';
             }}
             onDrop={(e) => e.preventDefault()}
           >
@@ -137,15 +136,15 @@ const Notice = styled.div`
     ${(props) => props.theme!.gap.md};
   padding: ${(props) => props.theme!.gap.md};
   background: ${(props) =>
-    props.theme!.colours["messaging-message-box-background"]};
-  color: ${(props) => props.theme!.colours["messaging-message-box-foreground"]};
+    props.theme!.colours['messaging-message-box-background']};
+  color: ${(props) => props.theme!.colours['messaging-message-box-foreground']};
   border-radius: ${(props) => props.theme!.borderRadius.md};
 `;
 
 /**
  * Parent container
  */
-const Layout = styled("div", "Layout")`
+const Layout = styled('div', 'Layout')`
   display: flex;
   height: 100%;
 `;

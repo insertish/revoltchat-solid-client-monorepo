@@ -1,27 +1,25 @@
-import { For, Match, Show, Switch, createMemo, onMount } from "solid-js";
-
-import { VirtualContainer } from "@minht11/solid-virtual-container";
-import { Channel, ServerMember, User } from "revolt.js";
-import { styled } from "styled-system/jsx";
-
-import { floatingUserMenus } from "@revolt/app/menus/UserContextMenu";
-import { useClient } from "@revolt/client";
-import { useTranslation } from "@revolt/i18n";
-import { TextWithEmoji } from "@revolt/markdown";
-import { userInformation } from "@revolt/markdown/users";
+import { VirtualContainer } from '@minht11/solid-virtual-container';
+import { floatingUserMenus } from '@revolt/app/menus/UserContextMenu';
+import { useClient } from '@revolt/client';
+import { useTranslation } from '@revolt/i18n';
+import { TextWithEmoji } from '@revolt/markdown';
+import { userInformation } from '@revolt/markdown/users';
 import {
   Avatar,
   Deferred,
   MenuButton,
   OverflowingText,
   Row,
+  styled as styledLegacy,
   Tooltip,
   Typography,
+  Username,
   UserStatus,
   UserStatusGraphic,
-  Username,
-  styled as styledLegacy,
-} from "@revolt/ui";
+} from '@revolt/ui';
+import type { Channel, ServerMember, User } from 'revolt.js';
+import { createMemo, Match, onMount, Show, Switch } from 'solid-js';
+import { styled } from 'styled-system/jsx';
 
 interface Props {
   /**
@@ -36,10 +34,10 @@ interface Props {
 export function MemberSidebar(props: Props) {
   return (
     <Switch>
-      <Match when={props.channel.type === "Group"}>
+      <Match when={props.channel.type === 'Group'}>
         <GroupMemberSidebar channel={props.channel} />
       </Match>
-      <Match when={props.channel.type === "TextChannel"}>
+      <Match when={props.channel.type === 'TextChannel'}>
         <ServerMemberSidebar channel={props.channel} />
       </Match>
     </Switch>
@@ -49,7 +47,7 @@ export function MemberSidebar(props: Props) {
 /**
  * Servers to not fetch all members for
  */
-const IGNORE_ALL = ["01F7ZSBSFHQ8TA81725KQCSDDP", "01F80118K1F2EYD9XAMCPQ0BCT"];
+const IGNORE_ALL = ['01F7ZSBSFHQ8TA81725KQCSDDP', '01F80118K1F2EYD9XAMCPQ0BCT'];
 
 /**
  * Server Member Sidebar
@@ -82,7 +80,7 @@ export function ServerMemberSidebar(props: Props) {
     const [members] = stage1();
     if (props.channel.potentiallyRestrictedChannel) {
       return members.filter((member) =>
-        member.hasPermission(props.channel, "ViewChannel")
+        member.hasPermission(props.channel, 'ViewChannel')
       );
     } else {
       return members;
@@ -99,7 +97,7 @@ export function ServerMemberSidebar(props: Props) {
 
     for (const member of members) {
       if (!member.user?.online) {
-        byRole["offline"].push(member);
+        byRole['offline'].push(member);
         continue;
       }
 
@@ -116,7 +114,7 @@ export function ServerMemberSidebar(props: Props) {
         if (assigned) continue;
       }
 
-      byRole["default"].push(member);
+      byRole['default'].push(member);
     }
 
     return [
@@ -126,17 +124,17 @@ export function ServerMemberSidebar(props: Props) {
       })),
       {
         role: {
-          id: "default",
-          name: "Online",
+          id: 'default',
+          name: 'Online',
         },
-        members: byRole["default"],
+        members: byRole['default'],
       },
       {
         role: {
-          id: "offline",
-          name: "Offline",
+          id: 'offline',
+          name: 'Offline',
         },
-        members: byRole["offline"],
+        members: byRole['offline'],
       },
     ].filter((entry) => entry.members.length);
   });
@@ -150,7 +148,7 @@ export function ServerMemberSidebar(props: Props) {
       members: [...entry.members].sort(
         (a, b) =>
           (a.nickname ?? a.user?.displayName)?.localeCompare(
-            b.nickname ?? b.user?.displayName ?? ""
+            b.nickname ?? b.user?.displayName ?? ''
           ) || 0
       ),
     }));
@@ -210,15 +208,15 @@ export function ServerMemberSidebar(props: Props) {
     <Base
       ref={scrollTargetElement}
       use:scrollable={{
-        direction: "y",
+        direction: 'y',
         showOnHover: true,
       }}
     >
       <Container>
-        <MemberTitle bottomMargin="yes">
-          <Typography variant="category">
+        <MemberTitle bottomMargin='yes'>
+          <Typography variant='category'>
             <Row align>
-              <UserStatus size="0.7em" status="Online" />
+              <UserStatus size='0.7em' status='Online' />
               {
                 client().serverMembers.filter(
                   (member) =>
@@ -226,7 +224,7 @@ export function ServerMemberSidebar(props: Props) {
                       member.user?.online) ||
                     false
                 ).length
-              }{" "}
+              }{' '}
               members online
             </Row>
           </Typography>
@@ -242,14 +240,14 @@ export function ServerMemberSidebar(props: Props) {
               <div
                 style={{
                   ...item.style,
-                  width: "100%",
+                  width: '100%',
                 }}
               >
                 <Switch
                   fallback={
                     <CategoryTitle>
-                      <Typography variant="category">
-                        {(item.item as { name: string }).name} {"–"}{" "}
+                      <Typography variant='category'>
+                        {(item.item as { name: string }).name} {'–'}{' '}
                         {(item.item as { count: number }).count}
                       </Typography>
                     </CategoryTitle>
@@ -280,13 +278,13 @@ export function GroupMemberSidebar(props: Props) {
     <Base
       ref={scrollTargetElement}
       use:scrollable={{
-        direction: "y",
+        direction: 'y',
         showOnHover: true,
       }}
     >
       <Container>
         <MemberTitle>
-          <Typography variant="category">
+          <Typography variant='category'>
             <Row align>{props.channel.recipientIds.size} members</Row>
           </Typography>
         </MemberTitle>
@@ -303,7 +301,7 @@ export function GroupMemberSidebar(props: Props) {
               <div
                 style={{
                   ...item.style,
-                  width: "100%",
+                  width: '100%',
                 }}
               >
                 <Member user={item.item} />
@@ -322,20 +320,20 @@ export function GroupMemberSidebar(props: Props) {
 const Base = styledLegacy.div`
   flex-shrink: 0;
 
-  width: ${(props) => props.theme!.layout.width["channel-sidebar"]};
-  margin: ${(props) => (props.theme!.gap.md + " ").repeat(3)}0;
+  width: ${(props) => props.theme!.layout.width['channel-sidebar']};
+  margin: ${(props) => (props.theme!.gap.md + ' ').repeat(3)}0;
   margin-top: calc(48px + 2 * ${(props) => props.theme!.gap.md});
   border-radius: ${(props) => props.theme!.borderRadius.lg};
 
-  color: ${({ theme }) => theme!.colours["sidebar-channels-foreground"]};
-  background: ${({ theme }) => theme!.colours["sidebar-channels-background"]};
+  color: ${({ theme }) => theme!.colours['sidebar-channels-foreground']};
+  background: ${({ theme }) => theme!.colours['sidebar-channels-background']};
 `;
 
 /**
  * Container styles
  */
 const Container = styledLegacy.div`
-  width: ${(props) => props.theme!.layout.width["channel-sidebar"]};
+  width: ${(props) => props.theme!.layout.width['channel-sidebar']};
 `;
 
 /**
@@ -348,16 +346,16 @@ const CategoryTitle = styledLegacy.div`
 /**
  * Member title
  */
-const MemberTitle = styled("div", {
+const MemberTitle = styled('div', {
   base: {
-    marginTop: "12px",
-    marginLeft: "14px",
+    marginTop: '12px',
+    marginLeft: '14px',
   },
   variants: {
     bottomMargin: {
       no: {},
       yes: {
-        marginBottom: "-12px",
+        marginBottom: '-12px',
       },
     },
   },
@@ -366,18 +364,19 @@ const MemberTitle = styled("div", {
 /**
  * Styles required to correctly display name and status
  */
-const NameStatusStack = styled("div", {
+const NameStatusStack = styled('div', {
   base: {
-    height: "100%",
+    height: '100%',
 
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
 });
 
 /**
  * Member
+ * TODO: Type discrimination correctly.
  */
 function Member(props: { user?: User; member?: ServerMember }) {
   const t = useTranslation();
@@ -393,7 +392,7 @@ function Member(props: { user?: User; member?: ServerMember }) {
    */
   const status = () =>
     (props.user ?? props.member?.user)?.statusMessage((presence) =>
-      t(`app.status.${presence.toLowerCase()}`)
+      t(`app.status.${presence.toLowerCase() as Lowercase<typeof presence>}`)
     );
 
   return (
@@ -404,15 +403,15 @@ function Member(props: { user?: User; member?: ServerMember }) {
       )}
     >
       <MenuButton
-        size="normal"
+        size='normal'
         attention={
-          (props.user ?? props.member?.user)?.online ? "active" : "muted"
+          (props.user ?? props.member?.user)?.online ? 'active' : 'muted'
         }
         icon={
           <Avatar
             src={user().avatar}
             size={32}
-            holepunch="bottom-right"
+            holepunch='bottom-right'
             overlay={
               <UserStatusGraphic
                 status={(props.user ?? props.member?.user)?.presence}
@@ -428,11 +427,11 @@ function Member(props: { user?: User; member?: ServerMember }) {
           <Show when={status()}>
             <Tooltip
               content={() => <TextWithEmoji content={status()!} />}
-              placement="top-start"
+              placement='top-start'
               aria={status()!}
             >
               <OverflowingText>
-                <Typography variant="status">
+                <Typography variant='status'>
                   <TextWithEmoji content={status()!} />
                 </Typography>
               </OverflowingText>

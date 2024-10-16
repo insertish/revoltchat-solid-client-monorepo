@@ -1,10 +1,10 @@
-import { Show } from "solid-js";
-import { styled } from "solid-styled-components";
+import { Show } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
 /**
  * Divider line
  */
-const Base = styled("div")<{ unread?: boolean }>`
+const Base = styled('div')<{ unread?: boolean }>`
   height: 0;
   display: flex;
   user-select: none;
@@ -21,7 +21,7 @@ const Base = styled("div")<{ unread?: boolean }>`
     border-radius: ${(props) => props.theme!.borderRadius.md};
 
     color: ${({ theme }) =>
-      theme!.colours["messaging-component-message-divider-foreground"]};
+      theme!.colours['messaging-component-message-divider-foreground']};
     background: ${({ theme }) => theme!.colours.background};
   }
 
@@ -29,7 +29,7 @@ const Base = styled("div")<{ unread?: boolean }>`
     ${({ unread, theme }) =>
       theme!.colours[
         `messaging-component-message-divider${
-          unread ? "-unread" : ""
+          unread ? '-unread' : ''
         }-background`
       ]};
 `;
@@ -37,13 +37,13 @@ const Base = styled("div")<{ unread?: boolean }>`
 /**
  * Unread indicator
  */
-const Unread = styled("div")`
+const Unread = styled('div')`
   font-size: 0.625rem;
   font-weight: 600;
   color: ${({ theme }) =>
-    theme!.colours["messaging-component-message-divider-unread-foreground"]};
+    theme!.colours['messaging-component-message-divider-unread-foreground']};
   background: ${({ theme }) =>
-    theme!.colours["messaging-component-message-divider-unread-background"]};
+    theme!.colours['messaging-component-message-divider-unread-background']};
 
   padding: 2px 6px;
   margin-top: -1px;

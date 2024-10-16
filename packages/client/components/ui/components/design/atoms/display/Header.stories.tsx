@@ -1,20 +1,19 @@
-import type { ComponentProps } from "solid-js";
+import type { ComponentProps } from 'solid-js';
 
-import TextColourDecorator from "../../../../decorators/TextColourDecorator";
-import type { ComponentStory } from "../../../stories";
-import { Column } from "../../layout";
-
-import { Header, HeaderWithTransparency } from "./Header";
+import TextColourDecorator from '../../../../decorators/TextColourDecorator';
+import type { ComponentStory } from '../../../stories';
+import { Column } from '../../layout';
+import { Header, HeaderWithTransparency } from './Header';
 
 export default {
-  category: "Design System/Atoms/Display",
+  category: 'Design System/Atoms/Display',
   component: Header,
   stories: [
     {
-      title: "Default",
+      title: 'Default',
     },
     {
-      title: "With Transparency",
+      title: 'With Transparency',
       component: HeaderWithTransparency,
       decorators: [
         (props) => (
@@ -31,10 +30,10 @@ export default {
     },
   ],
   props: {
-    children: "My Cool Server",
+    children: 'My Cool Server',
   },
   decorators: [TextColourDecorator],
   propTypes: {
-    children: "string",
+    children: 'string',
   },
 } as ComponentStory<typeof Header, ComponentProps<typeof Header>>;

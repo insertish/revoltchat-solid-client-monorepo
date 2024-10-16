@@ -1,13 +1,11 @@
-import { BiRegularAt, BiSolidXCircle } from "solid-icons/bi";
-import { Show } from "solid-js";
-import { styled } from "solid-styled-components";
+import { useTranslation } from '@revolt/i18n';
+import type { Message } from 'revolt.js';
+import { BiRegularAt, BiSolidXCircle } from 'solid-icons/bi';
+import { Show } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import type { Message } from "revolt.js";
-
-import { useTranslation } from "@revolt/i18n";
-
-import { Row } from "../../design";
-import { MessageReply } from "../message/MessageReply";
+import { Row } from '../../design';
+import { MessageReply } from '../message/MessageReply';
 
 interface Props {
   /**
@@ -56,7 +54,7 @@ const MentionToggle = styled.a<{ mention: boolean }>`
 
   color: ${(props) =>
     props.theme!.colours[
-      `messaging-indicator-reply-${props.mention ? "enabled" : "disabled"}`
+      `messaging-indicator-reply-${props.mention ? 'enabled' : 'disabled'}`
     ]};
 `;
 
@@ -78,9 +76,9 @@ const Base = styled(Row)`
   padding: ${(props) => props.theme!.gap.md} ${(props) => props.theme!.gap.lg};
   border-radius: ${(props) => props.theme!.borderRadius.lg};
 
-  color: ${(props) => props.theme!.colours["messaging-indicator-foreground"]};
+  color: ${(props) => props.theme!.colours['messaging-indicator-foreground']};
   background: ${(props) =>
-    props.theme!.colours["messaging-indicator-background"]};
+    props.theme!.colours['messaging-indicator-background']};
 
   a:hover {
     filter: brightness(1.2);
@@ -94,14 +92,14 @@ export function MessageReplyPreview(props: Props) {
   const t = useTranslation();
 
   return (
-    <Base gap="md" align>
-      <ReplyTo>{t("app.main.channel.reply.replying")}</ReplyTo>
+    <Base gap='md' align>
+      <ReplyTo>{t('app.main.channel.reply.replying')}</ReplyTo>
       <MessageReply message={props.message} noDecorations />
-      <Row gap="lg" align>
+      <Row gap='lg' align>
         <Show when={!props.self}>
           <MentionToggle mention={props.mention} onClick={props.toggle}>
             <BiRegularAt size={16} />
-            {props.mention ? t("general.on") : t("general.off")}
+            {props.mention ? t('general.on') : t('general.off')}
           </MentionToggle>
         </Show>
         <Dismiss onClick={props.dismiss}>

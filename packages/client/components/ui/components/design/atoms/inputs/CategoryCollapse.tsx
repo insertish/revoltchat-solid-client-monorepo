@@ -1,20 +1,13 @@
-import {
-  ComponentProps,
-  JSX,
-  Match,
-  Switch,
-  createSignal,
-  splitProps,
-} from "solid-js";
-import { styled } from "solid-styled-components";
+import type { ComponentProps, JSX } from 'solid-js';
+import { createSignal, Match, splitProps, Switch } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { Column } from "../../layout";
-
-import { CategoryButton } from "./CategoryButton";
+import { Column } from '../../layout';
+import { CategoryButton } from './CategoryButton';
 
 type Props = Omit<
   ComponentProps<typeof CategoryButton>,
-  "onClick" | "children"
+  'onClick' | 'children'
 > & {
   children?: JSX.Element;
   title?: JSX.Element;
@@ -26,7 +19,7 @@ type Props = Omit<
  * Category button with collapsed children (Fluent)
  */
 export function CategoryCollapse(props: Props) {
-  const [local, remote] = splitProps(props, ["action", "children"]);
+  const [local, remote] = splitProps(props, ['action', 'children']);
 
   const [opened, setOpened] = createSignal(false);
 
@@ -59,12 +52,12 @@ export function CategoryCollapse(props: Props) {
     <Details
       ref={details!}
       onClick={toggleOpened}
-      class={opened() ? "open" : undefined}
+      class={opened() ? 'open' : undefined}
     >
       <summary>
         <CategoryButton
           {...remote}
-          action={[local.action, "collapse"].flat()}
+          action={[local.action, 'collapse'].flat()}
           onClick={() => void 0}
         >
           {props.title}
@@ -73,7 +66,7 @@ export function CategoryCollapse(props: Props) {
       <Switch
         fallback={
           <StaticInnerColumn
-            gap="xs"
+            gap='xs'
             ref={column!}
             style={{ height: updatedHeight() }}
           >
@@ -83,7 +76,7 @@ export function CategoryCollapse(props: Props) {
       >
         <Match when={props.scrollable}>
           <InnerColumn
-            gap="xs"
+            gap='xs'
             ref={column!}
             style={{ height: updatedHeight() }}
             use:scrollable
@@ -158,7 +151,7 @@ const Details = styled.div`
   > :not(summary) .CategoryButton {
     /* and set child backgrounds */
     background: ${(props) =>
-      props.theme!.colours["component-categorybtn-background-collapse"]};
+      props.theme!.colours['component-categorybtn-background-collapse']};
   }
 
   /*> :not(summary) > :last-child.CategoryButton {

@@ -1,8 +1,7 @@
-import { MenuButton } from "../../design";
-import { Typography } from "../../design/atoms/display/Typography";
-import { Column } from "../../design/layout";
-
-import { SidebarBase } from "./common";
+import { MenuButton } from '../../design';
+import { Typography } from '../../design/atoms/display/Typography';
+import { Column } from '../../design/layout';
+import { SidebarBase } from './common';
 
 interface Props {
   /**
@@ -22,10 +21,10 @@ export const AdminSidebar = (props: Props) => {
       <div use:scrollable>
         <Column>
           <p>
-            <Typography variant="legacy-settings-title">Admin Panel</Typography>
+            <Typography variant='legacy-settings-title'>Admin Panel</Typography>
           </p>
-          <a onClick={() => props.openTab("inspector", "Inspector")}>
-            <MenuButton attention="active">Inspector</MenuButton>
+          <a onClick={() => props.openTab('inspector', 'Inspector')}>
+            <MenuButton attention='active'>Inspector</MenuButton>
           </a>
         </Column>
       </div>

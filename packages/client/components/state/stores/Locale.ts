@@ -1,38 +1,33 @@
-import {
-  Language,
-  Languages,
-  browserPreferredLanguage,
-  loadAndSetLanguage,
-} from "@revolt/i18n";
+import type { Language } from '@revolt/i18n';
+import { browserPreferredLanguage, Languages, setLanguage } from '@revolt/i18n';
 
-import { State } from "..";
+import type { State } from '..';
+import { AbstractStore } from '.';
 
-import { AbstractStore } from ".";
-
-export type TypeLocale = {
+export interface TypeLocale {
   /**
    * Current language in use
    */
   lang: Language;
-};
+}
 
 /**
  * Manage localisation of the application
  */
-export class Locale extends AbstractStore<"locale", TypeLocale> {
+export class Locale extends AbstractStore<'locale', TypeLocale> {
   /**
    * Construct store
    * @param state State
    */
   constructor(state: State) {
-    super(state, "locale");
+    super(state, 'locale');
   }
 
   /**
    * Hydrate external context
    */
   hydrate(): void {
-    loadAndSetLanguage(this.get().lang);
+    setLanguage(this.get().lang);
   }
 
   /**
@@ -63,7 +58,7 @@ export class Locale extends AbstractStore<"locale", TypeLocale> {
    * @param language Language
    */
   switch(language: Language): void {
-    this.set("lang", language);
+    this.set('lang', language);
     this.hydrate();
   }
 }

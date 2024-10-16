@@ -2,14 +2,14 @@ import {
   BiRegularCheck,
   BiRegularCloudUpload,
   BiSolidPencil,
-} from "solid-icons/bi";
-import { Match, Switch } from "solid-js";
-import { styled } from "solid-styled-components";
+} from 'solid-icons/bi';
+import { Match, Switch } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
 /**
  * Text and icon styling
  */
-const Base = styled("div")`
+const Base = styled('div')`
   gap: 8px;
   padding: 4px;
   display: flex;
@@ -24,7 +24,7 @@ const Base = styled("div")`
 /**
  * Possible edit states
  */
-export type EditStatus = "saved" | "editing" | "saving";
+export type EditStatus = 'saved' | 'editing' | 'saving';
 
 interface Props {
   status: EditStatus;
@@ -37,10 +37,10 @@ export function SaveStatus(props: Props) {
   return (
     <Base>
       <Switch fallback={<BiRegularCheck size={20} />}>
-        <Match when={props.status === "editing"}>
+        <Match when={props.status === 'editing'}>
           <BiSolidPencil size={20} />
         </Match>
-        <Match when={props.status === "saving"}>
+        <Match when={props.status === 'saving'}>
           <BiRegularCloudUpload size={20} />
         </Match>
       </Switch>

@@ -1,13 +1,19 @@
-import { For, Match, Switch, createMemo } from "solid-js";
-
+import MdErrorFill from '@material-design-icons/svg/filled/error.svg?component-solid';
+import MdVerifiedFill from '@material-design-icons/svg/filled/verified.svg?component-solid';
+import MdCalendarMonth from '@material-design-icons/svg/outlined/calendar_month.svg?component-solid';
+import MdKeyboardTab from '@material-design-icons/svg/outlined/keyboard_tab.svg?component-solid';
+import MdKeyboardTabRtl from '@material-design-icons/svg/outlined/keyboard_tab.svg?component-solid';
+import MdLanguage from '@material-design-icons/svg/outlined/language.svg?component-solid';
+import MdSchedule from '@material-design-icons/svg/outlined/schedule.svg?component-solid';
+import MdTranslate from '@material-design-icons/svg/outlined/translate.svg?component-solid';
 import {
-  Languages,
   browserPreferredLanguage,
   language,
-  loadAndSetLanguage,
+  Languages,
+  setLanguage,
   useTranslation,
-} from "@revolt/i18n";
-import { UnicodeEmoji } from "@revolt/markdown/emoji";
+} from '@revolt/i18n';
+import { UnicodeEmoji } from '@revolt/markdown/emoji';
 import {
   CategoryButton,
   CategoryButtonGroup,
@@ -15,27 +21,19 @@ import {
   Checkbox,
   Column,
   FormGroup,
+  iconSize,
   Row,
   Time,
-  iconSize,
   useTheme,
-} from "@revolt/ui";
-
-import MdErrorFill from "@material-design-icons/svg/filled/error.svg?component-solid";
-import MdVerifiedFill from "@material-design-icons/svg/filled/verified.svg?component-solid";
-import MdCalendarMonth from "@material-design-icons/svg/outlined/calendar_month.svg?component-solid";
-import MdKeyboardTab from "@material-design-icons/svg/outlined/keyboard_tab.svg?component-solid";
-import MdKeyboardTabRtl from "@material-design-icons/svg/outlined/keyboard_tab.svg?component-solid";
-import MdLanguage from "@material-design-icons/svg/outlined/language.svg?component-solid";
-import MdSchedule from "@material-design-icons/svg/outlined/schedule.svg?component-solid";
-import MdTranslate from "@material-design-icons/svg/outlined/translate.svg?component-solid";
+} from '@revolt/ui';
+import { createMemo, For, Match, Switch } from 'solid-js';
 
 /**
  * Language
  */
 export default function Language() {
   return (
-    <Column gap="lg">
+    <Column gap='lg'>
       <CategoryButtonGroup>
         <PickLanguage />
         {/* <ConfigureRTL /> */}
@@ -74,7 +72,7 @@ function PickLanguage() {
     if (preferredLanguage) {
       // This moves the user's system language to the top of the language list
       const prefLangKey = languages.find(
-        (lang) => lang[0].replace(/_/g, "-") == preferredLanguage
+        (lang) => lang[0].replace(/_/g, '-') == preferredLanguage
       );
 
       if (prefLangKey) {
@@ -92,7 +90,7 @@ function PickLanguage() {
   return (
     <CategoryCollapse
       icon={<MdLanguage {...iconSize(22)} />}
-      title={t("app.settings.pages.language.select")}
+      title={t('app.settings.pages.language.select')}
       description={currentLanguage().display}
       scrollable
     >
@@ -101,16 +99,16 @@ function PickLanguage() {
           <CategoryButton
             icon={<UnicodeEmoji emoji={lang.emoji} />}
             action={<Checkbox value={id === language()} />}
-            onClick={() => loadAndSetLanguage(id as never)}
+            onClick={() => setLanguage(id as never)}
           >
             <Row>
-              {lang.display}{" "}
+              {lang.display}{' '}
               {lang.verified && (
                 <MdVerifiedFill
                   {...iconSize(18)}
                   fill={theme!.colours.foreground}
                 />
-              )}{" "}
+              )}{' '}
               {lang.incomplete && (
                 <MdErrorFill
                   {...iconSize(18)}
@@ -135,35 +133,35 @@ function PickDateFormat() {
   return (
     <CategoryCollapse
       icon={<MdCalendarMonth {...iconSize(22)} />}
-      title="Select date format"
+      title='Select date format'
       description={`Traditional`}
     >
       <FormGroup>
         <CategoryButton
-          icon={"blank"}
+          icon={'blank'}
           onClick={() => void 0}
           action={<Checkbox value />}
-          description={<Time format="date" value={LastWeek} />}
+          description={<Time format='date' value={LastWeek} />}
         >
           Traditional (DD/MM/YYYY)
         </CategoryButton>
       </FormGroup>
       <FormGroup>
         <CategoryButton
-          icon={"blank"}
+          icon={'blank'}
           onClick={() => void 0}
           action={<Checkbox />}
-          description={<Time format="dateAmerican" value={LastWeek} />}
+          description={<Time format='dateAmerican' value={LastWeek} />}
         >
           American (MM/DD/YYYY)
         </CategoryButton>
       </FormGroup>
       <FormGroup>
         <CategoryButton
-          icon={"blank"}
+          icon={'blank'}
           onClick={() => void 0}
           action={<Checkbox />}
-          description={<Time format="iso8601" value={LastWeek} />}
+          description={<Time format='iso8601' value={LastWeek} />}
         >
           ISO8601 (YYYY/MM/DD)
         </CategoryButton>
@@ -179,25 +177,25 @@ function PickTimeFormat() {
   return (
     <CategoryCollapse
       icon={<MdSchedule {...iconSize(22)} />}
-      title="Select time format"
+      title='Select time format'
       description={`24 hours`}
     >
       <FormGroup>
         <CategoryButton
-          icon={"blank"}
+          icon={'blank'}
           onClick={() => void 0}
           action={<Checkbox value />}
-          description={<Time format="time24" value={new Date()} />}
+          description={<Time format='time24' value={new Date()} />}
         >
           24 hours
         </CategoryButton>
       </FormGroup>
       <FormGroup>
         <CategoryButton
-          icon={"blank"}
+          icon={'blank'}
           onClick={() => void 0}
           action={<Checkbox />}
-          description={<Time format="time12" value={new Date()} />}
+          description={<Time format='time12' value={new Date()} />}
         >
           12 hours
         </CategoryButton>
@@ -220,7 +218,7 @@ function ConfigureRTL() {
       fallback={
         <CategoryButton
           icon={<MdKeyboardTabRtl {...iconSize(22)} />}
-          description="Flip the user interface right to left"
+          description='Flip the user interface right to left'
           action={<Checkbox />}
           onClick={() => void 0}
         >
@@ -231,7 +229,7 @@ function ConfigureRTL() {
       <Match when={currentLanguage().rtl}>
         <CategoryButton
           icon={<MdKeyboardTab {...iconSize(22)} />}
-          description="Keep the user interface left to right"
+          description='Keep the user interface left to right'
           action={<Checkbox />}
           onClick={() => void 0}
         >
@@ -247,12 +245,12 @@ function ConfigureRTL() {
  */
 function ContributeLanguageLink() {
   return (
-    <a href="https://weblate.insrt.uk/engage/revolt/" target="_blank">
+    <a href='https://weblate.insrt.uk/engage/revolt/' target='_blank'>
       <CategoryButton
-        action="external"
+        action='external'
         icon={<MdTranslate {...iconSize(22)} />}
         onClick={() => void 0}
-        description="Help contribute to an existing or new language"
+        description='Help contribute to an existing or new language'
       >
         Contribute a language
       </CategoryButton>

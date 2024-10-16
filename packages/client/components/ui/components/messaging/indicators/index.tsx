@@ -1,2 +1,2 @@
-export { NewMessages } from "./NewMessages";
-export { JumpToBottom } from "./JumpToBottom";
+export { JumpToBottom } from './JumpToBottom';
+export { NewMessages } from './NewMessages';

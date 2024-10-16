@@ -1,28 +1,26 @@
-import { ErrorBoundary, For, Suspense } from "solid-js";
-
-import { useClient } from "@revolt/client";
-import { createOwnBotsResource } from "@revolt/client/resources";
-import { modalController } from "@revolt/modal";
+import MdLibraryBooks from '@material-design-icons/svg/outlined/library_books.svg?component-solid';
+import MdSmartToy from '@material-design-icons/svg/outlined/smart_toy.svg?component-solid';
+import { useClient } from '@revolt/client';
+import { createOwnBotsResource } from '@revolt/client/resources';
+import { modalController } from '@revolt/modal';
 import {
   Avatar,
   CategoryButton,
   CategoryButtonGroup,
   Column,
-  Preloader,
   iconSize,
-} from "@revolt/ui";
+  Preloader,
+} from '@revolt/ui';
+import { ErrorBoundary, For, Suspense } from 'solid-js';
 
-import MdLibraryBooks from "@material-design-icons/svg/outlined/library_books.svg?component-solid";
-import MdSmartToy from "@material-design-icons/svg/outlined/smart_toy.svg?component-solid";
-
-import { useSettingsNavigation } from "../../Settings";
+import { useSettingsNavigation } from '../../Settings';
 
 /**
  * View all owned bots
  */
 export function MyBots() {
   return (
-    <Column gap="lg">
+    <Column gap='lg'>
       <CreateBot />
       <ListBots />
     </Column>
@@ -39,26 +37,26 @@ function CreateBot() {
   return (
     <CategoryButtonGroup>
       <CategoryButton
-        action="chevron"
+        action='chevron'
         icon={<MdSmartToy {...iconSize(22)} />}
         onClick={() =>
           modalController.push({
-            type: "create_bot",
+            type: 'create_bot',
             client: client(),
             onCreate(bot) {
               navigate(`bots/${bot.id}`);
             },
           })
         }
-        description="You agree that your bot is subject to the Acceptable Usage Policy."
+        description='You agree that your bot is subject to the Acceptable Usage Policy.'
       >
         Create Bot
       </CategoryButton>
       <CategoryButton
-        action="external"
+        action='external'
         icon={<MdLibraryBooks {...iconSize(22)} />}
-        onClick={() => window.open("https://developers.revolt.chat", "_blank")}
-        description="Learn more about how to create bots on Revolt."
+        onClick={() => window.open('https://developers.revolt.chat', '_blank')}
+        description='Learn more about how to create bots on Revolt.'
       >
         Developer Documentation
       </CategoryButton>
@@ -74,8 +72,8 @@ function ListBots() {
   const bots = createOwnBotsResource();
 
   return (
-    <ErrorBoundary fallback="Failed to load bots...">
-      <Suspense fallback={<Preloader type="ring" />}>
+    <ErrorBoundary fallback='Failed to load bots...'>
+      <Suspense fallback={<Preloader type='ring' />}>
         <CategoryButtonGroup>
           <For each={bots.data}>
             {(bot) => (
@@ -88,7 +86,7 @@ function ListBots() {
                   />
                 }
                 onClick={() => navigate(`bots/${bot.id}`)}
-                action="chevron"
+                action='chevron'
                 // description={bot.id}
               >
                 {bot.user!.displayName}

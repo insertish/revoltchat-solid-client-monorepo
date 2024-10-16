@@ -1,10 +1,9 @@
-import { For, Match, Switch, createSignal } from "solid-js";
+import { dayjs, useTranslation } from '@revolt/i18n';
+import { CategoryButton, Column, styled } from '@revolt/ui';
+import type { Action } from '@revolt/ui/components/design/atoms/display/Modal';
+import { createSignal, For, Match, Switch } from 'solid-js';
 
-import { dayjs, useTranslation } from "@revolt/i18n";
-import { CategoryButton, Column, styled } from "@revolt/ui";
-import type { Action } from "@revolt/ui/components/design/atoms/display/Modal";
-
-import { PropGenerator } from "../types";
+import type { PropGenerator } from '../types';
 
 /**
  * Changelog element
@@ -12,7 +11,7 @@ import { PropGenerator } from "../types";
 type Element =
   | string
   | {
-      type: "image";
+      type: 'image';
       src: string;
     };
 
@@ -28,10 +27,9 @@ export interface ChangelogPost {
 /**
  * Modal to display changelog
  */
-const Changelog: PropGenerator<"changelog"> = (props) => {
+const Changelog: PropGenerator<'changelog'> = (props) => {
   const t = useTranslation();
 
-  // eslint-disable-next-line solid/reactivity
   const [log, setLog] = createSignal(props.initial);
 
   /**
@@ -39,16 +37,16 @@ const Changelog: PropGenerator<"changelog"> = (props) => {
    * @returns Log
    */
   const currentLog = () =>
-    typeof log() !== "undefined" ? props.posts[log()!] : undefined;
+    typeof log() !== 'undefined' ? props.posts[log()!] : undefined;
 
   return {
     title: (
-      <Switch fallback={t("app.special.modals.changelogs.title")}>
+      <Switch fallback={t('app.special.modals.changelogs.title')}>
         <Match when={currentLog()}>{currentLog()!.title}</Match>
       </Switch>
     ),
     description: (
-      <Switch fallback={t("app.special.modals.changelogs.description")}>
+      <Switch fallback={t('app.special.modals.changelogs.description')}>
         <Match when={currentLog()}>
           {dayjs(currentLog()!.date).calendar()}
         </Match>
@@ -57,16 +55,16 @@ const Changelog: PropGenerator<"changelog"> = (props) => {
     actions: () => {
       const actions: Action[] = [
         {
-          variant: "primary",
-          children: t("app.special.modals.actions.close"),
+          variant: 'primary',
+          children: t('app.special.modals.actions.close'),
           onClick: () => true,
         },
       ];
 
       if (currentLog()) {
         actions.push({
-          variant: "plain",
-          children: t("app.special.modals.changelogs.older"),
+          variant: 'plain',
+          children: t('app.special.modals.changelogs.older'),
           onClick: () => {
             setLog(undefined);
             return false;
@@ -114,8 +112,8 @@ function RenderLog(props: { post: ChangelogPost }) {
       <For each={props.post.content}>
         {(entry) => (
           <Switch>
-            <Match when={typeof entry === "string"}>{entry as string}</Match>
-            <Match when={typeof entry === "object" && entry.type === "image"}>
+            <Match when={typeof entry === 'string'}>{entry as string}</Match>
+            <Match when={typeof entry === 'object' && entry.type === 'image'}>
               <Image src={(entry as { src: string }).src} />
             </Match>
           </Switch>

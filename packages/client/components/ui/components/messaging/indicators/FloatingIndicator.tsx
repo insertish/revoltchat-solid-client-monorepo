@@ -1,12 +1,12 @@
-import { styled } from "solid-styled-components";
+import { styled } from 'solid-styled-components';
 
-import { generateTypographyCSS } from "../../design/atoms/display/Typography";
+import { generateTypographyCSS } from '../../design/atoms/display/Typography';
 
 /**
  * Common styles for the floating indicators
  */
-export const FloatingIndicator = styled("div", "FloatingIndicator")<{
-  position: "top" | "bottom";
+export const FloatingIndicator = styled('div', 'FloatingIndicator')<{
+  position: 'top' | 'bottom';
 }>`
   display: flex;
   user-select: none;
@@ -19,16 +19,16 @@ export const FloatingIndicator = styled("div", "FloatingIndicator")<{
 
   cursor: pointer;
   backdrop-filter: ${(props) => props.theme!.effects.blur.md};
-  color: ${(props) => props.theme!.colours["messaging-indicator-foreground"]};
+  color: ${(props) => props.theme!.colours['messaging-indicator-foreground']};
   background-color: ${(props) =>
-    props.theme!.colours["messaging-indicator-background"]};
+    props.theme!.colours['messaging-indicator-background']};
 
-  ${(props) => generateTypographyCSS(props.theme!, "conversation-indicator")}
+  ${(props) => generateTypographyCSS(props.theme!, 'conversation-indicator')}
 
   @keyframes anim {
     0% {
       transform: translateY(
-        ${(props) => (props.position === "top" ? "-33px" : "33px")}
+        ${(props) => (props.position === 'top' ? '-33px' : '33px')}
       );
     }
     100% {

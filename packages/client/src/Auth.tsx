@@ -1,4 +1,4 @@
-import { AuthPage } from "@revolt/auth";
+import { AuthPage } from '@revolt/auth';
 
 /**
  * Re-export to take advantage of lazy-loaded components

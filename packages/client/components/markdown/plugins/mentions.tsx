@@ -1,36 +1,34 @@
-import { Match, Show, Switch } from "solid-js";
+import { UserContextMenu } from '@revolt/app';
+import { Avatar, ColouredText } from '@revolt/ui';
+import type { Handler } from 'mdast-util-to-hast';
+import { Match, Show, Switch } from 'solid-js';
+import { cva } from 'styled-system/css';
+import type { Plugin } from 'unified';
+import { visit } from 'unist-util-visit';
 
-import { Handler } from "mdast-util-to-hast";
-import { cva } from "styled-system/css";
-import { Plugin } from "unified";
-import { visit } from "unist-util-visit";
-
-import { UserContextMenu } from "@revolt/app";
-import { Avatar, ColouredText } from "@revolt/ui";
-
-import { useUser } from "../users";
+import { useUser } from '../users';
 
 const mention = cva({
   base: {
-    verticalAlign: "bottom",
+    verticalAlign: 'bottom',
 
-    gap: "4px",
-    paddingLeft: "2px",
-    paddingRight: "6px",
-    alignItems: "center",
-    display: "inline-flex",
+    gap: '4px',
+    paddingLeft: '2px',
+    paddingRight: '6px',
+    alignItems: 'center',
+    display: 'inline-flex',
 
-    cursor: "pointer",
+    cursor: 'pointer',
     fontWeight: 600,
-    borderRadius: "var(--borderRadius-lg)",
-    color: "var(--colours-messaging-component-mention-foreground)",
-    background: "var(--colours-messaging-component-mention-background)",
+    borderRadius: 'var(--borderRadius-lg)',
+    color: 'var(--colours-messaging-component-mention-foreground)',
+    background: 'var(--colours-messaging-component-mention-background)',
   },
   variants: {
     valid: {
       false: {
-        paddingLeft: "6px",
-        cursor: "not-allowed",
+        paddingLeft: '6px',
+        cursor: 'not-allowed',
       },
     },
   },
@@ -59,7 +57,7 @@ export function RenderMention(props: { userId: string }) {
           <Avatar size={16} src={user().avatar} fallback={user().username} />
           <ColouredText
             colour={user().colour!}
-            clip={user().colour?.includes("gradient")}
+            clip={user().colour?.includes('gradient')}
           >
             {user().username}
           </ColouredText>
@@ -77,12 +75,12 @@ export const remarkMentions: Plugin = () => (tree) => {
   // chain, so instead we just convert these links where appropriate!
   visit(
     tree,
-    "link",
-    (node: { type: "link"; url: string }, idx, parent: { children: any[] }) => {
+    'link',
+    (node: { type: 'link'; url: string }, idx, parent: { children: any[] }) => {
       const match = RE_MENTION.exec(node.url);
       if (match) {
         parent.children.splice(idx, 1, {
-          type: "mention",
+          type: 'mention',
           userId: match[1],
         });
       }
@@ -121,8 +119,8 @@ export const remarkMentions: Plugin = () => (tree) => {
 
 export const mentionHandler: Handler = (h, node) => {
   return {
-    type: "element" as const,
-    tagName: "mention",
+    type: 'element' as const,
+    tagName: 'mention',
     children: [],
     properties: {
       userId: node.userId,

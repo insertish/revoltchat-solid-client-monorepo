@@ -1,6 +1,6 @@
-import { BiRegularCheck, BiSolidPalette } from "solid-icons/bi";
-import { For, Show, createSignal, splitProps } from "solid-js";
-import { styled } from "solid-styled-components";
+import { BiRegularCheck, BiSolidPalette } from 'solid-icons/bi';
+import { createSignal, For, Show, splitProps } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
 interface Props {
   readonly presets?: string[][];
@@ -9,30 +9,30 @@ interface Props {
 }
 
 interface SwatchProps {
-  type: "small" | "large";
+  type: 'small' | 'large';
   colour: string;
 }
 
 const DEFAULT_PRESETS = [
   [
-    "#7B68EE",
-    "#3498DB",
-    "#1ABC9C",
-    "#F1C40F",
-    "#FF7F50",
-    "#FD6671",
-    "#E91E63",
-    "#D468EE",
+    '#7B68EE',
+    '#3498DB',
+    '#1ABC9C',
+    '#F1C40F',
+    '#FF7F50',
+    '#FD6671',
+    '#E91E63',
+    '#D468EE',
   ],
   [
-    "#594CAD",
-    "#206694",
-    "#11806A",
-    "#C27C0E",
-    "#CD5B45",
-    "#FF424F",
-    "#AD1457",
-    "#954AA8",
+    '#594CAD',
+    '#206694',
+    '#11806A',
+    '#C27C0E',
+    '#CD5B45',
+    '#FF424F',
+    '#AD1457',
+    '#954AA8',
   ],
 ];
 
@@ -84,7 +84,7 @@ const Swatch = styled.div<SwatchProps>`
   }
 
   ${(props) =>
-    props.type === "small"
+    props.type === 'small'
       ? `
           height: 30px;
           width: 30px;
@@ -111,29 +111,29 @@ const Rows = styled.div`
 `;
 
 export function ColourSwatches(props: Props) {
-  let inputRef: HTMLInputElement | null = null!;
-  const [local, others] = splitProps(props, ["onChange", "presets", "value"]);
+  const inputRef: HTMLInputElement | null = null!;
+  const [local, others] = splitProps(props, ['onChange', 'presets', 'value']);
   const [controlledValue, setControlledValue] = createSignal<string>(
-    local.value || "#FD6671"
+    local.value || '#FD6671'
   );
 
   return (
     <Base {...others}>
       <input
         ref={inputRef}
-        type="color"
+        type='color'
         value={controlledValue()}
         onChange={(ev) => setControlledValue(ev.currentTarget.value)}
       />
       <Swatch
         colour={controlledValue()}
-        type="large"
+        type='large'
         onClick={() => inputRef!.click()}
       >
         <BiSolidPalette size={32} />
       </Swatch>
 
-      <div class="overlay">
+      <div class='overlay'>
         <div />
       </div>
       <Rows>
@@ -144,7 +144,7 @@ export function ColourSwatches(props: Props) {
                 {(swatch) => (
                   <Swatch
                     colour={swatch}
-                    type="small"
+                    type='small'
                     onClick={() => setControlledValue(swatch)}
                   >
                     <Show when={swatch === controlledValue()}>

@@ -1,17 +1,7 @@
-import {
-  Accessor,
-  ParentComponent,
-  createContext,
-  onCleanup,
-  onMount,
-  useContext,
-} from "solid-js";
-
-import {
-  KeybindAction,
-  KeybindActions,
-  KeybindEventHandler,
-} from "@revolt/keybinds";
+import type { KeybindAction, KeybindActions } from '@revolt/keybinds';
+import { KeybindEventHandler } from '@revolt/keybinds';
+import type { Accessor, ParentComponent } from 'solid-js';
+import { createContext, onCleanup, onMount, useContext } from 'solid-js';
 
 const KeybindsContext = createContext<KeybindEventHandler<KeybindAction>>();
 
@@ -25,11 +15,11 @@ export const KeybindsProvider: ParentComponent<Props> = (props) => {
   const handler = new KeybindEventHandler<KeybindAction>(props.keybinds);
 
   onMount(() => {
-    document.addEventListener("keydown", handler);
+    document.addEventListener('keydown', handler);
   });
 
   onCleanup(() => {
-    document.removeEventListener("keydown", handler);
+    document.removeEventListener('keydown', handler);
   });
 
   return (

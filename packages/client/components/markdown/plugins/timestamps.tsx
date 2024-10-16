@@ -1,13 +1,11 @@
-import { createEffect, createSignal } from "solid-js";
+import { dayjs } from '@revolt/i18n';
+import type { Dayjs } from 'dayjs';
+import type { Handler } from 'mdast-util-to-hast';
+import { createEffect, createSignal } from 'solid-js';
+import type { Plugin } from 'unified';
+import { visit } from 'unist-util-visit';
 
-import { Dayjs } from "dayjs";
-import type { Handler } from "mdast-util-to-hast";
-import { Plugin } from "unified";
-import { visit } from "unist-util-visit";
-
-import { dayjs } from "@revolt/i18n";
-
-import { time as Time } from "../elements";
+import { time as Time } from '../elements';
 
 export function RenderTimestamp(props: { format: string; date: Dayjs }) {
   /**
@@ -15,18 +13,18 @@ export function RenderTimestamp(props: { format: string; date: Dayjs }) {
    */
   function format() {
     switch (props.format) {
-      case "t":
-        return props.date.format("hh:mm");
-      case "T":
-        return props.date.format("hh:mm:ss");
-      case "R":
+      case 't':
+        return props.date.format('hh:mm');
+      case 'T':
+        return props.date.format('hh:mm:ss');
+      case 'R':
         return props.date.fromNow();
-      case "D":
-        return props.date.format("DD MMMM YYYY");
-      case "F":
-        return props.date.format("dddd, DD MMMM YYYY hh:mm");
+      case 'D':
+        return props.date.format('DD MMMM YYYY');
+      case 'F':
+        return props.date.format('dddd, DD MMMM YYYY hh:mm');
       default:
-        return props.date.format("DD MMMM YYYY hh:mm");
+        return props.date.format('DD MMMM YYYY hh:mm');
     }
   }
 
@@ -36,8 +34,8 @@ export function RenderTimestamp(props: { format: string; date: Dayjs }) {
 
   createEffect(() => {
     // Update every second if we are rendering relative time
-    if (props.format === "R") {
-      let interval = setInterval(update, 1000);
+    if (props.format === 'R') {
+      const interval = setInterval(update, 1000);
       return () => clearInterval(interval);
     }
   });
@@ -47,7 +45,7 @@ export function RenderTimestamp(props: { format: string; date: Dayjs }) {
       class={Time()}
       use:floating={{
         tooltip: {
-          placement: "top",
+          placement: 'top',
           content: props.date.toString(),
         },
       }}
@@ -65,26 +63,26 @@ const RE_TIMESTAMP = /<t:([0-9]+)(?::(\w))?>/g;
 export const remarkTimestamps: Plugin = () => (tree) => {
   visit(
     tree,
-    "text",
+    'text',
     (
-      node: { type: "text"; value: string },
+      node: { type: 'text'; value: string },
       idx,
       parent: { children: any[] }
     ) => {
-      let elements = node.value.split(RE_TIMESTAMP);
+      const elements = node.value.split(RE_TIMESTAMP);
       if (elements.length === 1) return; // no matches
 
       // Generate initial node
       const newNodes: (
-        | { type: "text"; value: string }
+        | { type: 'text'; value: string }
         | {
-            type: "timestamp";
+            type: 'timestamp';
             format: string;
             date: Dayjs;
           }
       )[] = [
         {
-          type: "text",
+          type: 'text',
           value: elements.shift()!,
         },
       ];
@@ -96,13 +94,13 @@ export const remarkTimestamps: Plugin = () => (tree) => {
 
         // Insert components
         newNodes.push({
-          type: "timestamp",
+          type: 'timestamp',
           format: elements[i * 3 + 1],
           date,
         });
 
         newNodes.push({
-          type: "text",
+          type: 'text',
           value: elements[i * 3 + 2],
         });
       }
@@ -115,8 +113,8 @@ export const remarkTimestamps: Plugin = () => (tree) => {
 
 export const timestampHandler: Handler = (h, node) => {
   return {
-    type: "element" as const,
-    tagName: "timestamp",
+    type: 'element' as const,
+    tagName: 'timestamp',
     children: [],
     properties: {
       format: node.format,

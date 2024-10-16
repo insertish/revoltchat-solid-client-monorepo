@@ -1,16 +1,16 @@
-import type { StorybookConfig } from "storybook-solidjs-vite";
+import type { StorybookConfig } from 'storybook-solidjs-vite';
 
 const config: StorybookConfig = {
-  stories: ["../**/*.mdx", "../**/*.story.@(js|jsx|mjs|ts|tsx)"],
+  stories: ['../**/*.mdx', '../**/*.story.@(js|jsx|mjs|ts|tsx)'],
   // stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@chromatic-com/storybook",
-    "@storybook/addon-interactions",
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@chromatic-com/storybook',
+    '@storybook/addon-interactions',
   ],
   framework: {
-    name: "storybook-solidjs-vite",
+    name: 'storybook-solidjs-vite',
     options: {},
   },
 };

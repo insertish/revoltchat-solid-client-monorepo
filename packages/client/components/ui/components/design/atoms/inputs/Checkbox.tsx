@@ -1,14 +1,14 @@
-import { BiRegularCheck } from "solid-icons/bi";
-import { createSignal, splitProps } from "solid-js";
-import { styled } from "solid-styled-components";
+import { BiRegularCheck } from 'solid-icons/bi';
+import { createSignal, splitProps } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-export type Props = {
+export interface Props {
   readonly disabled?: boolean;
 
   readonly name?: string;
   readonly value?: boolean;
   readonly onChange?: (state: boolean) => void;
-};
+}
 
 /**
  * Checkbox
@@ -18,14 +18,14 @@ export function Checkbox(props: Props) {
   const checked = () => props.value ?? controlledValue();
 
   return (
-    <Checkmark value={checked()} class="checkmark">
-      <BiRegularCheck size={20} class="check" />
+    <Checkmark value={checked()} class='checkmark'>
+      <BiRegularCheck size={20} class='check' />
       <Input
         name={props.name}
-        type="checkbox"
+        type='checkbox'
         checked={checked()}
         onChange={() =>
-          typeof props.value !== "undefined"
+          typeof props.value !== 'undefined'
             ? !props.disabled && props.onChange?.(!props.value)
             : setControlledValue((v) => !v)
         }
@@ -37,17 +37,17 @@ const Input = styled.input`
   display: none;
 `;
 
-const Checkmark = styled.div<Pick<Props, "value">>`
+const Checkmark = styled.div<Pick<Props, 'value'>>`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 24px;
   height: 24px;
   border: 2px solid
-    ${(props) => props.theme!.colours["component-checkbox-foreground"]};
-  border-radius: ${(props) => props.theme!.borderRadius["md"]};
+    ${(props) => props.theme!.colours['component-checkbox-foreground']};
+  border-radius: ${(props) => props.theme!.borderRadius['md']};
   background: ${(props) =>
-    props.theme!.colours["component-checkbox-background"]};
+    props.theme!.colours['component-checkbox-background']};
   flex-shrink: 0;
   margin: 4px;
   transition: 0.1s ease-in-out all;
@@ -55,7 +55,7 @@ const Checkmark = styled.div<Pick<Props, "value">>`
   .check {
     transition: inherit;
     fill: ${(props) =>
-      props.theme!.colours["component-checkbox-foreground-check"]};
+      props.theme!.colours['component-checkbox-foreground-check']};
     visibility: hidden;
     opacity: 0;
   }
@@ -63,14 +63,14 @@ const Checkmark = styled.div<Pick<Props, "value">>`
   ${(props) =>
     props.value
       ? `
-    border-color: ${props.theme!.colours["component-checkbox-foreground"]};
-    background: ${props.theme!.colours["component-checkbox-foreground"]};
+    border-color: ${props.theme!.colours['component-checkbox-foreground']};
+    background: ${props.theme!.colours['component-checkbox-foreground']};
 
     .check {
       visibility: visible;
       opacity: 1;
-      color: ${props.theme!.colours["component-checkbox-foreground-check"]};
+      color: ${props.theme!.colours['component-checkbox-foreground-check']};
     }
   `
-      : ""}
+      : ''}
 `;

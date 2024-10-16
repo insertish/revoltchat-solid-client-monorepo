@@ -1,33 +1,32 @@
-import { Channel, Server } from "revolt.js";
+import { Channel, Server } from 'revolt.js';
 
-import { State } from "..";
-
-import { AbstractStore } from ".";
+import type { State } from '..';
+import { AbstractStore } from '.';
 
 /**
  * Possible notification states
  */
-export type NotificationState = "all" | "mention" | "none" | "muted";
+export type NotificationState = 'all' | 'mention' | 'none' | 'muted';
 
 /**
  * Possible notification states
  */
 const NotificationStates: NotificationState[] = [
-  "all",
-  "mention",
-  "none",
-  "muted",
+  'all',
+  'mention',
+  'none',
+  'muted',
 ];
 
 /**
  * Default notification states for various types of channels
  */
 export const DEFAULT_STATES: {
-  [key in Channel["type"]]: NotificationState;
+  [key in Channel['type']]: NotificationState;
 } = {
-  SavedMessages: "all",
-  DirectMessage: "all",
-  Group: "all",
+  SavedMessages: 'all',
+  DirectMessage: 'all',
+  Group: 'all',
   TextChannel: undefined!,
   VoiceChannel: undefined!,
 };
@@ -35,7 +34,7 @@ export const DEFAULT_STATES: {
 /**
  * Default state for servers
  */
-export const DEFAULT_SERVER_STATE: NotificationState = "mention";
+export const DEFAULT_SERVER_STATE: NotificationState = 'mention';
 
 export interface TypeNotificationOptions {
   /**
@@ -71,7 +70,7 @@ async function createNotification(
  * Manages the user's notification preferences.
  */
 export class NotificationOptions extends AbstractStore<
-  "notifications",
+  'notifications',
   TypeNotificationOptions
 > {
   private activeNotifications: Record<string, Notification> = {};
@@ -80,7 +79,7 @@ export class NotificationOptions extends AbstractStore<
    * Construct new Experiments store.
    */
   constructor(state: State) {
-    super(state, "notifications");
+    super(state, 'notifications');
   }
 
   /**
@@ -104,10 +103,10 @@ export class NotificationOptions extends AbstractStore<
    * Validate the given data to see if it is compliant and return a compliant object
    */
   clean(input: Partial<TypeNotificationOptions>): TypeNotificationOptions {
-    const server: TypeNotificationOptions["server"] = {};
-    const channel: TypeNotificationOptions["channel"] = {};
+    const server: TypeNotificationOptions['server'] = {};
+    const channel: TypeNotificationOptions['channel'] = {};
 
-    if (typeof input.server === "object") {
+    if (typeof input.server === 'object') {
       for (const serverId of Object.keys(input.server)) {
         const entry = input.server[serverId];
         if (NotificationStates.includes(entry)) {
@@ -116,7 +115,7 @@ export class NotificationOptions extends AbstractStore<
       }
     }
 
-    if (typeof input.channel === "object") {
+    if (typeof input.channel === 'object') {
       for (const channelId of Object.keys(input.channel)) {
         const entry = input.channel[channelId];
         if (NotificationStates.includes(entry)) {
@@ -138,7 +137,7 @@ export class NotificationOptions extends AbstractStore<
    */
   computeForServer(server?: Server) {
     return server
-      ? this.get().server[server.id] ?? DEFAULT_SERVER_STATE
+      ? (this.get().server[server.id] ?? DEFAULT_SERVER_STATE)
       : undefined;
   }
 
@@ -168,7 +167,7 @@ export class NotificationOptions extends AbstractStore<
       value = this.computeForServer(target);
     }
 
-    if (value === "muted") {
+    if (value === 'muted') {
       return true;
     }
 

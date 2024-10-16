@@ -1,1 +1,1 @@
-export { Titlebar } from "./Titlebar";
+export { Titlebar } from './Titlebar';

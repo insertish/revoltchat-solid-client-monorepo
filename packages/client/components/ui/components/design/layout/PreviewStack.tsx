@@ -1,5 +1,6 @@
-import { Accessor, For, JSX, onMount } from "solid-js";
-import { styled } from "solid-styled-components";
+import type { Accessor, JSX } from 'solid-js';
+import { For, onMount } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
 interface Props<T> {
   /**
@@ -72,7 +73,7 @@ const Overlay = styled.div`
 /**
  * Default transform used for children
  */
-const DEFAULT_TRANSFORM = "translate(-50%, -50%) scale(0.001)";
+const DEFAULT_TRANSFORM = 'translate(-50%, -50%) scale(0.001)';
 
 /**
  * Dynamic child positioning
@@ -94,5 +95,5 @@ const Base = styled.div<{ hideStack: boolean }>`
   ${(props) =>
     props.hideStack
       ? `> * { transform: ${DEFAULT_TRANSFORM} !important; }`
-      : ""}
+      : ''}
 `;

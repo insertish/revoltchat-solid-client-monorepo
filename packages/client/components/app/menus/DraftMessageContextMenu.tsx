@@ -1,17 +1,14 @@
-import { Show } from "solid-js";
+import MdClose from '@material-design-icons/svg/outlined/close.svg?component-solid';
+import MdDelete from '@material-design-icons/svg/outlined/delete.svg?component-solid';
+import MdRefresh from '@material-design-icons/svg/outlined/refresh.svg?component-solid';
+import { useClient } from '@revolt/client';
+import { useTranslation } from '@revolt/i18n';
+import { state } from '@revolt/state';
+import type { UnsentMessage } from '@revolt/state/stores/Draft';
+import type { Channel } from 'revolt.js';
+import { Show } from 'solid-js';
 
-import { Channel } from "revolt.js";
-
-import { useClient } from "@revolt/client";
-import { useTranslation } from "@revolt/i18n";
-import { state } from "@revolt/state";
-import { UnsentMessage } from "@revolt/state/stores/Draft";
-
-import MdClose from "@material-design-icons/svg/outlined/close.svg?component-solid";
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MdRefresh from "@material-design-icons/svg/outlined/refresh.svg?component-solid";
-
-import { ContextMenu, ContextMenuButton } from "./ContextMenu";
+import { ContextMenu, ContextMenuButton } from './ContextMenu';
 
 interface Props {
   draft: UnsentMessage;
@@ -40,27 +37,27 @@ export function DraftMessageContextMenu(props: Props) {
   }
 
   return (
-    <Show when={props.draft.status !== "sending"}>
+    <Show when={props.draft.status !== 'sending'}>
       <ContextMenu>
         <Show when={false}>
           <ContextMenuButton icon={MdClose} onClick={deleteMessage} destructive>
-            {t("app.context_menu.cancel_message")}
+            {t('app.context_menu.cancel_message')}
           </ContextMenuButton>
         </Show>
         <Show
           when={
-            props.draft.status === "failed" || props.draft.status === "unsent"
+            props.draft.status === 'failed' || props.draft.status === 'unsent'
           }
         >
           <ContextMenuButton icon={MdRefresh} onClick={retrySend}>
-            {t("app.context_menu.retry_message")}
+            {t('app.context_menu.retry_message')}
           </ContextMenuButton>
           <ContextMenuButton
             icon={MdDelete}
             onClick={deleteMessage}
             destructive
           >
-            {t("app.context_menu.delete_message")}
+            {t('app.context_menu.delete_message')}
           </ContextMenuButton>
         </Show>
       </ContextMenu>

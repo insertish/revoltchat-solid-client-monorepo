@@ -1,5 +1,6 @@
-import { Accessor, JSX, createEffect, on, onMount } from "solid-js";
-import { css, useTheme } from "solid-styled-components";
+import type { Accessor, JSX } from 'solid-js';
+import { createEffect, on, onMount } from 'solid-js';
+import { css, useTheme } from 'solid-styled-components';
 
 /**
  * Add styles and events for ripple
@@ -8,7 +9,7 @@ import { css, useTheme } from "solid-styled-components";
  */
 export function ripple(
   el: HTMLDivElement,
-  accessor: Accessor<JSX.Directives["ripple"] & object>
+  accessor: Accessor<JSX.Directives['ripple'] & object>
 ) {
   const props = accessor();
   if (!props) return;
@@ -18,40 +19,38 @@ export function ripple(
   // FIXME: there is a bug here if theme is changed, this class just disappears
 
   createEffect(() => {
-    el.classList.add(
-      css`
-        overflow: hidden;
-        position: relative;
+    el.classList.add(css`
+      overflow: hidden;
+      position: relative;
 
-        * {
-          z-index: 1;
-        }
+      * {
+        z-index: 1;
+      }
 
-        &::before {
-          content: " ";
-          position: absolute;
-          width: 100%;
-          height: 100%;
+      &::before {
+        content: ' ';
+        position: absolute;
+        width: 100%;
+        height: 100%;
 
-          opacity: 0;
-          z-index: 0;
-          transform: scale(2);
-          pointer-events: none;
-          background: ${theme.darkMode ? "white" : "black"};
+        opacity: 0;
+        z-index: 0;
+        transform: scale(2);
+        pointer-events: none;
+        background: ${theme.darkMode ? 'white' : 'black'};
 
-          transition: ${theme.transitions.fast};
-        }
+        transition: ${theme.transitions.fast};
+      }
 
-        &:hover::before {
-          opacity: ${theme.effects.ripple.hover.toString()};
-        }
-      `
-    );
+      &:hover::before {
+        opacity: ${theme.effects.ripple.hover.toString()};
+      }
+    `);
 
-    if (typeof props === "boolean" || props.enable)
+    if (typeof props === 'boolean' || props.enable)
       el.classList.add(css`
         &::after {
-          content: " ";
+          content: ' ';
           position: absolute;
           width: 100%;
           aspect-ratio: 1;
@@ -60,7 +59,7 @@ export function ripple(
           border-radius: 50%;
           transform: scale(0);
           pointer-events: none;
-          background: ${theme.darkMode ? "white" : "black"};
+          background: ${theme.darkMode ? 'white' : 'black'};
           opacity: ${theme.effects.ripple.hover.toString()};
 
           transition: ${theme.transitions.medium};

@@ -1,14 +1,13 @@
-import { ComponentProps, For, JSX, Show } from "solid-js";
-import { Portal } from "solid-js/web";
-import { styled } from "solid-styled-components";
+import type { ComponentProps, JSX } from 'solid-js';
+import { For, Show } from 'solid-js';
+import { Portal } from 'solid-js/web';
+import { Motion, Presence } from 'solid-motionone';
+import { styled } from 'solid-styled-components';
 
-import { Motion, Presence } from "@motionone/solid";
+import { Button } from '../inputs/Button';
+import { Typography } from './Typography';
 
-import { Button } from "../inputs/Button";
-
-import { Typography } from "./Typography";
-
-export type Action = Omit<ComponentProps<typeof Button>, "onClick"> & {
+export type Action = Omit<ComponentProps<typeof Button>, 'onClick'> & {
   confirmation?: boolean;
   onClick: () => void | boolean | Promise<boolean>;
 };
@@ -78,14 +77,14 @@ export interface Props {
 /**
  * Fixed position container to centre the modal
  */
-const Base = styled("div", "Modal")<{ show?: boolean }>`
+const Base = styled('div', 'Modal')<{ show?: boolean }>`
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 
   position: fixed;
-  z-index: ${(props) => props.theme!.layout.zIndex["modal"]};
+  z-index: ${(props) => props.theme!.layout.zIndex['modal']};
 
   max-height: 100%;
   user-select: none;
@@ -98,13 +97,13 @@ const Base = styled("div", "Modal")<{ show?: boolean }>`
   place-items: center;
 
   transition: ${(props) => props.theme!.transitions.medium} all;
-  pointer-events: ${(props) => (props.show ? "all" : "none")};
+  pointer-events: ${(props) => (props.show ? 'all' : 'none')};
 
   /** TODO: rgb value here */
-  background: ${(props) => (props.show ? "rgba(0, 0, 0, 0.6)" : "transparent")};
+  background: ${(props) => (props.show ? 'rgba(0, 0, 0, 0.6)' : 'transparent')};
 `;
 
-type ContainerProps = Pick<Props, "transparent" | "maxWidth" | "maxHeight"> & {
+type ContainerProps = Pick<Props, 'transparent' | 'maxWidth' | 'maxHeight'> & {
   actions: boolean;
 };
 
@@ -112,22 +111,22 @@ type ContainerProps = Pick<Props, "transparent" | "maxWidth" | "maxHeight"> & {
  * Component that wraps all of the actual modal content
  */
 const Container = styled.div<ContainerProps>`
-  width: ${(props) => (props.maxWidth ? "100%" : "unset")};
-  max-width: min(calc(100vw - 20px), ${(props) => props.maxWidth ?? "450px"});
-  max-height: min(calc(100vh - 20px), ${(props) => props.maxHeight ?? "650px"});
+  width: ${(props) => (props.maxWidth ? '100%' : 'unset')};
+  max-width: min(calc(100vw - 20px), ${(props) => props.maxWidth ?? '450px'});
+  max-height: min(calc(100vh - 20px), ${(props) => props.maxHeight ?? '650px'});
 
   margin: 20px;
   display: flex;
   flex-direction: column;
 
-  color: ${(props) => props.theme!.colours["component-modal-foreground"]};
+  color: ${(props) => props.theme!.colours['component-modal-foreground']};
   background: ${(props) =>
     props.transparent
-      ? "transparent"
-      : props.theme!.colours["component-modal-background"]};
+      ? 'transparent'
+      : props.theme!.colours['component-modal-background']};
   border-radius: ${(props) =>
-    props.transparent ? "none" : props.theme!.borderRadius.lg};
-  overflow: ${(props) => (props.transparent ? "unset" : "hidden")};
+    props.transparent ? 'none' : props.theme!.borderRadius.lg};
+  overflow: ${(props) => (props.transparent ? 'unset' : 'hidden')};
 `;
 
 /**
@@ -160,7 +159,7 @@ const Content = styled.div<Props>`
 /**
  * Container for bottom modal actions
  */
-const Actions = styled("div", "Actions")`
+const Actions = styled('div', 'Actions')`
   flex-shrink: 0;
 
   gap: 8px;
@@ -176,11 +175,11 @@ const Actions = styled("div", "Actions")`
  */
 export function Modal(props: Props) {
   const showActions = () =>
-    typeof props.actions === "function" ||
+    typeof props.actions === 'function' ||
     (props.actions ? props.actions.length > 0 : false);
 
   return (
-    <Portal mount={document.getElementById("floating")!}>
+    <Portal mount={document.getElementById('floating')!}>
       <Base
         show={props.show}
         onClick={() => !props.nonDismissable && props.onClose?.()}
@@ -200,12 +199,12 @@ export function Modal(props: Props) {
                 <Show when={props.title || props.description}>
                   <Title>
                     <Show when={props.title}>
-                      <Typography variant="modal-title">
+                      <Typography variant='modal-title'>
                         {props.title}
                       </Typography>
                     </Show>
                     <Show when={props.description}>
-                      <Typography variant="modal-description">
+                      <Typography variant='modal-description'>
                         {props.description}
                       </Typography>
                     </Show>
@@ -218,7 +217,7 @@ export function Modal(props: Props) {
                   <Actions>
                     <For
                       each={
-                        typeof props.actions === "function"
+                        typeof props.actions === 'function'
                           ? props.actions()
                           : props.actions
                       }

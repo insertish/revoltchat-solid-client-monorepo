@@ -1,47 +1,46 @@
-import { State } from "..";
-
-import { AbstractStore } from ".";
+import type { State } from '..';
+import { AbstractStore } from '.';
 
 /**
  * Union type of available experiments.
  */
 export type Experiment =
-  | "file_uploads"
-  | "friends"
-  | "account_switcher"
-  | "gif_picker"
-  | "user_card"
-  | "emoji_picker"
-  | "plugins"
-  | "voice_chat";
+  | 'file_uploads'
+  | 'friends'
+  | 'account_switcher'
+  | 'gif_picker'
+  | 'user_card'
+  | 'emoji_picker'
+  | 'plugins'
+  | 'voice_chat';
 
 /**
  * Currently active experiments.
  */
 export const AVAILABLE_EXPERIMENTS: Experiment[] = [
-  "file_uploads",
-  "friends",
-  "account_switcher",
-  "gif_picker",
-  "user_card",
-  "emoji_picker",
-  "plugins",
-  "voice_chat",
+  'file_uploads',
+  'friends',
+  'account_switcher',
+  'gif_picker',
+  'user_card',
+  'emoji_picker',
+  'plugins',
+  'voice_chat',
 ];
 
 /**
  * Experiments enabled by default.
  */
-export const DEFAULT_EXPERIMENTS: Experiment[] = ["file_uploads"];
+export const DEFAULT_EXPERIMENTS: Experiment[] = ['file_uploads'];
 
 /**
  * Always-on development-mode experiments.
  */
 export const ALWAYS_ON_DEVELOPMENT_EXPERIMENTS: Experiment[] = [
-  "file_uploads",
-  "friends",
-  "gif_picker",
-  "user_card",
+  'file_uploads',
+  'friends',
+  'gif_picker',
+  'user_card',
 ];
 
 /**
@@ -51,36 +50,36 @@ export const EXPERIMENTS: {
   [key in Experiment]: { title: string; description: string };
 } = {
   file_uploads: {
-    title: "File Uploads",
-    description: "Enable file uploads when messaging.",
+    title: 'File Uploads',
+    description: 'Enable file uploads when messaging.',
   },
   friends: {
-    title: "Friends Menu",
-    description: "Enable the friends menu in home.",
+    title: 'Friends Menu',
+    description: 'Enable the friends menu in home.',
   },
   account_switcher: {
-    title: "Account Switcher",
-    description: "Enable the account switcher on the login page.",
+    title: 'Account Switcher',
+    description: 'Enable the account switcher on the login page.',
   },
   gif_picker: {
-    title: "GIF Picker",
-    description: "Search and send GIFs from GIFBox!",
+    title: 'GIF Picker',
+    description: 'Search and send GIFs from GIFBox!',
   },
   user_card: {
-    title: "Member Pop-out Card",
-    description: "Click on members to see more information about them.",
+    title: 'Member Pop-out Card',
+    description: 'Click on members to see more information about them.',
   },
   emoji_picker: {
-    title: "Emoji Picker Placeholder",
-    description: "Search and add emoji to your messages.",
+    title: 'Emoji Picker Placeholder',
+    description: 'Search and add emoji to your messages.',
   },
   plugins: {
-    title: "Plugins v2 Placeholder",
-    description: "Not available yet.",
+    title: 'Plugins v2 Placeholder',
+    description: 'Not available yet.',
   },
   voice_chat: {
-    title: "Voice Chat Placeholder",
-    description: "Not available yet.",
+    title: 'Voice Chat Placeholder',
+    description: 'Not available yet.',
   },
 };
 
@@ -99,13 +98,13 @@ export interface TypeExperiments {
 /**
  * Handles enabling and disabling client experiments.
  */
-export class Experiments extends AbstractStore<"experiments", TypeExperiments> {
+export class Experiments extends AbstractStore<'experiments', TypeExperiments> {
   /**
    * Construct store
    * @param state State
    */
   constructor(state: State) {
-    super(state, "experiments");
+    super(state, 'experiments');
 
     this.toggleSafeMode = this.toggleSafeMode.bind(this);
   }
@@ -131,7 +130,7 @@ export class Experiments extends AbstractStore<"experiments", TypeExperiments> {
    * Validate the given data to see if it is compliant and return a compliant object
    */
   clean(input: Partial<TypeExperiments>): TypeExperiments {
-    const enabled: Set<Experiment> = new Set();
+    const enabled = new Set<Experiment>();
 
     if (input.enabled) {
       for (const entry of input.enabled) {
@@ -166,7 +165,7 @@ export class Experiments extends AbstractStore<"experiments", TypeExperiments> {
    */
   enable(experiment: Experiment) {
     if (!this.isEnabled(experiment)) {
-      this.set("enabled", (enabled) => [...enabled, experiment]);
+      this.set('enabled', (enabled) => [...enabled, experiment]);
     }
   }
 
@@ -176,7 +175,7 @@ export class Experiments extends AbstractStore<"experiments", TypeExperiments> {
    */
   disable(experiment: Experiment) {
     if (this.isEnabled(experiment)) {
-      this.set("enabled", (enabled) =>
+      this.set('enabled', (enabled) =>
         enabled.filter((entry) => entry !== experiment)
       );
     }
@@ -199,13 +198,13 @@ export class Experiments extends AbstractStore<"experiments", TypeExperiments> {
    * Toggle safe mode.
    */
   toggleSafeMode() {
-    this.set("safeMode", (safeMode) => !safeMode);
+    this.set('safeMode', (safeMode) => !safeMode);
   }
 
   /**
    * Reset and disable all experiments.
    */
   reset() {
-    this.set("enabled", []);
+    this.set('enabled', []);
   }
 }

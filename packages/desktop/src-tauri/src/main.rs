@@ -1,73 +1,77 @@
 #![cfg_attr(
-  all(not(debug_assertions), target_os = "windows"),
-  windows_subsystem = "windows"
+    all(not(debug_assertions), target_os = "windows"),
+    windows_subsystem = "windows"
 )]
 
 use tauri::{
-    CustomMenuItem,
-    Manager,
-    SystemTray,
-    SystemTrayEvent,
-    SystemTrayMenu,
-    SystemTrayMenuItem,
+  menu::{Menu, MenuItem, MenuEvent},
+  tray::{TrayIconBuilder, TrayIconEvent, MouseButton},
+  Manager
 };
 
 fn main() {
-  let tray_menu = SystemTrayMenu::new()
-    .add_item(CustomMenuItem::new("title".to_string(), "Revolt").disabled())
-    .add_native_item(SystemTrayMenuItem::Separator)
-    .add_item(CustomMenuItem::new("open".to_string(), "Open Revolt"))
-    .add_item(CustomMenuItem::new("hide".to_string(), "Hide Revolt"))
-    .add_item(CustomMenuItem::new("quit".to_string(), "Quit Revolt"));
-
-  let system_tray = SystemTray::new().with_menu(tray_menu);
-
-  tauri::Builder::default()
-    .on_window_event(|event| match event.event() {
+    tauri::Builder::default()
+    .plugin(tauri_plugin_shell::init())
+    .on_window_event(|window, event| match event {
       tauri::WindowEvent::CloseRequested { api, .. } => {
-        event.window().hide().unwrap();
+        window.hide().unwrap();
         api.prevent_close();
       }
       _ => {}
     })
     .setup(| app | {
+      let title = MenuItem::with_id(app, "title", "Revolt", false, None::<&str>)?;
+      let open = MenuItem::with_id(app, "open", "Open Revolt", true, None::<&str>)?;
+      let hide = MenuItem::with_id(app, "hide", "Hide Revolt", true, None::<&str>)?;
+      let quit = MenuItem::with_id(app, "quit", "Quit Revolt", true, None::<&str>)?;
+
+      let menu = Menu::with_items(app, &[
+        &title,
+        &open,
+        &hide,
+        &quit
+      ])?;
+
+      let tray = TrayIconBuilder::new()
+          .icon(app.default_window_icon().unwrap().clone())
+          .menu(&menu)
+          .on_tray_icon_event(|tray, event| match event {
+            TrayIconEvent::Click {
+              button: MouseButton::Left,
+              ..
+            } => {
+              let app = tray.app_handle();
+              let window = app.get_webview_window("main").unwrap();
+
+              if window.set_focus().is_err() {
+                println!("[on_system_tray_event][:LeftClick] error when trying to set main window focus.");
+              }
+            },
+            _ => {}
+          })
+          .on_menu_event(|app, event| match event.id.as_ref() {
+            "open" => {
+              let window = app.get_webview_window("main").unwrap();
+              window.show().unwrap();
+              window.set_focus().unwrap();
+            }
+            "hide" => {
+              let window = app.get_webview_window("main").unwrap();
+              window.hide().unwrap();
+            }
+            "quit" => {
+              std::process::exit(0);
+            }
+            _ => {}
+          })
+          .build(app)?;
+
       if cfg!(any(windows, target_os = "macos")) {
-        use window_shadows::set_shadow;
-        let window = app.get_window("main").unwrap();
-        set_shadow(&window, true).unwrap_or_default();
+        let window = app.get_webview_window("main").unwrap();
+        window.set_shadow(true)?;
       }
 
       Ok(())
-    })
-    .system_tray(system_tray)
-    .on_system_tray_event(|app, event| match event {
-      SystemTrayEvent::LeftClick {
-        position: _,
-        size: _,
-        ..
-      } => {
-        let window = app.get_window("main").unwrap();
-        
-        if window.set_focus().is_err() {
-          println!("[on_system_tray_event][:LeftClick] error when trying to set main window focus.");
-        }
-      }
-      SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
-        "open" => {
-          let window = app.get_window("main").unwrap();
-          window.show().unwrap();
-          window.set_focus().unwrap();
-        }
-        "hide" => {
-          let window = app.get_window("main").unwrap();
-          window.hide().unwrap();
-        }
-        "quit" => {
-          std::process::exit(0);
-        }
-        _ => {}
-      },
-      _ => {}
     })
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

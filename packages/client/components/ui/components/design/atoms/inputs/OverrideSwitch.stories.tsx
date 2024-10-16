@@ -1,28 +1,27 @@
-import type { ComponentStory } from "../../../stories";
-
-import { OverrideSwitch } from "./OverrideSwitch";
+import type { ComponentStory } from '../../../stories';
+import { OverrideSwitch } from './OverrideSwitch';
 
 export default {
-  category: "Design System/Atoms/Inputs",
+  category: 'Design System/Atoms/Inputs',
   component: OverrideSwitch,
   stories: [
     {
-      title: "Default",
+      title: 'Default',
     },
     {
-      title: "Disabled",
+      title: 'Disabled',
       props: {
         disabled: true,
       },
     },
   ],
   propTypes: {
-    disabled: "boolean",
-    state: ["Allow", "Neutral", "Deny"],
-    onChange: "function",
+    disabled: 'boolean',
+    state: ['Allow', 'Neutral', 'Deny'],
+    onChange: 'function',
   },
   props: {
-    state: "Neutral",
+    state: 'Neutral',
   },
   effects: {
     onChange: (_, state) => ({

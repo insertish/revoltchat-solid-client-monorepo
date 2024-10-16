@@ -1,27 +1,26 @@
-import { useTranslation } from "@revolt/i18n";
-import { iconSize, styled } from "@revolt/ui";
+import MdAdd from '@material-design-icons/svg/outlined/add.svg?component-solid';
+import MdLink from '@material-design-icons/svg/outlined/link.svg?component-solid';
+import { useTranslation } from '@revolt/i18n';
+import { iconSize, styled } from '@revolt/ui';
 
-import MdAdd from "@material-design-icons/svg/outlined/add.svg?component-solid";
-import MdLink from "@material-design-icons/svg/outlined/link.svg?component-solid";
-
-import { modalController } from "..";
-import { PropGenerator } from "../types";
+import { modalController } from '..';
+import type { PropGenerator } from '../types';
 
 /**
  * Modal to create or join a server
  */
-const CreateOrJoinServer: PropGenerator<"create_or_join_server"> = (props) => {
+const CreateOrJoinServer: PropGenerator<'create_or_join_server'> = (props) => {
   const t = useTranslation();
 
   return {
-    title: "Create or join a server",
+    title: 'Create or join a server',
     description: (
       <Base>
         <a
           onClick={() => {
             modalController.pop();
             modalController.push({
-              type: "create_server",
+              type: 'create_server',
               client: props.client,
             });
           }}
@@ -32,7 +31,7 @@ const CreateOrJoinServer: PropGenerator<"create_or_join_server"> = (props) => {
         <a
           onClick={() => {
             modalController.pop();
-            modalController.push({ type: "join_server", client: props.client });
+            modalController.push({ type: 'join_server', client: props.client });
           }}
         >
           <MdLink {...iconSize(48)} />
@@ -60,7 +59,7 @@ const Base = styled.div`
 
     border-radius: 8px;
     background: ${(props) =>
-      props.theme!.colours["sidebar-channels-background"]};
+      props.theme!.colours['sidebar-channels-background']};
   }
 `;
 

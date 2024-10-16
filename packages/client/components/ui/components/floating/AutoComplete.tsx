@@ -1,26 +1,25 @@
-import { For, JSX, Match, Show, Switch } from "solid-js";
-import { styled } from "solid-styled-components";
+import { CustomEmoji, UnicodeEmoji } from '@revolt/markdown/emoji';
+import { ServerMember } from 'revolt.js';
+import type { JSX } from 'solid-js';
+import { For, Match, Show, Switch } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { ServerMember } from "revolt.js";
-
-import { CustomEmoji, UnicodeEmoji } from "@revolt/markdown/emoji";
-
-import { AutoCompleteState } from "../../directives";
-import { Avatar, Column, Row } from "../design";
+import type { AutoCompleteState } from '../../directives';
+import { Avatar, Column, Row } from '../design';
 
 /**
  * Auto complete popup
  */
 export function AutoComplete(
-  props: Exclude<JSX.Directives["floating"]["autoComplete"], undefined>
+  props: Exclude<JSX.Directives['floating']['autoComplete'], undefined>
 ) {
   return (
     <Base>
       <Switch>
-        <Match when={props.state().matched === "emoji"}>
+        <Match when={props.state().matched === 'emoji'}>
           <For
             each={
-              (props.state() as AutoCompleteState & { matched: "emoji" })
+              (props.state() as AutoCompleteState & { matched: 'emoji' })
                 .matches
             }
           >
@@ -31,13 +30,13 @@ export function AutoComplete(
                     <>
                       <UnicodeEmoji
                         emoji={(match as { codepoint: string }).codepoint}
-                      />{" "}
+                      />{' '}
                       <Name>:{match.shortcode}:</Name>
                     </>
                   }
                 >
-                  <Match when={match.type === "custom"}>
-                    <CustomEmoji id={(match as { id: string }).id} />{" "}
+                  <Match when={match.type === 'custom'}>
+                    <CustomEmoji id={(match as { id: string }).id} />{' '}
                     <Name>:{match.shortcode}:</Name>
                   </Match>
                 </Switch>
@@ -45,24 +44,24 @@ export function AutoComplete(
             )}
           </For>
         </Match>
-        <Match when={props.state().matched === "user"}>
+        <Match when={props.state().matched === 'user'}>
           <For
             each={
               (
                 props.state() as AutoCompleteState & {
-                  matched: "user";
+                  matched: 'user';
                 }
               ).matches
             }
           >
             {(match, index) => (
               <Entry align selected={index() === props.selection()}>
-                <Avatar src={match.user.animatedAvatarURL} size={24} />{" "}
+                <Avatar src={match.user.animatedAvatarURL} size={24} />{' '}
                 <Name>{match.user.displayName}</Name>
                 {match.user instanceof ServerMember &&
                   match.user.displayName !== match.user.user?.username && (
                     <>
-                      {" "}
+                      {' '}
                       @{match.user.user?.username}#
                       {match.user.user?.discriminator}
                     </>
@@ -71,12 +70,12 @@ export function AutoComplete(
             )}
           </For>
         </Match>
-        <Match when={props.state().matched === "channel"}>
+        <Match when={props.state().matched === 'channel'}>
           <For
             each={
               (
                 props.state() as AutoCompleteState & {
-                  matched: "channel";
+                  matched: 'channel';
                 }
               ).matches
             }
@@ -101,8 +100,8 @@ const Entry = styled(Row)<{ selected: boolean }>`
   padding: ${(props) => props.theme!.gap.sm} ${(props) => props.theme!.gap.md};
   background: ${(props) =>
     props.selected
-      ? props.theme!.colours["component-context-menu-item-hover-background"]
-      : "transparent"};
+      ? props.theme!.colours['component-context-menu-item-hover-background']
+      : 'transparent'};
 `;
 
 /**
@@ -123,7 +122,7 @@ const Base = styled(Column)`
 
   backdrop-filter: ${(props) => props.theme!.effects.blur.md};
   color: ${(props) =>
-    props.theme!.colours["component-context-menu-foreground"]};
+    props.theme!.colours['component-context-menu-foreground']};
   background: ${(props) =>
-    props.theme!.colours["component-context-menu-background"]};
+    props.theme!.colours['component-context-menu-background']};
 `;

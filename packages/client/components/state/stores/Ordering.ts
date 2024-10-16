@@ -1,8 +1,7 @@
-import { getController } from "@revolt/common";
+import { getController } from '@revolt/common';
 
-import { State } from "..";
-
-import { AbstractStore } from ".";
+import type { State } from '..';
+import { AbstractStore } from '.';
 
 export interface TypeOrdering {
   /**
@@ -14,13 +13,13 @@ export interface TypeOrdering {
 /**
  * Handles ordering of items in the app interface.
  */
-export class Ordering extends AbstractStore<"ordering", TypeOrdering> {
+export class Ordering extends AbstractStore<'ordering', TypeOrdering> {
   /**
    * Construct store
    * @param state State
    */
   constructor(state: State) {
-    super(state, "ordering");
+    super(state, 'ordering');
     this.setServerOrder = this.setServerOrder.bind(this);
   }
 
@@ -48,7 +47,7 @@ export class Ordering extends AbstractStore<"ordering", TypeOrdering> {
 
     if (Array.isArray(input.servers)) {
       for (const serverId of input.servers) {
-        if (typeof serverId === "string") {
+        if (typeof serverId === 'string') {
           ordering.servers.push(serverId);
         }
       }
@@ -62,7 +61,7 @@ export class Ordering extends AbstractStore<"ordering", TypeOrdering> {
    * @returns List of Server objects
    */
   get orderedServers() {
-    const client = getController("client").getCurrentClient();
+    const client = getController('client').getCurrentClient();
     const known = new Set(client?.servers.keys() ?? []);
     const ordered = [...this.get().servers];
 
@@ -85,7 +84,7 @@ export class Ordering extends AbstractStore<"ordering", TypeOrdering> {
    * @param ids List of IDs
    */
   setServerOrder(ids: string[]) {
-    this.set("servers", ids);
+    this.set('servers', ids);
   }
 
   /**
@@ -93,15 +92,15 @@ export class Ordering extends AbstractStore<"ordering", TypeOrdering> {
    * @returns List of Channel objects
    */
   get orderedConversations() {
-    const client = getController("client").getCurrentClient();
+    const client = getController('client').getCurrentClient();
 
     return (
       client?.channels
         .toList()
         .filter(
           (channel) =>
-            (channel.type === "DirectMessage" && channel.active) ||
-            channel.type === "Group"
+            (channel.type === 'DirectMessage' && channel.active) ||
+            channel.type === 'Group'
         )
         .sort((a, b) => +b.updatedAt - +a.updatedAt) ?? []
     );

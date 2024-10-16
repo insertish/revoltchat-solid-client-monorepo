@@ -1,3 +1,3 @@
-import "../ui/styled.d.ts";
+import '../ui/styled.d.ts';
 
-export { AuthPage } from "./src/AuthPage";
+export { AuthPage } from './src/AuthPage';

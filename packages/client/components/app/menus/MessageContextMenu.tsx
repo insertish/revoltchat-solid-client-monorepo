@@ -1,26 +1,23 @@
-import { Show } from "solid-js";
-
-import { Message } from "revolt.js";
-
-import { useClient, useUser } from "@revolt/client";
-import { getController } from "@revolt/common";
-import { useTranslation } from "@revolt/i18n";
-import { state } from "@revolt/state";
-
-import MdBadge from "@material-design-icons/svg/outlined/badge.svg?component-solid";
-import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MdMarkChatUnread from "@material-design-icons/svg/outlined/mark_chat_unread.svg?component-solid";
-import MdReply from "@material-design-icons/svg/outlined/reply.svg?component-solid";
-import MdReport from "@material-design-icons/svg/outlined/report.svg?component-solid";
-import MdShare from "@material-design-icons/svg/outlined/share.svg?component-solid";
-import MdShield from "@material-design-icons/svg/outlined/shield.svg?component-solid";
+import MdBadge from '@material-design-icons/svg/outlined/badge.svg?component-solid';
+import MdContentCopy from '@material-design-icons/svg/outlined/content_copy.svg?component-solid';
+import MdDelete from '@material-design-icons/svg/outlined/delete.svg?component-solid';
+import MdMarkChatUnread from '@material-design-icons/svg/outlined/mark_chat_unread.svg?component-solid';
+import MdReply from '@material-design-icons/svg/outlined/reply.svg?component-solid';
+import MdReport from '@material-design-icons/svg/outlined/report.svg?component-solid';
+import MdShare from '@material-design-icons/svg/outlined/share.svg?component-solid';
+import MdShield from '@material-design-icons/svg/outlined/shield.svg?component-solid';
+import { useClient, useUser } from '@revolt/client';
+import { getController } from '@revolt/common';
+import { useTranslation } from '@revolt/i18n';
+import { state } from '@revolt/state';
+import type { Message } from 'revolt.js';
+import { Show } from 'solid-js';
 
 import {
   ContextMenu,
   ContextMenuButton,
   ContextMenuDivider,
-} from "./ContextMenu";
+} from './ContextMenu';
 
 /**
  * Context menu for messages
@@ -55,8 +52,8 @@ export function MessageContextMenu(props: { message: Message }) {
    * Report the message
    */
   function report() {
-    getController("modal").push({
-      type: "report_content",
+    getController('modal').push({
+      type: 'report_content',
       target: props.message,
       client: client(),
     });
@@ -69,8 +66,8 @@ export function MessageContextMenu(props: { message: Message }) {
     if (ev.shiftKey) {
       props.message.delete();
     } else {
-      getController("modal").push({
-        type: "delete_message",
+      getController('modal').push({
+        type: 'delete_message',
         message: props.message,
       });
     }
@@ -82,7 +79,7 @@ export function MessageContextMenu(props: { message: Message }) {
   function openAdminPanel() {
     window.open(
       `https://admin.revolt.chat/panel/inspect/message/${props.message.id}`,
-      "_blank"
+      '_blank'
     );
   }
 
@@ -92,7 +89,7 @@ export function MessageContextMenu(props: { message: Message }) {
   function copyLink() {
     navigator.clipboard.writeText(
       `${location.origin}${
-        props.message.server ? `/server/${props.message.server?.id}` : ""
+        props.message.server ? `/server/${props.message.server?.id}` : ''
       }/channel/${props.message.channelId}/${props.message.id}`
     );
   }
@@ -107,28 +104,28 @@ export function MessageContextMenu(props: { message: Message }) {
   return (
     <ContextMenu>
       <ContextMenuButton icon={MdReply} onClick={reply}>
-        {t("app.context_menu.reply_message")}
+        {t('app.context_menu.reply_message')}
       </ContextMenuButton>
       <ContextMenuButton icon={MdMarkChatUnread} onClick={markAsUnread}>
-        {t("app.context_menu.mark_unread")}
+        {t('app.context_menu.mark_unread')}
       </ContextMenuButton>
       <ContextMenuButton icon={MdContentCopy} onClick={copyText}>
-        {t("app.context_menu.copy_text")}
+        {t('app.context_menu.copy_text')}
       </ContextMenuButton>
       <ContextMenuDivider />
       <Show when={!props.message.author?.self}>
         <ContextMenuButton icon={MdReport} onClick={report} destructive>
-          {t("app.context_menu.report_message")}
+          {t('app.context_menu.report_message')}
         </ContextMenuButton>
       </Show>
       <Show
         when={
           props.message.author?.self ||
-          props.message.channel?.havePermission("ManageMessages")
+          props.message.channel?.havePermission('ManageMessages')
         }
       >
         <ContextMenuButton icon={MdDelete} onClick={deleteMessage} destructive>
-          {t("app.context_menu.delete_message")}
+          {t('app.context_menu.delete_message')}
         </ContextMenuButton>
       </Show>
       <ContextMenuDivider />
@@ -136,10 +133,10 @@ export function MessageContextMenu(props: { message: Message }) {
         Admin Panel
       </ContextMenuButton>
       <ContextMenuButton icon={MdShare} onClick={copyLink}>
-        {t("app.context_menu.copy_link")}
+        {t('app.context_menu.copy_link')}
       </ContextMenuButton>
       <ContextMenuButton icon={MdBadge} onClick={copyId}>
-        {t("app.context_menu.copy_mid")}
+        {t('app.context_menu.copy_mid')}
       </ContextMenuButton>
     </ContextMenu>
   );

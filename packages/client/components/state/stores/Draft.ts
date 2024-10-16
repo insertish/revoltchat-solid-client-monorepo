@@ -1,13 +1,10 @@
-import { batch } from "solid-js";
+import { CONFIGURATION, insecureUniqueId } from '@revolt/common';
+import type { API, Channel, Client, Message } from 'revolt.js';
+import { batch } from 'solid-js';
 
-import { API, Channel, Client, Message } from "revolt.js";
-
-import { CONFIGURATION, insecureUniqueId } from "@revolt/common";
-
-import { State } from "..";
-
-import { AbstractStore } from ".";
-import { LAYOUT_SECTIONS } from "./Layout";
+import type { State } from '..';
+import { AbstractStore } from '.';
+import { LAYOUT_SECTIONS } from './Layout';
 
 export interface DraftData {
   /**
@@ -35,7 +32,7 @@ export type UnsentMessage = {
   /**
    * Status
    */
-  status: "sending" | "unsent" | "failed";
+  status: 'sending' | 'unsent' | 'failed';
 } & DraftData;
 
 export interface TextSelection {
@@ -55,7 +52,7 @@ export interface TextSelection {
   end: number;
 }
 
-export type TypeDraft = {
+export interface TypeDraft {
   /**
    * All active message drafts
    */
@@ -65,22 +62,22 @@ export type TypeDraft = {
    * Unsent messages
    */
   outbox: Record<string, UnsentMessage[]>;
-};
+}
 
 /**
  * List of image content types
  */
 export const ALLOWED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/png",
-  "image/gif",
-  "image/webp",
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
 ];
 
 /**
  * Message drafts store
  */
-export class Draft extends AbstractStore<"draft", TypeDraft> {
+export class Draft extends AbstractStore<'draft', TypeDraft> {
   /**
    * Keep track of cached files
    */
@@ -99,7 +96,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
    * @param state State
    */
   constructor(state: State) {
-    super(state, "draft");
+    super(state, 'draft');
     this.fileCache = {};
 
     this.getFile = this.getFile.bind(this);
@@ -126,8 +123,8 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
    * Validate the given data to see if it is compliant and return a compliant object
    */
   clean(input: Partial<TypeDraft>): TypeDraft {
-    const drafts: TypeDraft["drafts"] = {};
-    const outbox: TypeDraft["outbox"] = {};
+    const drafts: TypeDraft['drafts'] = {};
+    const outbox: TypeDraft['outbox'] = {};
 
     /**
      * Validate replies array is correct
@@ -139,18 +136,18 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
       replies.length &&
       !replies.find(
         (x) =>
-          typeof x !== "object" ||
-          typeof x.id !== "string" ||
-          typeof x.mention !== "boolean"
+          typeof x !== 'object' ||
+          typeof x.id !== 'string' ||
+          typeof x.mention !== 'boolean'
       );
 
     const messageDrafts = input.drafts;
-    if (typeof messageDrafts === "object") {
+    if (typeof messageDrafts === 'object') {
       for (const channelId of Object.keys(messageDrafts)) {
         const entry = messageDrafts?.[channelId];
         const draft: DraftData = {};
 
-        if (typeof entry?.content === "string" && entry.content) {
+        if (typeof entry?.content === 'string' && entry.content) {
           draft.content = entry.content;
         }
 
@@ -165,7 +162,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
     }
 
     const pendingMessages = input.outbox;
-    if (typeof pendingMessages === "object") {
+    if (typeof pendingMessages === 'object') {
       for (const channelId of Object.keys(pendingMessages)) {
         const entry = pendingMessages[channelId];
         const messages: UnsentMessage[] = [];
@@ -173,15 +170,15 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
         if (Array.isArray(entry)) {
           for (const message of entry) {
             if (
-              typeof message === "object" &&
-              ["sending", "unsent", "failed"].includes(message.status) &&
-              typeof message.idempotencyKey === "string" &&
-              typeof message.content === "string" // shouldn't be enforced once we support caching files
+              typeof message === 'object' &&
+              ['sending', 'unsent', 'failed'].includes(message.status) &&
+              typeof message.idempotencyKey === 'string' &&
+              typeof message.content === 'string' // shouldn't be enforced once we support caching files
             ) {
               const msg: UnsentMessage = {
                 idempotencyKey: message.idempotencyKey,
                 content: message.content,
-                status: "unsent",
+                status: 'unsent',
                 // TODO: support storing unsent files in local storage
                 // files: [..]
               };
@@ -231,15 +228,15 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
     channelId: string,
     data?: DraftData | ((data: DraftData) => DraftData)
   ) {
-    if (typeof data === "function") {
+    if (typeof data === 'function') {
       data = data(this.getDraft(channelId));
     }
 
-    if (typeof data === "undefined") {
+    if (typeof data === 'undefined') {
       return this.clearDraft(channelId);
     }
 
-    this.set("drafts", channelId, data);
+    this.set('drafts', channelId, data);
   }
 
   /**
@@ -253,7 +250,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
     }
 
     this.setDraft(channelId, {
-      content: "",
+      content: '',
       replies: [],
       files: [],
     });
@@ -270,12 +267,12 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
 
     // TODO: const idempotencyKey = ulid();
     const idempotencyKey = Math.random().toString();
-    this.set("outbox", channel.id, [
+    this.set('outbox', channel.id, [
       ...this.getPendingMessages(channel.id),
       {
         ...draft,
         idempotencyKey,
-        status: "sending",
+        status: 'sending',
       } as UnsentMessage,
     ]);
 
@@ -300,28 +297,28 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
         // Prepare for upload
         const body = new FormData();
         const { file } = this.getFile(fileId);
-        body.set("file", file);
+        body.set('file', file);
 
         // We have to use XMLHttpRequest because modern fetch duplex streams require QUIC or HTTP/2
         const xhr = new XMLHttpRequest();
-        xhr.responseType = "json";
+        xhr.responseType = 'json';
 
         const [success, response] = await new Promise<
           [boolean, { id: string }]
         >((resolve) => {
-          xhr.upload.addEventListener("progress", (event) => {
+          xhr.upload.addEventListener('progress', (event) => {
             if (event.lengthComputable) {
               // TODO: show this to users
-              console.log("upload progress:", event.loaded / event.total);
+              console.log('upload progress:', event.loaded / event.total);
             }
           });
 
-          xhr.addEventListener("loadend", () => {
+          xhr.addEventListener('loadend', () => {
             resolve([xhr.readyState === 4 && xhr.status === 200, xhr.response]);
           });
 
           xhr.open(
-            "POST",
+            'POST',
             `${client.configuration!.features.autumn.url}/attachments`,
             true
           );
@@ -329,7 +326,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
         });
 
         // TODO: keep track of uploaded files (and don't reupload those that succeded if message or something else fails)
-        if (!success) throw "Upload Error";
+        if (!success) throw 'Upload Error';
         attachments.push(response.id);
       }
     }
@@ -350,7 +347,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
       }
 
       this.set(
-        "outbox",
+        'outbox',
         channel.id,
         this.getPendingMessages(channel.id).filter(
           (entry) => entry.idempotencyKey !== idempotencyKey
@@ -358,13 +355,13 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
       );
     } catch (err) {
       this.set(
-        "outbox",
+        'outbox',
         channel.id,
         this.getPendingMessages(channel.id).map((entry) =>
           entry.idempotencyKey === idempotencyKey
             ? {
                 ...entry,
-                status: "failed",
+                status: 'failed',
               }
             : entry
         )
@@ -381,7 +378,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
     const { content, replies, files } = this.getDraft(channelId);
 
     this.setDraft(channelId, {
-      content: "",
+      content: '',
       replies: [],
       files: files?.splice(CONFIGURATION.MAX_ATTACHMENTS),
     });
@@ -418,7 +415,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
    */
   cancelSend(channel: Channel, idempotencyKey: string) {
     this.set(
-      "outbox",
+      'outbox',
       channel.id,
       this.getPendingMessages(channel.id).filter(
         (entry) => entry.idempotencyKey !== idempotencyKey
@@ -455,7 +452,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
    */
   insertText(string: string) {
     if (this.textSelection) {
-      const content = this.getDraft(this.textSelection.channelId).content ?? "";
+      const content = this.getDraft(this.textSelection.channelId).content ?? '';
       const startStr = content.slice(0, this.textSelection.start);
       const endStr = content.slice(this.textSelection.end, content.length);
 
@@ -477,7 +474,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
    * Reset and clear all drafts.
    */
   reset() {
-    this.set("drafts", {});
+    this.set('drafts', {});
   }
 
   /**

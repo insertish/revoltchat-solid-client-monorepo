@@ -1,5 +1,5 @@
-import { JSX } from "solid-js";
-import { styled } from "solid-styled-components";
+import type { JSX } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
 interface Props {
   /**
@@ -21,7 +21,7 @@ interface Props {
 /**
  * Sized content base container
  */
-const Base = styled("figure")`
+const Base = styled('figure')`
   margin: 0;
 
   > :not(.container),
@@ -35,11 +35,11 @@ const Base = styled("figure")`
   video,
   iframe,
   .Spoiler.Video {
-    min-width: ${(props) => props.theme!.layout.attachments["min-width"]};
-    max-width: ${(props) => props.theme!.layout.attachments["max-width"]};
+    min-width: ${(props) => props.theme!.layout.attachments['min-width']};
+    max-width: ${(props) => props.theme!.layout.attachments['max-width']};
 
-    min-height: ${(props) => props.theme!.layout.attachments["min-height"]};
-    max-height: ${(props) => props.theme!.layout.attachments["max-height"]};
+    min-height: ${(props) => props.theme!.layout.attachments['min-height']};
+    max-height: ${(props) => props.theme!.layout.attachments['max-height']};
   }
 `;
 
@@ -50,8 +50,8 @@ const Tall = styled(Base)`
   img,
   .Spoiler.Image {
     width: auto;
-    min-height: ${(props) => props.theme!.layout.attachments["min-height"]};
-    max-height: ${(props) => props.theme!.layout.attachments["max-height"]};
+    min-height: ${(props) => props.theme!.layout.attachments['min-height']};
+    max-height: ${(props) => props.theme!.layout.attachments['max-height']};
   }
 
   .Spoiler.Image {
@@ -66,8 +66,8 @@ const Wide = styled(Base)`
   img,
   .Spoiler.Image {
     height: auto;
-    min-width: ${(props) => props.theme!.layout.attachments["min-width"]};
-    max-width: ${(props) => props.theme!.layout.attachments["max-width"]};
+    min-width: ${(props) => props.theme!.layout.attachments['min-width']};
+    max-width: ${(props) => props.theme!.layout.attachments['max-width']};
   }
 
   .Spoiler.Image,
@@ -91,10 +91,10 @@ export function SizedContent(props: Props) {
   return (
     <Base
       style={{
-        "--width": props.width,
-        "--height": props.height,
-        "--width-px": props.width + "px",
-        "--height-px": props.height + "px",
+        '--width': props.width,
+        '--height': props.height,
+        '--width-px': props.width + 'px',
+        '--height-px': props.height + 'px',
       }}
     >
       {props.children}

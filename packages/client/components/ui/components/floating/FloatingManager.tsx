@@ -1,23 +1,22 @@
-import { useFloating } from "solid-floating-ui";
+import { autoUpdate, flip, offset, shift } from '@floating-ui/dom';
+import { useFloating } from 'solid-floating-ui';
 import {
+  createSignal,
   For,
   Match,
-  Show,
-  Switch,
-  createSignal,
   onCleanup,
   onMount,
-} from "solid-js";
-import { Portal } from "solid-js/web";
+  Show,
+  Switch,
+} from 'solid-js';
+import { Portal } from 'solid-js/web';
+import { Motion, Presence } from 'solid-motionone';
 
-import { autoUpdate, flip, offset, shift } from "@floating-ui/dom";
-import { Motion, Presence } from "@motionone/solid";
-
-import { FloatingElement, floatingElements } from "../../directives";
-
-import { AutoComplete } from "./AutoComplete";
-import { TooltipBase } from "./Tooltip";
-import { UserCard } from "./UserCard";
+import type { FloatingElement } from '../../directives';
+import { floatingElements } from '../../directives';
+import { AutoComplete } from './AutoComplete';
+import { TooltipBase } from './Tooltip';
+import { UserCard } from './UserCard';
 
 /**
  * Render the actual floating elements
@@ -34,11 +33,11 @@ export function FloatingManager() {
     mouseY = clientY;
   }
 
-  onMount(() => document.addEventListener("mousemove", onMouseMove));
-  onCleanup(() => document.addEventListener("mousemove", onMouseMove));
+  onMount(() => document.addEventListener('mousemove', onMouseMove));
+  onCleanup(() => document.addEventListener('mousemove', onMouseMove));
 
   return (
-    <Portal mount={document.getElementById("floating")!}>
+    <Portal mount={document.getElementById('floating')!}>
       <For each={floatingElements()}>
         {(element) => (
           <Presence>
@@ -68,11 +67,11 @@ function Floating(props: FloatingElement & { mouseX: number; mouseY: number }) {
     if (current.tooltip) {
       return current.tooltip.placement;
     } else if (current.userCard) {
-      return "right-start";
+      return 'right-start';
     } else if (current.contextMenu) {
-      return "right-start";
+      return 'right-start';
     } else if (current.autoComplete) {
-      return "top-start";
+      return 'top-start';
     }
   };
 
@@ -142,8 +141,8 @@ function Floating(props: FloatingElement & { mouseX: number; mouseY: number }) {
   // We know what we're doing here...
   // eslint-disable-next-line solid/reactivity
   if (props.config().userCard || props.config().contextMenu) {
-    onMount(() => document.addEventListener("mousedown", onMouseDown));
-    onCleanup(() => document.removeEventListener("mousedown", onMouseDown));
+    onMount(() => document.addEventListener('mousedown', onMouseDown));
+    onCleanup(() => document.removeEventListener('mousedown', onMouseDown));
   }
 
   return (
@@ -161,13 +160,13 @@ function Floating(props: FloatingElement & { mouseX: number; mouseY: number }) {
           top: `${position.y ?? 0}px`,
           left: `${position.x ?? 0}px`,
           // TODO: use floating-element zIndex from theme
-          "z-index": 10000,
+          'z-index': 10000,
         }}
       >
         <Switch>
           <Match when={props.show()?.tooltip}>
             <TooltipBase>
-              {typeof props.show()!.tooltip!.content === "function"
+              {typeof props.show()!.tooltip!.content === 'function'
                 ? (props.show()!.tooltip!.content as Function)({})
                 : props.show()!.tooltip!.content}
             </TooltipBase>

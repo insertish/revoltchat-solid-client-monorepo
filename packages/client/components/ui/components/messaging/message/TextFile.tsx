@@ -1,15 +1,12 @@
-import { Match, Switch, createSignal, onMount } from "solid-js";
-import { styled } from "solid-styled-components";
+import { useTranslation } from '@revolt/i18n';
+import type { File } from 'revolt.js';
+import { createSignal, Match, onMount, Switch } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { File } from "revolt.js";
-
-import { useTranslation } from "@revolt/i18n";
-
-import { Preloader } from "../../design/atoms/indicators";
-import { Button } from "../../design/atoms/inputs";
-import { Row } from "../../design/layout";
-
-import { humanFileSize } from "./Attachment";
+import { Preloader } from '../../design/atoms/indicators';
+import { Button } from '../../design/atoms/inputs';
+import { Row } from '../../design/layout';
+import { humanFileSize } from './Attachment';
 
 interface Props {
   /**
@@ -21,12 +18,12 @@ interface Props {
 /**
  * Text file container
  */
-const Container = styled("pre")`
+const Container = styled('pre')`
   display: flex;
   overflow: auto;
   scrollbar-width: thin;
   flex-direction: column;
-  color: ${(props) => props.theme!.colours["foreground"]};
+  color: ${(props) => props.theme!.colours['foreground']};
 `;
 
 /**
@@ -62,7 +59,7 @@ export function TextFile(props: Props) {
 
   return (
     <Container>
-      <Switch fallback={<Preloader type="ring" grow />}>
+      <Switch fallback={<Preloader type='ring' grow />}>
         <Match
           when={
             !loading() &&
@@ -71,13 +68,13 @@ export function TextFile(props: Props) {
           }
         >
           <Row align justify grow>
-            <Button variant="secondary" onClick={load}>
-              {t("app.main.channel.misc.load_file")} (
+            <Button variant='secondary' onClick={load}>
+              {t('app.main.channel.misc.load_file')} (
               {humanFileSize(props.file.size ?? 0)})
             </Button>
           </Row>
         </Match>
-        <Match when={typeof contents() !== "undefined"}>
+        <Match when={typeof contents() !== 'undefined'}>
           <code>{contents()}</code>
         </Match>
       </Switch>

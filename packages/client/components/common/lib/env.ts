@@ -5,28 +5,28 @@ export default {
   DEFAULT_API_URL:
     (import.meta.env.DEV ? import.meta.env.VITE_DEV_API_URL : undefined) ??
     (import.meta.env.VITE_API_URL as string) ??
-    "https://revolt.chat/api",
+    'https://revolt.chat/api',
   /**
    * What WS server to connect to by default.
    */
   DEFAULT_WS_URL:
     (import.meta.env.DEV ? import.meta.env.VITE_DEV_WS_URL : undefined) ??
     (import.meta.env.VITE_WS_URL as string) ??
-    "wss://revolt.chat/events",
+    'wss://revolt.chat/events',
   /**
    * What media server to connect to by default.
    */
   DEFAULT_MEDIA_URL:
     (import.meta.env.DEV ? import.meta.env.VITE_DEV_WS_URL : undefined) ??
     (import.meta.env.VITE_WS_URL as string) ??
-    "https://autumn.revolt.chat",
+    'https://autumn.revolt.chat',
   /**
    * What proxy server to connect to by default.
    */
   DEFAULT_PROXY_URL:
     (import.meta.env.DEV ? import.meta.env.VITE_DEV_WS_URL : undefined) ??
     (import.meta.env.VITE_WS_URL as string) ??
-    "https://jan.revolt.chat",
+    'https://jan.revolt.chat',
   /**
    * hCaptcha site key to use if enabled
    */

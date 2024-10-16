@@ -1,6 +1,6 @@
-import type { Handler } from "mdast-util-to-hast";
-import type { Plugin } from "unified";
-import { visit } from "unist-util-visit";
+import type { Handler } from 'mdast-util-to-hast';
+import type { Plugin } from 'unified';
+import { visit } from 'unist-util-visit';
 
 /**
  * Props given to custom components
@@ -28,11 +28,11 @@ export function createRegexComponent(
    */
   return () => {
     return (tree) => {
-      console.info("the tree", tree);
+      console.info('the tree', tree);
 
       visit(
         tree,
-        "text",
+        'text',
         (
           node: { value: string },
           index: number,
@@ -51,7 +51,7 @@ export function createRegexComponent(
 
               if (start !== position) {
                 result.push({
-                  type: "text",
+                  type: 'text',
                   value: node.value.slice(start, position),
                 });
               }
@@ -68,10 +68,10 @@ export function createRegexComponent(
             match = regex.exec(node.value);
           }
 
-          if (result.length > 0 && parent && typeof index === "number") {
+          if (result.length > 0 && parent && typeof index === 'number') {
             if (start < node.value.length) {
               result.push({
-                type: "text",
+                type: 'text',
                 value: node.value.slice(start),
               });
             }
@@ -92,13 +92,13 @@ export function createRegexComponent(
  */
 export const passThroughRehype: (name: string) => Handler = (name: string) => {
   return (h, node, parent) => {
-    console.info("Build", h, node, parent);
+    console.info('Build', h, node, parent);
     return {
-      type: "element",
-      tagName: "spoiler",
+      type: 'element',
+      tagName: 'spoiler',
       children: [
         {
-          type: "raw",
+          type: 'raw',
           value: node.match,
         },
       ],

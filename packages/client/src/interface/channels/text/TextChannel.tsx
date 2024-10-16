@@ -1,23 +1,10 @@
-import {
-  For,
-  Show,
-  createEffect,
-  createSignal,
-  on,
-  onCleanup,
-  onMount,
-} from "solid-js";
-
-import { Message as MessageInterface } from "revolt.js";
-import { decodeTime, ulid } from "ulid";
-
-import { DraftMessages, Message, Messages } from "@revolt/app";
-import { useClient, useUser } from "@revolt/client";
-import { KeybindAction } from "@revolt/keybinds";
-import { userInformation } from "@revolt/markdown/users";
-import { useNavigate, useSmartParams } from "@revolt/routing";
-import { state } from "@revolt/state";
-import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
+import { DraftMessages, Message, Messages } from '@revolt/app';
+import { useClient, useUser } from '@revolt/client';
+import { KeybindAction } from '@revolt/keybinds';
+import { userInformation } from '@revolt/markdown/users';
+import { useNavigate, useSmartParams } from '@revolt/routing';
+import { state } from '@revolt/state';
+import { LAYOUT_SECTIONS } from '@revolt/state/stores/Layout';
 import {
   Avatar,
   BelowFloatingHeader,
@@ -25,17 +12,27 @@ import {
   MessageContainer,
   MessageReply,
   NewMessages,
+  styled,
   TypingIndicator,
   Username,
-  styled,
-} from "@revolt/ui";
-import { useKeybindActions } from "@revolt/ui/components/context/Keybinds";
+} from '@revolt/ui';
+import { useKeybindActions } from '@revolt/ui/components/context/Keybinds';
+import { Message as MessageInterface } from 'revolt.js';
+import {
+  createEffect,
+  createSignal,
+  For,
+  on,
+  onCleanup,
+  onMount,
+  Show,
+} from 'solid-js';
+import { decodeTime, ulid } from 'ulid';
 
-import { ChannelHeader } from "../ChannelHeader";
-import { ChannelPageProps } from "../ChannelPage";
-
-import { MessageComposition } from "./Composition";
-import { MemberSidebar } from "./MemberSidebar";
+import { ChannelHeader } from '../ChannelHeader';
+import type { ChannelPageProps } from '../ChannelPage';
+import { MessageComposition } from './Composition';
+import { MemberSidebar } from './MemberSidebar';
 
 /**
  * Channel component
@@ -122,7 +119,7 @@ export function TextChannel(props: ChannelPageProps) {
 
   return (
     <>
-      <HeaderWithTransparency placement="primary">
+      <HeaderWithTransparency placement='primary'>
         <ChannelHeader channel={props.channel} />
       </HeaderWithTransparency>
       <Content>
@@ -142,7 +139,7 @@ export function TextChannel(props: ChannelPageProps) {
             lastReadId={lastId}
             pendingMessages={<DraftMessages channel={props.channel} />}
             highlightedMessageId={highlightMessageId}
-            clearHighlightedMessage={() => navigate(".")}
+            clearHighlightedMessage={() => navigate('.')}
             atEndRef={(ref) => (atEndRef = ref)}
             jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}
           />

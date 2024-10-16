@@ -1,46 +1,46 @@
-import { createEffect, createSignal, on } from "solid-js";
-import { styled } from "solid-styled-components";
+import 'katex/dist/katex.min.css';
 
-import "katex/dist/katex.min.css";
-import { html } from "property-information";
-import rehypeHighlight from "rehype-highlight";
-import rehypeKatex from "rehype-katex";
-import remarkBreaks from "remark-breaks";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
-import remarkParse from "remark-parse";
-import remarkRehype from "remark-rehype";
-import { unified } from "unified";
-import { VFile } from "vfile";
+import { html } from 'property-information';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeKatex from 'rehype-katex';
+import remarkBreaks from 'remark-breaks';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import { createEffect, createSignal, on } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { unified } from 'unified';
+import { VFile } from 'vfile';
 
-import * as elements from "./elements";
-import { injectEmojiSize } from "./emoji/util";
-import { handlers } from "./hast";
-import { RenderCodeblock } from "./plugins/Codeblock";
-import { RenderAnchor } from "./plugins/anchors";
-import { remarkChannels } from "./plugins/channels";
-import { RenderCustomEmoji, remarkCustomEmoji } from "./plugins/customEmoji";
-import { remarkHtmlToText } from "./plugins/htmlToText";
+import * as elements from './elements';
+import { injectEmojiSize } from './emoji/util';
+import { handlers } from './hast';
+import { RenderAnchor } from './plugins/anchors';
+import { remarkChannels } from './plugins/channels';
+import { RenderCodeblock } from './plugins/Codeblock';
+import { remarkCustomEmoji, RenderCustomEmoji } from './plugins/customEmoji';
+import { remarkHtmlToText } from './plugins/htmlToText';
 import {
-  RenderMention,
   mentionHandler,
   remarkMentions,
-} from "./plugins/mentions";
-import { passThroughComponents } from "./plugins/remarkRegexComponent";
+  RenderMention,
+} from './plugins/mentions';
+import { passThroughComponents } from './plugins/remarkRegexComponent';
 import {
-  RenderSpoiler,
   remarkSpoiler,
+  RenderSpoiler,
   spoilerHandler,
-} from "./plugins/spoiler";
+} from './plugins/spoiler';
 import {
-  RenderTimestamp,
   remarkTimestamps,
+  RenderTimestamp,
   timestampHandler,
-} from "./plugins/timestamps";
-import { RenderUnicodeEmoji, remarkUnicodeEmoji } from "./plugins/unicodeEmoji";
-import { remarkInsertBreaks, sanitise } from "./sanitise";
-import { childrenToSolid } from "./solid-markdown/ast-to-solid";
-import { defaults } from "./solid-markdown/defaults";
+} from './plugins/timestamps';
+import { remarkUnicodeEmoji, RenderUnicodeEmoji } from './plugins/unicodeEmoji';
+import { remarkInsertBreaks, sanitise } from './sanitise';
+import { childrenToSolid } from './solid-markdown/ast-to-solid';
+import { defaults } from './solid-markdown/defaults';
 
 /**
  * Empty component
@@ -123,8 +123,8 @@ const pipeline = unified()
     maxExpand: 2,
     trust: false,
     strict: false,
-    output: "html",
-    errorColor: "var(--customColours-error-color)",
+    output: 'html',
+    errorColor: 'var(--customColours-error-color)',
   })
   .use(rehypeHighlight);
 
@@ -140,8 +140,8 @@ export interface MarkdownProps {
   disallowBigEmoji?: boolean;
 }
 
-export { TextWithEmoji } from "./emoji/TextWithEmoji";
-export { Emoji } from "./emoji/Emoji";
+export { Emoji } from './emoji/Emoji';
+export { TextWithEmoji } from './emoji/TextWithEmoji';
 
 /**
  * Remark renderer component
@@ -151,14 +151,14 @@ export function Markdown(props: MarkdownProps) {
    * Render some given Markdown content
    * @param content content
    */
-  function render(content = "") {
+  function render(content = '') {
     const file = new VFile();
     file.value = sanitise(content);
 
     const hastNode = pipeline.runSync(pipeline.parse(file), file);
 
-    if (hastNode.type !== "root") {
-      throw new TypeError("Expected a `root` node");
+    if (hastNode.type !== 'root') {
+      throw new TypeError('Expected a `root` node');
     }
 
     injectEmojiSize(props, hastNode as any);

@@ -1,6 +1,7 @@
-import { FaSolidCircle as CircleIcon } from "solid-icons/fa";
-import { JSX, Show, createSignal, splitProps } from "solid-js";
-import { styled } from "solid-styled-components";
+import { FaSolidCircle as CircleIcon } from 'solid-icons/fa';
+import type { JSX } from 'solid-js';
+import { createSignal, Show, splitProps } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
 interface Props {
   title?: JSX.Element;
@@ -130,11 +131,11 @@ const Description = styled.div<BaseProps>`
 
 export function Radio(props: Props) {
   const [local, others] = splitProps(props, [
-    "disabled",
-    "title",
-    "description",
-    "value",
-    "onSelect",
+    'disabled',
+    'title',
+    'description',
+    'value',
+    'onSelect',
   ]);
 
   const [controlledValue, setControlledValue] = createSignal(false);
@@ -146,10 +147,10 @@ export function Radio(props: Props) {
         <CircleIcon size={12} />
       </RadioCircle>
       <input
-        type="radio"
+        type='radio'
         checked={selected()}
         onChange={() =>
-          typeof local.value !== "undefined"
+          typeof local.value !== 'undefined'
             ? !local.disabled && local.onSelect?.(!local.value)
             : setControlledValue((v) => !v)
         }

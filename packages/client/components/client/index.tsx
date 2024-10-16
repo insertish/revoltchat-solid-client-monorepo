@@ -1,12 +1,10 @@
-import { Accessor } from "solid-js";
+import type { Client, User } from 'revolt.js';
+import type { Accessor } from 'solid-js';
 
-import type { Client, User } from "revolt.js";
+import ClientController from './Controller';
 
-import ClientController from "./Controller";
-
-export type { default as ClientController } from "./Controller";
-
-export { mapAnyError, mapAndRethrowError } from "./error";
+export type { default as ClientController } from './Controller';
+export { mapAndRethrowError, mapAnyError } from './error';
 
 /**
  * Global client controller
@@ -38,8 +36,8 @@ export function useApi() {
 }
 
 export const IS_REVOLT =
-  import.meta.env.VITE_API_URL === "https://api.revolt.chat" ||
-  import.meta.env.VITE_API_URL === "https://revolt.chat/api" ||
-  typeof import.meta.env.VITE_API_URL !== "string";
+  import.meta.env.VITE_API_URL === 'https://api.revolt.chat' ||
+  import.meta.env.VITE_API_URL === 'https://revolt.chat/api' ||
+  typeof import.meta.env.VITE_API_URL !== 'string';
 
 export const IS_DEV = import.meta.env.DEV;

@@ -1,8 +1,7 @@
-import { For } from "solid-js";
-
-import { useClient } from "@revolt/client";
-import { createOwnProfileResource } from "@revolt/client/resources";
-import { modalController } from "@revolt/modal";
+import MdGroups from '@material-design-icons/svg/outlined/groups.svg?component-solid';
+import { useClient } from '@revolt/client';
+import { createOwnProfileResource } from '@revolt/client/resources';
+import { modalController } from '@revolt/modal';
 import {
   Avatar,
   CategoryButton,
@@ -10,13 +9,11 @@ import {
   CategoryCollapse,
   Column,
   iconSize,
-} from "@revolt/ui";
+} from '@revolt/ui';
+import { For } from 'solid-js';
 
-import MdGroups from "@material-design-icons/svg/outlined/groups.svg?component-solid";
-
-import { UserSummary } from "../account";
-
-import { EditProfileButtons } from "./EditProfileButtons";
+import { UserSummary } from '../account/index';
+import { EditProfileButtons } from './EditProfileButtons';
 
 /**
  * Edit profile
@@ -26,7 +23,7 @@ export function EditProfile() {
   const profile = createOwnProfileResource();
 
   return (
-    <Column gap="lg">
+    <Column gap='lg'>
       <UserSummary
         user={client().user!}
         bannerUrl={profile.data?.animatedBannerURL}
@@ -37,8 +34,8 @@ export function EditProfile() {
       <CategoryButtonGroup>
         <CategoryCollapse
           icon={<MdGroups {...iconSize(22)} />}
-          title="Server Identities"
-          description="Change your profile per-server"
+          title='Server Identities'
+          description='Change your profile per-server'
           scrollable
         >
           <For each={client().servers.toList()}>
@@ -53,7 +50,7 @@ export function EditProfile() {
                 }
                 onClick={() =>
                   modalController.push({
-                    type: "server_identity",
+                    type: 'server_identity',
                     member: server.member!,
                   })
                 }

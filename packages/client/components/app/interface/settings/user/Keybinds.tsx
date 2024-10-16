@@ -1,17 +1,9 @@
-import {
-  BiSolidPencil,
-  BiSolidPlusCircle,
-  BiSolidXCircle,
-} from "solid-icons/bi";
-import { BiRegularReset } from "solid-icons/bi";
-import { For, Match, Switch, createMemo, createSignal } from "solid-js";
-
-import { getController } from "@revolt/common";
-import { useTranslation } from "@revolt/i18n";
-import { KeybindAction } from "@revolt/keybinds";
-import { KeyComboSequence } from "@revolt/keybinds";
-import { KeyCombo } from "@revolt/keybinds";
-import { state } from "@revolt/state";
+import { getController } from '@revolt/common';
+import { useTranslation } from '@revolt/i18n';
+import type { KeyComboSequence } from '@revolt/keybinds';
+import type { KeyCombo } from '@revolt/keybinds';
+import { KeybindAction } from '@revolt/keybinds';
+import { state } from '@revolt/state';
 import {
   Button,
   CategoryButton,
@@ -20,7 +12,14 @@ import {
   Input,
   KeySequence,
   styled,
-} from "@revolt/ui";
+} from '@revolt/ui';
+import {
+  BiSolidPencil,
+  BiSolidPlusCircle,
+  BiSolidXCircle,
+} from 'solid-icons/bi';
+import { BiRegularReset } from 'solid-icons/bi';
+import { createMemo, createSignal, For, Match, Switch } from 'solid-js';
 
 const categories: Record<string, KeybindAction[]> = {
   navigation: [
@@ -62,15 +61,15 @@ export default function Keybinds() {
 
   const translateCombo = (combo: KeyCombo, short: boolean) =>
     combo
-      .map((key) => t(`keys.${key}.${short ? "short" : "full"}`, {}, key))
-      .join("+");
+      .map((key) => t(`keys.${key}.${short ? 'short' : 'full'}`, {}, key))
+      .join('+');
 
   const translateSequence = (sequence: KeyComboSequence, short: boolean) =>
-    sequence.map((combo) => translateCombo(combo, short)).join(" ");
+    sequence.map((combo) => translateCombo(combo, short)).join(' ');
 
   const editKeybind = (action: KeybindAction, index: number) =>
-    getController("modal").push({
-      type: "edit_keybind",
+    getController('modal').push({
+      type: 'edit_keybind',
       action,
       onSubmit: (sequence) => {
         state.keybinds.setKeybind(action, index, sequence);
@@ -78,8 +77,8 @@ export default function Keybinds() {
     });
 
   const addKeybind = (action: KeybindAction) =>
-    getController("modal").push({
-      type: "edit_keybind",
+    getController('modal').push({
+      type: 'edit_keybind',
       action,
       onSubmit: (sequence) => {
         state.keybinds.addKeybind(action, sequence);
@@ -98,14 +97,13 @@ export default function Keybinds() {
         t(`app.settings.pages.keybinds.action.${action}.title`) as string,
         ...state.keybinds
           .getKeybinds()
-          [action].flatMap((sequence) => [
-            translateSequence(sequence, false),
-            translateSequence(sequence, true),
-          ]),
+          [
+            action
+          ].flatMap((sequence) => [translateSequence(sequence, false), translateSequence(sequence, true)]),
       ])
   );
 
-  const [searchText, setSearchText] = createSignal("");
+  const [searchText, setSearchText] = createSignal('');
 
   const filteredData = createMemo(() => {
     const foundActions = searchData()
@@ -128,9 +126,9 @@ export default function Keybinds() {
   return (
     <Column>
       <Input
-        type="text"
+        type='text'
         onInput={(e) => setSearchText(e.target.value)}
-        placeholder={t("app.settings.pages.keybinds.search")}
+        placeholder={t('app.settings.pages.keybinds.search')}
       />
       <For each={filteredData()}>
         {([category, actions]) => (
@@ -138,7 +136,7 @@ export default function Keybinds() {
             title={t(`app.settings.pages.keybinds.category.${category}`)}
             // TODO: open={category !== "advanced"}
           >
-            <Column group="6px">
+            <Column group='6px'>
               <For each={actions}>
                 {(action) => (
                   <ActionCategory>
@@ -165,8 +163,8 @@ export default function Keybinds() {
                           <CategoryButton
                             action={[
                               <Button
-                                size="fluid"
-                                variant="plain"
+                                size='fluid'
+                                variant='plain'
                                 onPress={() => editKeybind(action, index())}
                               >
                                 <BiSolidPencil size={24} />
@@ -176,8 +174,8 @@ export default function Keybinds() {
                                   when={!keybindIsDefault && indexIsDefault}
                                 >
                                   <Button
-                                    size="fluid"
-                                    variant="plain"
+                                    size='fluid'
+                                    variant='plain'
                                     // title={t(
                                     //   "app.settings.pages.keybinds.remove_keybind"
                                     // )}
@@ -190,8 +188,8 @@ export default function Keybinds() {
                                 </Match>
                                 <Match when={!keybindIsDefault}>
                                   <Button
-                                    size="fluid"
-                                    variant="plain"
+                                    size='fluid'
+                                    variant='plain'
                                     // title={t(
                                     //   "app.settings.pages.keybinds.remove_keybind"
                                     // )}
@@ -222,7 +220,7 @@ export default function Keybinds() {
 }
 
 // TODO: theming
-const ActionCategory = styled("section", "ActionCategory")`
+const ActionCategory = styled('section', 'ActionCategory')`
   display: grid;
   gap: 1px;
 
@@ -242,7 +240,7 @@ const ActionCategory = styled("section", "ActionCategory")`
     border-end-start-radius: 0;
   }
 `;
-const KeybindEntry = styled("article", "KeybindEntry")`
+const KeybindEntry = styled('article', 'KeybindEntry')`
   display: flex;
   gap: ${({ theme }) => theme?.gap.lg};
 

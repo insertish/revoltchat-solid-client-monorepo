@@ -1,5 +1,6 @@
-import { dndzone } from "solid-dnd-directive";
-import { For, JSX, createEffect, createSignal } from "solid-js";
+import { dndzone } from 'solid-dnd-directive';
+import type { JSX } from 'solid-js';
+import { createEffect, createSignal, For } from 'solid-js';
 
 interface Props<T> {
   items: Item<T>[];
@@ -21,7 +22,7 @@ interface DragHandleEvent<T> {
   detail: {
     items: ContainerItem<T>[];
   };
-  type: "consider" | "finalize";
+  type: 'consider' | 'finalize';
 }
 
 /**
@@ -54,7 +55,7 @@ export function Draggable<T>(props: Props<T>) {
   function handleDndEvent(e: DragHandleEvent<T>) {
     const { items: newContainerItems } = e.detail;
     setContainerItems(newContainerItems);
-    if (e.type === "finalize")
+    if (e.type === 'finalize')
       props.onChange(
         newContainerItems.map((containerItems) => containerItems.id)
       );
@@ -66,7 +67,6 @@ export function Draggable<T>(props: Props<T>) {
    */
   return (
     <div
-      // @ts-expect-error Typescript doesn't support directives
       use:dndzone={{ items: containerItems }}
       on:consider={handleDndEvent}
       on:finalize={handleDndEvent}

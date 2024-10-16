@@ -1,47 +1,44 @@
-import {
-  Accessor,
-  Match,
-  Show,
-  Switch,
-  createMemo,
-  createSignal,
-  onMount,
-} from "solid-js";
-
-import { clientController, useClient } from "@revolt/client";
+import MdCakeFill from '@material-design-icons/svg/filled/cake.svg?component-solid';
+import MdAlternateEmail from '@material-design-icons/svg/outlined/alternate_email.svg?component-solid';
+import MdBlock from '@material-design-icons/svg/outlined/block.svg?component-solid';
+import MdDelete from '@material-design-icons/svg/outlined/delete.svg?component-solid';
+import MdDraw from '@material-design-icons/svg/outlined/draw.svg?component-solid';
+import MdEdit from '@material-design-icons/svg/outlined/edit.svg?component-solid';
+import MdLock from '@material-design-icons/svg/outlined/lock.svg?component-solid';
+import MdMail from '@material-design-icons/svg/outlined/mail.svg?component-solid';
+import MdPassword from '@material-design-icons/svg/outlined/password.svg?component-solid';
+import MdVerifiedUser from '@material-design-icons/svg/outlined/verified_user.svg?component-solid';
+import { clientController, useClient } from '@revolt/client';
 import {
   createMfaResource,
   createOwnProfileResource,
-} from "@revolt/client/resources";
-import { getController } from "@revolt/common";
-import { dayjs, useTranslation } from "@revolt/i18n";
+} from '@revolt/client/resources';
+import { getController } from '@revolt/common';
+import { dayjs, useTranslation } from '@revolt/i18n';
 import {
   Avatar,
   CategoryButton,
   CategoryButtonGroup,
   CategoryCollapse,
   Column,
-  Row,
-  Typography,
   iconSize,
+  Row,
   styled,
+  Typography,
   useTheme,
-} from "@revolt/ui";
+} from '@revolt/ui';
+import {
+  type Accessor,
+  createMemo,
+  createSignal,
+  Match,
+  onMount,
+  Show,
+  Switch,
+} from 'solid-js';
 
-import MdCakeFill from "@material-design-icons/svg/filled/cake.svg?component-solid";
-import MdAlternateEmail from "@material-design-icons/svg/outlined/alternate_email.svg?component-solid";
-import MdBlock from "@material-design-icons/svg/outlined/block.svg?component-solid";
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MdDraw from "@material-design-icons/svg/outlined/draw.svg?component-solid";
-import MdEdit from "@material-design-icons/svg/outlined/edit.svg?component-solid";
-import MdLock from "@material-design-icons/svg/outlined/lock.svg?component-solid";
-import MdMail from "@material-design-icons/svg/outlined/mail.svg?component-solid";
-import MdPassword from "@material-design-icons/svg/outlined/password.svg?component-solid";
-import MdVerifiedUser from "@material-design-icons/svg/outlined/verified_user.svg?component-solid";
-
-import { useSettingsNavigation } from "../Settings";
-
-import { UserSummary } from "./account";
+import { useSettingsNavigation } from '../Settings';
+import { UserSummary } from './account/index';
 
 /**
  * Account Page
@@ -52,11 +49,11 @@ export default function MyAccount() {
   const { navigate } = useSettingsNavigation();
 
   return (
-    <Column gap="lg">
+    <Column gap='lg'>
       <UserSummary
         user={client().user!}
         bannerUrl={profile.data?.animatedBannerURL}
-        onEdit={() => navigate("profile")}
+        onEdit={() => navigate('profile')}
         showBadges
       />
       <EditAccount />
@@ -72,36 +69,36 @@ export default function MyAccount() {
 function EditAccount() {
   const t = useTranslation();
   const client = useClient();
-  const [email, setEmail] = createSignal("•••••••••••@•••••••••••");
+  const [email, setEmail] = createSignal('•••••••••••@•••••••••••');
 
   return (
     <CategoryButtonGroup>
       <CategoryButton
-        action="chevron"
+        action='chevron'
         onClick={() =>
-          getController("modal").push({
-            type: "edit_username",
+          getController('modal').push({
+            type: 'edit_username',
             client: client(),
           })
         }
         icon={<MdAlternateEmail {...iconSize(22)} />}
         description={client().user?.username}
       >
-        <Typography variant="label">{t("login.username")}</Typography>
+        <Typography variant='label'>{t('login.username')}</Typography>
       </CategoryButton>
       <CategoryButton
-        action="chevron"
+        action='chevron'
         onClick={() =>
-          getController("modal").push({
-            type: "edit_email",
+          getController('modal').push({
+            type: 'edit_email',
             client: client(),
           })
         }
         icon={<MdMail {...iconSize(22)} />}
         description={
           <Row>
-            {email()}{" "}
-            <Show when={email().startsWith("•")}>
+            {email()}{' '}
+            <Show when={email().startsWith('•')}>
               <a
                 onClick={(event) => {
                   event.stopPropagation();
@@ -114,20 +111,20 @@ function EditAccount() {
           </Row>
         }
       >
-        <Typography variant="label">{t("login.email")}</Typography>
+        <Typography variant='label'>{t('login.email')}</Typography>
       </CategoryButton>
       <CategoryButton
-        action="chevron"
+        action='chevron'
         onClick={() =>
-          getController("modal").push({
-            type: "edit_password",
+          getController('modal').push({
+            type: 'edit_password',
             client: client(),
           })
         }
         icon={<MdPassword {...iconSize(22)} />}
-        description={"•••••••••"}
+        description={'•••••••••'}
       >
-        <Typography variant="label">{t("login.password")}</Typography>
+        <Typography variant='label'>{t('login.password')}</Typography>
       </CategoryButton>
     </CategoryButtonGroup>
   );
@@ -144,12 +141,12 @@ function MultiFactorAuth() {
    * Show recovery codes
    */
   async function showRecoveryCodes() {
-    const modals = getController("modal");
+    const modals = getController('modal');
     const ticket = await modals.mfaFlow(mfa.data!);
 
     ticket!.fetchRecoveryCodes().then((codes) =>
-      getController("modal").push({
-        type: "mfa_recovery",
+      getController('modal').push({
+        type: 'mfa_recovery',
         mfa: mfa.data!,
         codes,
       })
@@ -160,12 +157,12 @@ function MultiFactorAuth() {
    * Generate recovery codes
    */
   async function generateRecoveryCodes() {
-    const modals = getController("modal");
+    const modals = getController('modal');
     const ticket = await modals.mfaFlow(mfa.data!);
 
     ticket!.generateRecoveryCodes().then((codes) =>
-      getController("modal").push({
-        type: "mfa_recovery",
+      getController('modal').push({
+        type: 'mfa_recovery',
         mfa: mfa.data!,
         codes,
       })
@@ -176,7 +173,7 @@ function MultiFactorAuth() {
    * Configure authenticator app
    */
   async function setupAuthenticatorApp() {
-    const modals = getController("modal");
+    const modals = getController('modal');
     const ticket = await modals.mfaFlow(mfa.data!);
     const secret = await ticket!.generateAuthenticatorSecret();
 
@@ -202,7 +199,7 @@ function MultiFactorAuth() {
    * Disable authenticator app
    */
   function disableAuthenticatorApp() {
-    getController("modal")
+    getController('modal')
       .mfaFlow(mfa.data!)
       .then((ticket) => ticket!.disableAuthenticator());
   }
@@ -211,16 +208,16 @@ function MultiFactorAuth() {
     <CategoryButtonGroup>
       <CategoryCollapse
         icon={<MdVerifiedUser {...iconSize(22)} />}
-        title="Recovery Codes"
-        description="Configure a way to get back into your account in case your 2FA is lost"
+        title='Recovery Codes'
+        description='Configure a way to get back into your account in case your 2FA is lost'
       >
         <Switch
           fallback={
             <CategoryButton
-              icon="blank"
+              icon='blank'
               disabled={mfa.isLoading}
               onClick={generateRecoveryCodes}
-              description="Setup recovery codes"
+              description='Setup recovery codes'
             >
               Generate Recovery Codes
             </CategoryButton>
@@ -228,15 +225,15 @@ function MultiFactorAuth() {
         >
           <Match when={!mfa.isLoading && mfa.data?.recoveryEnabled}>
             <CategoryButton
-              icon="blank"
-              description="Get active recovery codes"
+              icon='blank'
+              description='Get active recovery codes'
               onClick={showRecoveryCodes}
             >
               View Recovery Codes
             </CategoryButton>
             <CategoryButton
-              icon="blank"
-              description="Get a new set of recovery codes"
+              icon='blank'
+              description='Get a new set of recovery codes'
               onClick={generateRecoveryCodes}
             >
               Reset Recovery Codes
@@ -246,16 +243,16 @@ function MultiFactorAuth() {
       </CategoryCollapse>
       <CategoryCollapse
         icon={<MdLock {...iconSize(22)} />}
-        title="Authenticator App"
-        description="Configure one-time password authentication"
+        title='Authenticator App'
+        description='Configure one-time password authentication'
       >
         <Switch
           fallback={
             <CategoryButton
-              icon="blank"
+              icon='blank'
               disabled={mfa.isLoading}
               onClick={setupAuthenticatorApp}
-              description="Setup one-time password authenticator"
+              description='Setup one-time password authenticator'
             >
               Enable Authenticator
             </CategoryButton>
@@ -263,8 +260,8 @@ function MultiFactorAuth() {
         >
           <Match when={!mfa.isLoading && mfa.data?.authenticatorEnabled}>
             <CategoryButton
-              icon="blank"
-              description="Disable one-time password authenticator"
+              icon='blank'
+              description='Disable one-time password authenticator'
               onClick={disableAuthenticatorApp}
             >
               Remove Authenticator
@@ -295,7 +292,7 @@ function ManageAccount() {
    * Disable account
    */
   function disableAccount() {
-    getController("modal")
+    getController('modal')
       .mfaFlow(mfa.data!)
       .then((ticket) =>
         ticket!.disableAccount().then(() => clientController.logout())
@@ -306,7 +303,7 @@ function ManageAccount() {
    * Delete account
    */
   function deleteAccount() {
-    getController("modal")
+    getController('modal')
       .mfaFlow(mfa.data!)
       .then((ticket) =>
         ticket!.deleteAccount().then(() => clientController.logout())
@@ -316,29 +313,29 @@ function ManageAccount() {
   return (
     <CategoryButtonGroup>
       <CategoryButton
-        action="chevron"
+        action='chevron'
         disabled={mfa.isLoading}
         onClick={disableAccount}
         icon={
           <MdBlock {...iconSize(22)} fill={theme!.customColours.error.color} />
         }
-        description={t("app.settings.pages.account.manage.disable_description")}
+        description={t('app.settings.pages.account.manage.disable_description')}
       >
-        {t("app.settings.pages.account.manage.disable")}
+        {t('app.settings.pages.account.manage.disable')}
       </CategoryButton>
       <CategoryButton
-        action={stillOwnServers() ? undefined : "chevron"}
+        action={stillOwnServers() ? undefined : 'chevron'}
         disabled={mfa.isLoading || stillOwnServers()}
         onClick={deleteAccount}
         icon={
           <MdDelete {...iconSize(22)} fill={theme!.customColours.error.color} />
         }
-        description={t("app.settings.pages.account.manage.delete_description")}
+        description={t('app.settings.pages.account.manage.delete_description')}
       >
         {t(
           stillOwnServers()
-            ? "app.settings.pages.account.manage.delete_still_own_servers"
-            : "app.settings.pages.account.manage.delete"
+            ? 'app.settings.pages.account.manage.delete_still_own_servers'
+            : 'app.settings.pages.account.manage.delete'
         )}
       </CategoryButton>
     </CategoryButtonGroup>

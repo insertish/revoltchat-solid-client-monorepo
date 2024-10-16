@@ -1,15 +1,15 @@
-import { JSX, createMemo } from "solid-js";
-import { For, Show } from "solid-js";
-import { styled } from "solid-styled-components";
+import { getController } from '@revolt/common';
+import type { JSX } from 'solid-js';
+import { createMemo } from 'solid-js';
+import { For, Show } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { getController } from "@revolt/common";
-
-import { ColouredText, Row, Username } from "../design";
+import { ColouredText, Row, Username } from '../design';
 
 /**
  * Base element for the card
  */
-const Base = styled("div", "Tooltip")`
+const Base = styled('div', 'Tooltip')`
   color: white;
   background: black;
   width: 400px;
@@ -20,14 +20,14 @@ const Base = styled("div", "Tooltip")`
  * User Card
  */
 export function UserCard(
-  props: JSX.Directives["floating"]["userCard"] & object
+  props: JSX.Directives['floating']['userCard'] & object
 ) {
   const roleIds = createMemo(
     () => new Set(props.member?.orderedRoles.map((role) => role.id))
   );
 
   // Disable it while it's being developed
-  if (!getController("state").experiments.isEnabled("user_card")) return null;
+  if (!getController('state').experiments.isEnabled('user_card')) return null;
 
   return (
     <Base>
@@ -53,7 +53,7 @@ export function UserCard(
             >
               <ColouredText
                 colour={role.colour!}
-                clip={role.colour?.includes("gradient")}
+                clip={role.colour?.includes('gradient')}
               >
                 {role.name}
               </ColouredText>
@@ -77,7 +77,7 @@ export function UserCard(
               >
                 <ColouredText
                   colour={role.colour!}
-                  clip={role.colour?.includes("gradient")}
+                  clip={role.colour?.includes('gradient')}
                 >
                   {role.name}
                 </ColouredText>

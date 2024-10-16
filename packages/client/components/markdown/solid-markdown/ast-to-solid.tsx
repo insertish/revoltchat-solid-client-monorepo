@@ -373,7 +373,7 @@ function addProperty(
   let result = value;
 
   // Ignore nullish and `NaN` values.
-  // eslint-disable-next-line no-self-compare
+   
   if (result === null || result === undefined || result !== result) {
     return;
   }

@@ -1,3 +1,11 @@
+import MdPersonAdd from '@material-design-icons/svg/filled/person_add.svg?component-solid';
+import MdSettings from '@material-design-icons/svg/filled/settings.svg?component-solid';
+import { getController } from '@revolt/common';
+import { useTranslation } from '@revolt/i18n';
+import { KeybindAction } from '@revolt/keybinds/actions';
+import { TextWithEmoji } from '@revolt/markdown';
+import { useNavigate } from '@revolt/routing';
+import type { API, Channel, Server, ServerFlags } from 'revolt.js';
 import {
   BiRegularCheckCircle,
   BiRegularHash,
@@ -5,40 +13,28 @@ import {
   BiSolidCheckCircle,
   BiSolidChevronRight,
   BiSolidCog,
-} from "solid-icons/bi";
+} from 'solid-icons/bi';
+import type { JSX } from 'solid-js';
 import {
-  For,
-  JSX,
-  Match,
-  Show,
-  Switch,
   createMemo,
   createSignal,
+  For,
+  Match,
   onCleanup,
   onMount,
-} from "solid-js";
-import { styled } from "solid-styled-components";
+  Show,
+  Switch,
+} from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import type { API, Channel, Server, ServerFlags } from "revolt.js";
-
-import { getController } from "@revolt/common";
-import { useTranslation } from "@revolt/i18n";
-import { KeybindAction } from "@revolt/keybinds/actions";
-import { TextWithEmoji } from "@revolt/markdown";
-import { useNavigate } from "@revolt/routing";
-
-import MdPersonAdd from "@material-design-icons/svg/filled/person_add.svg?component-solid";
-import MdSettings from "@material-design-icons/svg/filled/settings.svg?component-solid";
-
-import { iconSize } from "../../..";
-import { useKeybindActions } from "../../context/Keybinds";
-import { Header, HeaderWithImage } from "../../design/atoms/display/Header";
-import { Typography } from "../../design/atoms/display/Typography";
-import { MenuButton } from "../../design/atoms/inputs/MenuButton";
-import { Column, OverflowingText, Row } from "../../design/layout";
-import { Tooltip } from "../../floating";
-
-import { SidebarBase } from "./common";
+import { iconSize } from '../../..';
+import { useKeybindActions } from '../../context/Keybinds';
+import { Header, HeaderWithImage } from '../../design/atoms/display/Header';
+import { Typography } from '../../design/atoms/display/Typography';
+import { MenuButton } from '../../design/atoms/inputs/MenuButton';
+import { Column, OverflowingText, Row } from '../../design/layout';
+import { Tooltip } from '../../floating';
+import { SidebarBase } from './common';
 
 interface Props {
   /**
@@ -64,13 +60,13 @@ interface Props {
   /**
    * Menu generator
    */
-  menuGenerator: (target: Server | Channel) => JSX.Directives["floating"];
+  menuGenerator: (target: Server | Channel) => JSX.Directives['floating'];
 }
 
 /**
  * Ordered category data returned from server
  */
-type CategoryData = Omit<API.Category, "channels"> & { channels: Channel[] };
+type CategoryData = Omit<API.Category, 'channels'> & { channels: Channel[] };
 
 /**
  * Display server information and channels
@@ -139,7 +135,7 @@ export const ServerSidebar = (props: Props) => {
     <SidebarBase>
       <Switch
         fallback={
-          <Header placement="secondary">
+          <Header placement='secondary'>
             <ServerInfo
               server={props.server}
               openServerInfo={props.openServerInfo}
@@ -150,7 +146,7 @@ export const ServerSidebar = (props: Props) => {
       >
         <Match when={props.server.banner}>
           <HeaderWithImage
-            placement="secondary"
+            placement='secondary'
             style={{
               background: `url('${props.server.bannerURL}')`,
             }}
@@ -165,10 +161,10 @@ export const ServerSidebar = (props: Props) => {
       </Switch>
       <div
         use:scrollable={{ showOnHover: true }}
-        style={{ "flex-grow": 1 }}
+        style={{ 'flex-grow': 1 }}
         use:floating={props.menuGenerator(props.server)}
       >
-        <List gap="lg">
+        <List gap='lg'>
           <div />
           <For each={props.server.orderedChannels}>
             {(category) => (
@@ -190,7 +186,7 @@ export const ServerSidebar = (props: Props) => {
  * Server Information
  */
 function ServerInfo(
-  props: Pick<Props, "server" | "openServerInfo" | "openServerSettings">
+  props: Pick<Props, 'server' | 'openServerInfo' | 'openServerSettings'>
 ) {
   return (
     <Row align grow>
@@ -236,10 +232,10 @@ function ServerBadge(props: { flags: ServerFlags }) {
       <Tooltip
         content={
           props.flags === 1
-            ? t("app.special.server-badges.official")
-            : t("app.special.server-badges.verified")
+            ? t('app.special.server-badges.official')
+            : t('app.special.server-badges.verified')
         }
-        placement="top"
+        placement='top'
       >
         {props.flags === 1 ? (
           <BiSolidCheckCircle size={12} />
@@ -258,13 +254,13 @@ function Category(
   props: {
     category: CategoryData;
     channelId: string | undefined;
-  } & Pick<Props, "menuGenerator">
+  } & Pick<Props, 'menuGenerator'>
 ) {
   const [shown, setShown] = createSignal(true);
   const channels = createMemo(() =>
     props.category.channels.filter(
       (channel) =>
-        props.category.id === "default" ||
+        props.category.id === 'default' ||
         shown() ||
         channel.unread ||
         channel.id === props.channelId
@@ -272,16 +268,16 @@ function Category(
   );
 
   return (
-    <Column gap="sm">
-      <Show when={props.category.id !== "default"}>
+    <Column gap='sm'>
+      <Show when={props.category.id !== 'default'}>
         <CategoryBase
           open={shown()}
           onClick={() => setShown((shown) => !shown)}
           align
-          gap="sm"
+          gap='sm'
         >
           <BiSolidChevronRight size={12} />
-          <Typography variant="category">{props.category.title}</Typography>
+          <Typography variant='category'>{props.category.title}</Typography>
         </CategoryBase>
       </Show>
       <For each={channels()}>
@@ -308,7 +304,7 @@ const CategoryBase = styled(Row)<{ open: boolean }>`
   transition: ${(props) => props.theme!.transitions.fast} all;
 
   color: ${(props) =>
-    props.theme!.colours["sidebar-channels-category-foreground"]};
+    props.theme!.colours['sidebar-channels-category-foreground']};
 
   &:hover {
     filter: brightness(1.1);
@@ -328,25 +324,25 @@ const CategoryBase = styled(Row)<{ open: boolean }>`
  * Server channel entry
  */
 function Entry(
-  props: { channel: Channel; active: boolean } & Pick<Props, "menuGenerator">
+  props: { channel: Channel; active: boolean } & Pick<Props, 'menuGenerator'>
 ) {
   return (
     <a href={`/server/${props.channel.serverId}/channel/${props.channel.id}`}>
       <MenuButton
         use:floating={props.menuGenerator(props.channel)}
-        size="thin"
+        size='thin'
         alert={
           !props.active &&
           props.channel.unread &&
           (props.channel.mentions?.size || true)
         }
         attention={
-          props.active ? "selected" : props.channel.unread ? "active" : "normal"
+          props.active ? 'selected' : props.channel.unread ? 'active' : 'normal'
         }
         icon={
           <>
             <Switch fallback={<BiRegularHash size={20} />}>
-              <Match when={props.channel.type === "VoiceChannel"}>
+              <Match when={props.channel.type === 'VoiceChannel'}>
                 <BiRegularPhoneCall size={20} />
               </Match>
             </Switch>
@@ -360,38 +356,38 @@ function Entry(
             <a
               use:floating={{
                 tooltip: {
-                  placement: "top",
-                  content: "Create Invite",
+                  placement: 'top',
+                  content: 'Create Invite',
                 },
               }}
               onClick={(e) => {
                 e.preventDefault();
-                getController("modal").push({
-                  type: "create_invite",
+                getController('modal').push({
+                  type: 'create_invite',
                   channel: props.channel,
                 });
               }}
             >
-              <MdPersonAdd {...iconSize("14px")} />
+              <MdPersonAdd {...iconSize('14px')} />
             </a>
 
             <a
               use:floating={{
                 tooltip: {
-                  placement: "top",
-                  content: "Edit Channel",
+                  placement: 'top',
+                  content: 'Edit Channel',
                 },
               }}
               onClick={(e) => {
                 e.preventDefault();
-                getController("modal").push({
-                  type: "settings",
-                  config: "channel",
+                getController('modal').push({
+                  type: 'settings',
+                  config: 'channel',
                   context: props.channel,
                 });
               }}
             >
-              <MdSettings {...iconSize("14px")} />
+              <MdSettings {...iconSize('14px')} />
             </a>
           </>
         }
@@ -407,7 +403,7 @@ function Entry(
 /**
  * Channel icon styling
  */
-const ChannelIcon = styled("img")`
+const ChannelIcon = styled('img')`
   width: 16px;
   height: 16px;
   object-fit: contain;
@@ -418,5 +414,5 @@ const ChannelIcon = styled("img")`
  * We fix the width in order to prevent scrollbar from moving stuff around
  */
 const List = styled(Column)`
-  width: ${(props) => props.theme!.layout.width["channel-sidebar"]};
+  width: ${(props) => props.theme!.layout.width['channel-sidebar']};
 `;

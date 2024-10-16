@@ -1,15 +1,13 @@
-import { styled } from "solid-styled-components";
+import MdClose from '@material-design-icons/svg/filled/close.svg?component-solid';
+import { useTranslation } from '@revolt/i18n';
+import { styled } from 'solid-styled-components';
 
-import { useTranslation } from "@revolt/i18n";
-
-import MdClose from "@material-design-icons/svg/filled/close.svg?component-solid";
-
-import { iconSize } from "../../../..";
+import { iconSize } from '../../../..';
 
 /**
  * Base styles
  */
-const Base = styled("div")<{ unread?: boolean }>`
+const Base = styled('div')<{ unread?: boolean }>`
   display: flex;
   align-items: center;
 
@@ -20,11 +18,11 @@ const Base = styled("div")<{ unread?: boolean }>`
 
   font-size: 0.8em; /* TODO should be in typography */
   color: ${(props) =>
-    props.theme!.colours["messaging-component-blocked-message-foreground"]};
+    props.theme!.colours['messaging-component-blocked-message-foreground']};
   fill: ${(props) =>
-    props.theme!.colours["messaging-component-blocked-message-foreground"]};
+    props.theme!.colours['messaging-component-blocked-message-foreground']};
   background: ${(props) =>
-    props.theme!.colours["messaging-component-blocked-message-background"]};
+    props.theme!.colours['messaging-component-blocked-message-background']};
 `;
 
 interface Props {
@@ -42,8 +40,8 @@ export function BlockedMessage(props: Props) {
 
   return (
     <Base use:ripple={{ enable: false }}>
-      <MdClose {...iconSize(16)} />{" "}
-      {t("app.main.channel.misc.blocked_messages", {
+      <MdClose {...iconSize(16)} />{' '}
+      {t('app.main.channel.misc.blocked_messages', {
         count: props.count.toString(),
       })}
     </Base>

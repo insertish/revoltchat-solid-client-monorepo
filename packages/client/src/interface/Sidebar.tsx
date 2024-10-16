@@ -1,14 +1,14 @@
-import { Component, Match, Show, Switch, createMemo } from "solid-js";
-import { JSX } from "solid-js";
-
-import { Channel, Server as ServerI } from "revolt.js";
-
-import { ChannelContextMenu, ServerSidebarContextMenu } from "@revolt/app";
-import { useClient, useUser } from "@revolt/client";
-import { modalController } from "@revolt/modal";
-import { Route, useParams, useSmartParams } from "@revolt/routing";
-import { state } from "@revolt/state";
-import { HomeSidebar, ServerList, ServerSidebar } from "@revolt/ui";
+import { ChannelContextMenu, ServerSidebarContextMenu } from '@revolt/app';
+import { useClient, useUser } from '@revolt/client';
+import { modalController } from '@revolt/modal';
+import { Route, useParams, useSmartParams } from '@revolt/routing';
+import { state } from '@revolt/state';
+import { HomeSidebar, ServerList, ServerSidebar } from '@revolt/ui';
+import type { Server as ServerI } from 'revolt.js';
+import { Channel } from 'revolt.js';
+import type { Component } from 'solid-js';
+import type { JSX } from 'solid-js';
+import { createMemo, Match, Show, Switch } from 'solid-js';
 
 /**
  * Left-most channel navigation sidebar
@@ -17,14 +17,14 @@ export const Sidebar = (props: {
   /**
    * Menu generator TODO FIXME: remove
    */
-  menuGenerator: (t: ServerI | Channel) => JSX.Directives["floating"];
+  menuGenerator: (t: ServerI | Channel) => JSX.Directives['floating'];
 }) => {
   const user = useUser();
   const client = useClient();
   const params = useParams<{ server: string }>();
 
   return (
-    <div style={{ display: "flex", "flex-shrink": 0 }}>
+    <div style={{ display: 'flex', 'flex-shrink': 0 }}>
       <ServerList
         orderedServers={state.ordering.orderedServers}
         setServerOrder={state.ordering.setServerOrder}
@@ -36,7 +36,7 @@ export const Sidebar = (props: {
         selectedServer={() => params.server}
         onCreateOrJoinServer={() =>
           modalController.push({
-            type: "create_or_join_server",
+            type: 'create_or_join_server',
             client: client(),
           })
         }
@@ -66,7 +66,7 @@ const Home: Component = () => {
       openSavedNotes={(navigate) => {
         // Check whether the saved messages channel exists already
         const channelId = [...client()!.channels.values()].find(
-          (channel) => channel.type === "SavedMessages"
+          (channel) => channel.type === 'SavedMessages'
         )?.id;
 
         if (navigate) {
@@ -84,7 +84,7 @@ const Home: Component = () => {
         // Otherwise return channel ID if available
         return channelId;
       }}
-      __tempDisplayFriends={() => state.experiments.isEnabled("friends")}
+      __tempDisplayFriends={() => state.experiments.isEnabled('friends')}
     />
   );
 };
@@ -107,7 +107,7 @@ const Server: Component = () => {
    */
   function openServerInfo() {
     modalController.push({
-      type: "server_info",
+      type: 'server_info',
       server: server(),
     });
   }
@@ -117,8 +117,8 @@ const Server: Component = () => {
    */
   function openServerSettings() {
     modalController.push({
-      type: "settings",
-      config: "server",
+      type: 'settings',
+      config: 'server',
       context: server(),
     });
   }

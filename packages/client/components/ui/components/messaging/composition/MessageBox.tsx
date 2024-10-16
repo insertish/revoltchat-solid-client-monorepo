@@ -1,11 +1,11 @@
-import { BiRegularBlock } from "solid-icons/bi";
-import { JSX, Match, Show, Switch, onMount } from "solid-js";
-import { styled } from "solid-styled-components";
+import { useTranslation } from '@revolt/i18n';
+import { BiRegularBlock } from 'solid-icons/bi';
+import type { JSX } from 'solid-js';
+import { Match, onMount, Show, Switch } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { useTranslation } from "@revolt/i18n";
-
-import { generateTypographyCSS } from "../../design/atoms/display/Typography";
-import { InlineIcon, Row } from "../../design/layout";
+import { generateTypographyCSS } from '../../design/atoms/display/Typography';
+import { InlineIcon, Row } from '../../design/layout';
 
 interface Props {
   /**
@@ -54,7 +54,7 @@ interface Props {
   /**
    * Auto complete config
    */
-  autoCompleteConfig?: JSX.Directives["autoComplete"];
+  autoCompleteConfig?: JSX.Directives['autoComplete'];
 
   /**
    * Update the current draft selection
@@ -65,7 +65,7 @@ interface Props {
 /**
  * Message box container
  */
-const Base = styled("div", "MessageBox")`
+const Base = styled('div', 'MessageBox')`
   height: 48px;
   flex-shrink: 0;
 
@@ -74,14 +74,14 @@ const Base = styled("div", "MessageBox")`
 
   display: flex;
   background: ${({ theme }) =>
-    theme!.colours["messaging-message-box-background"]};
-  color: ${({ theme }) => theme!.colours["messaging-message-box-foreground"]};
+    theme!.colours['messaging-message-box-background']};
+  color: ${({ theme }) => theme!.colours['messaging-message-box-foreground']};
 `;
 
 /**
  * Input area
  */
-const Input = styled("textarea")`
+const Input = styled('textarea')`
   border: none;
   resize: none;
   outline: none;
@@ -91,8 +91,8 @@ const Input = styled("textarea")`
   padding: 14px 0;
 
   font-family: ${(props) => props.theme!.fonts.primary};
-  color: ${({ theme }) => theme!.colours["messaging-message-box-foreground"]};
-  ${(props) => generateTypographyCSS(props.theme!, "messages")}
+  color: ${({ theme }) => theme!.colours['messaging-message-box-foreground']};
+  ${(props) => generateTypographyCSS(props.theme!, 'messages')}
 `;
 
 /**
@@ -144,7 +144,7 @@ export function MessageBox(props: Props) {
     <Base>
       <Switch fallback={props.actionsStart}>
         <Match when={!props.sendingAllowed}>
-          <InlineIcon size="wide">
+          <InlineIcon size='wide'>
             <Blocked>
               <BiRegularBlock size={24} />
             </Blocked>
@@ -164,7 +164,7 @@ export function MessageBox(props: Props) {
         }
       >
         <Match when={!props.sendingAllowed}>
-          <Blocked align>{t("app.main.channel.misc.no_sending")}</Blocked>
+          <Blocked align>{t('app.main.channel.misc.no_sending')}</Blocked>
         </Match>
       </Switch>
       <Show when={props.sendingAllowed}>{props.actionsEnd}</Show>

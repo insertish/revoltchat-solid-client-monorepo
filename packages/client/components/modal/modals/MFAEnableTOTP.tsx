@@ -1,10 +1,9 @@
-import { createSignal } from "solid-js";
-import { QRCodeSVG } from "solid-qr-code";
+import { useTranslation } from '@revolt/i18n';
+import { Column, Input, styled, Typography } from '@revolt/ui';
+import { createSignal } from 'solid-js';
+import { QRCodeSVG } from 'solid-qr-code';
 
-import { useTranslation } from "@revolt/i18n";
-import { Column, Input, Typography, styled } from "@revolt/ui";
-
-import { PropGenerator } from "../types";
+import type { PropGenerator } from '../types';
 
 /**
  * Wrapper element for the raw TOTP code
@@ -16,7 +15,7 @@ const Code = styled.code`
 /**
  * Wrapper element for the QR code
  */
-const Qr = styled("div", "Qr")`
+const Qr = styled('div', 'Qr')`
   border-radius: 4px;
   background: white;
 
@@ -30,9 +29,9 @@ const Qr = styled("div", "Qr")`
 /**
  * Modal to display QR code and secret key for MFA and accept the correct code
  */
-const MFAEnableTOTP: PropGenerator<"mfa_enable_totp"> = (props) => {
+const MFAEnableTOTP: PropGenerator<'mfa_enable_totp'> = (props) => {
   const t = useTranslation();
-  const [value, setValue] = createSignal("");
+  const [value, setValue] = createSignal('');
 
   /**
    * Generate OTP URI
@@ -41,21 +40,21 @@ const MFAEnableTOTP: PropGenerator<"mfa_enable_totp"> = (props) => {
     `otpauth://totp/Revolt:${props.identifier}?secret=${props.secret}&issuer=Revolt`;
 
   return {
-    title: t("app.special.modals.mfa.enable_totp"),
-    description: t("app.special.modals.mfa.prompt_totp"),
+    title: t('app.special.modals.mfa.enable_totp'),
+    description: t('app.special.modals.mfa.prompt_totp'),
     actions: [
       {
-        palette: "primary",
-        children: t("app.special.modals.actions.continue"),
+        palette: 'primary',
+        children: t('app.special.modals.actions.continue'),
         onClick: () => {
-          props.callback(value().trim().replace(/\s/g, ""));
+          props.callback(value().trim().replace(/\s/g, ''));
           return true;
         },
         confirmation: true,
       },
       {
-        palette: "plain",
-        children: t("app.special.modals.actions.cancel"),
+        palette: 'plain',
+        children: t('app.special.modals.actions.cancel'),
         onClick: () => {
           props.callback();
           return true;
@@ -65,13 +64,13 @@ const MFAEnableTOTP: PropGenerator<"mfa_enable_totp"> = (props) => {
     nonDismissable: true,
     children: (
       <>
-        <Column align="center">
+        <Column align='center'>
           <Qr>
             <QRCodeSVG
               value={uri()}
-              backgroundColor="white"
-              foregroundColor="black"
-              level="medium"
+              backgroundColor='white'
+              foregroundColor='black'
+              level='medium'
               height={140}
               width={140}
               backgroundAlpha={1}
@@ -81,8 +80,8 @@ const MFAEnableTOTP: PropGenerator<"mfa_enable_totp"> = (props) => {
           <Code>{props.secret}</Code>
         </Column>
 
-        <Typography variant="label">
-          {t("app.special.modals.mfa.enter_code")}
+        <Typography variant='label'>
+          {t('app.special.modals.mfa.enter_code')}
         </Typography>
 
         <Input

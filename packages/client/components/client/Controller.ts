@@ -1,15 +1,14 @@
-import { Accessor, Setter, createSignal } from "solid-js";
-
-import { detect } from "detect-browser";
-import { API, Client, ConnectionState } from "revolt.js";
-
 import {
   CONFIGURATION,
   getController,
   registerController,
-} from "@revolt/common";
-import { state } from "@revolt/state";
-import type { Session } from "@revolt/state/stores/Auth";
+} from '@revolt/common';
+import { state } from '@revolt/state';
+import type { Session } from '@revolt/state/stores/Auth';
+import { detect } from 'detect-browser';
+import { API, Client, ConnectionState } from 'revolt.js';
+import type { Accessor, Setter } from 'solid-js';
+import { createSignal } from 'solid-js';
 
 export enum State {
   Ready,
@@ -134,12 +133,12 @@ class Lifecycle {
       ws: CONFIGURATION.DEFAULT_WS_URL,
     };
 
-    this.client.events.on("state", this.onState);
-    this.client.on("ready", this.onReady);
+    this.client.events.on('state', this.onState);
+    this.client.on('ready', this.onReady);
   }
 
   #enter(nextState: State) {
-    console.debug("Entering state", nextState);
+    console.debug('Entering state', nextState);
     this.#setStateSetter(nextState);
 
     // Clean up retry timer
@@ -150,7 +149,7 @@ class Lifecycle {
 
     switch (nextState) {
       case State.LoggingIn:
-        this.client.api.get("/onboard/hello").then(({ onboarding }) => {
+        this.client.api.get('/onboard/hello').then(({ onboarding }) => {
           if (onboarding) {
             this.transition({
               type: TransitionType.NoUser,
@@ -190,9 +189,9 @@ class Lifecycle {
             (0.8 + Math.random() * 0.4);
 
           console.info(
-            "Will try to reconnect in",
+            'Will try to reconnect in',
             retryIn.toFixed(2),
-            "seconds!"
+            'seconds!'
           );
 
           this.#retryTimeout = setTimeout(() => {
@@ -207,7 +206,7 @@ class Lifecycle {
   }
 
   transition(transition: Transition) {
-    console.debug("Received transition", transition.type);
+    console.debug('Received transition', transition.type);
 
     const currentState = this.state();
     switch (currentState) {
@@ -329,9 +328,9 @@ class Lifecycle {
 
     if (currentState === this.state()) {
       console.error(
-        "An unhandled transition occurred!",
+        'An unhandled transition occurred!',
         transition,
-        "was received on",
+        'was received on',
         currentState
       );
     }
@@ -385,7 +384,7 @@ export default class ClientController {
 
     this.lifecycle = new Lifecycle();
 
-    registerController("client", this);
+    registerController('client', this);
   }
 
   getCurrentClient() {
@@ -413,64 +412,64 @@ export default class ClientController {
     let friendly_name;
     if (browser) {
       let { name, os } = browser as { name: string; os: string };
-      if (name === "ios") {
-        name = "safari";
-      } else if (name === "fxios") {
-        name = "firefox";
-      } else if (name === "crios") {
-        name = "chrome";
-      } else if (os === "Mac OS" && navigator.maxTouchPoints > 0) {
-        os = "iPadOS";
+      if (name === 'ios') {
+        name = 'safari';
+      } else if (name === 'fxios') {
+        name = 'firefox';
+      } else if (name === 'crios') {
+        name = 'chrome';
+      } else if (os === 'Mac OS' && navigator.maxTouchPoints > 0) {
+        os = 'iPadOS';
       }
 
       friendly_name = `Revolt Web (${name} on ${os})`;
     } else {
-      friendly_name = "Revolt Web (Unknown Device)";
+      friendly_name = 'Revolt Web (Unknown Device)';
     }
 
     // Try to login with given credentials
-    let session = await this.api.post("/auth/session/login", {
+    let session = await this.api.post('/auth/session/login', {
       ...credentials,
       friendly_name,
     });
 
     // Prompt for MFA verification if necessary
-    if (session.result === "MFA") {
+    if (session.result === 'MFA') {
       const { allowed_methods } = session;
-      while (session.result === "MFA") {
+      while (session.result === 'MFA') {
         const mfa_response: API.MFAResponse | undefined = await new Promise(
           (callback) =>
-            getController("modal").push({
-              type: "mfa_flow",
-              state: "unknown",
+            getController('modal').push({
+              type: 'mfa_flow',
+              state: 'unknown',
               available_methods: allowed_methods,
               callback,
             })
         );
 
-        if (typeof mfa_response === "undefined") {
+        if (typeof mfa_response === 'undefined') {
           break;
         }
 
         try {
-          session = await this.api.post("/auth/session/login", {
+          session = await this.api.post('/auth/session/login', {
             mfa_response,
             mfa_ticket: session.ticket,
             friendly_name,
           });
         } catch (err) {
-          console.error("Failed login:", err);
+          console.error('Failed login:', err);
         }
       }
 
-      if (session.result === "MFA") {
-        throw "Cancelled";
+      if (session.result === 'MFA') {
+        throw 'Cancelled';
       }
     }
 
-    if (session.result === "Disabled") {
+    if (session.result === 'Disabled') {
       // TODO
-      alert("Account is disabled, run special logic here.");
+      alert('Account is disabled, run special logic here.');
       return;
     }
 
@@ -489,7 +488,7 @@ export default class ClientController {
   }
 
   async selectUsername(username: string) {
-    await this.lifecycle.client.api.post("/onboard/complete", {
+    await this.lifecycle.client.api.post('/onboard/complete', {
       username,
     });
 

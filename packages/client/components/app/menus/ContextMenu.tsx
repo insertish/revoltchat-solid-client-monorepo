@@ -1,6 +1,6 @@
-import { Component, ComponentProps, JSX, splitProps } from "solid-js";
-
-import { iconSize, styled } from "@revolt/ui";
+import { iconSize, styled } from '@revolt/ui';
+import type { Component, ComponentProps, JSX } from 'solid-js';
+import { splitProps } from 'solid-js';
 
 export const ContextMenu = styled.div`
   display: flex;
@@ -10,29 +10,29 @@ export const ContextMenu = styled.div`
   overflow: hidden;
   border-radius: ${(props) => props.theme!.borderRadius.md};
   background: ${(props) =>
-    props.theme!.colours["component-context-menu-background"]};
+    props.theme!.colours['component-context-menu-background']};
   color: ${(props) =>
-    props.theme!.colours["component-context-menu-foreground"]};
-  fill: ${(props) => props.theme!.colours["component-context-menu-foreground"]};
+    props.theme!.colours['component-context-menu-foreground']};
+  fill: ${(props) => props.theme!.colours['component-context-menu-foreground']};
 
   box-shadow: 0 0 3px
-    ${(props) => props.theme!.colours["component-context-menu-shadow"]};
+    ${(props) => props.theme!.colours['component-context-menu-shadow']};
 `;
 
 export const ContextMenuDivider = styled.div`
   height: 1px;
   margin: ${(props) => props.theme!.gap.sm} 0;
   background: ${(props) =>
-    props.theme!.colours["component-context-menu-divider"]};
+    props.theme!.colours['component-context-menu-divider']};
 `;
 
-export const ContextMenuItem = styled("a", "MenuItem")`
+export const ContextMenuItem = styled('a', 'MenuItem')`
   display: block;
   padding: ${(props) => props.theme!.gap.md} ${(props) => props.theme!.gap.lg};
 
   &:hover {
     background: ${(props) =>
-      props.theme!.colours["component-context-menu-item-hover-background"]};
+      props.theme!.colours['component-context-menu-item-hover-background']};
   }
 `;
 
@@ -52,7 +52,7 @@ const ButtonBase = styled(ContextMenuItem)<{ destructive?: boolean }>`
       ? `fill: ${props.theme!.customColours.error.color}; color: ${
           props.theme!.customColours.error.color
         };`
-      : ""}
+      : ''}
 `;
 
 type ButtonProps = ComponentProps<typeof ContextMenuItem> & {
@@ -61,11 +61,11 @@ type ButtonProps = ComponentProps<typeof ContextMenuItem> & {
 };
 
 export function ContextMenuButton(props: ButtonProps) {
-  const [local, remote] = splitProps(props, ["icon", "children"]);
+  const [local, remote] = splitProps(props, ['icon', 'children']);
 
   return (
     <ButtonBase {...remote}>
-      {local.icon?.(iconSize("1.2em"))}
+      {local.icon?.(iconSize('1.2em'))}
       <span>{local.children}</span>
     </ButtonBase>
   );

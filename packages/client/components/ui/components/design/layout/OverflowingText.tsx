@@ -1,9 +1,9 @@
-import { styled } from "solid-styled-components";
+import { styled } from 'solid-styled-components';
 
 /**
  * Container to prevent text overflow
  */
-export const OverflowingText = styled("div")`
+export const OverflowingText = styled('div')`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

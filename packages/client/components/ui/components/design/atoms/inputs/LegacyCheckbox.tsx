@@ -1,15 +1,16 @@
-import { BiRegularCheck } from "solid-icons/bi";
-import { JSX, Show, createSignal, splitProps } from "solid-js";
-import { styled } from "solid-styled-components";
+import { BiRegularCheck } from 'solid-icons/bi';
+import type { JSX } from 'solid-js';
+import { createSignal, Show, splitProps } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-const Base = styled("label")`
+const Base = styled('label')`
   gap: 10px;
   padding: 4px;
   display: flex;
   cursor: pointer;
   user-select: none;
   align-items: center;
-  border-radius: ${(props) => props.theme!.borderRadius["md"]};
+  border-radius: ${(props) => props.theme!.borderRadius['md']};
   transition: 0.1s ease background-color;
 
   input {
@@ -42,7 +43,7 @@ const TitleContent = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  color: ${(props) => props.theme!.colours["foreground"]};
+  color: ${(props) => props.theme!.colours['foreground']};
 `;
 
 const Title = styled.div`
@@ -64,14 +65,14 @@ const Description = styled.div`
   overflow: hidden;
 `;
 
-const Checkmark = styled.div<Pick<Props, "value">>`
+const Checkmark = styled.div<Pick<Props, 'value'>>`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 24px;
   height: 24px;
   border: 2px solid var(--unset-fg);
-  border-radius: ${(props) => props.theme!.borderRadius["md"]};
+  border-radius: ${(props) => props.theme!.borderRadius['md']};
   background: var(--unset-bg);
   flex-shrink: 0;
   margin: 4px;
@@ -96,7 +97,7 @@ const Checkmark = styled.div<Pick<Props, "value">>`
       color: var(--accent-contrast);
     }
   `
-      : ""}
+      : ''}
 `;
 
 export type Props = {
@@ -110,17 +111,17 @@ export type Props = {
   readonly onChange?: (state: boolean) => void;
 } & Omit<
   JSX.LabelHTMLAttributes<HTMLLabelElement>,
-  "value" | "children" | "onChange" | "title"
+  'value' | 'children' | 'onChange' | 'title'
 >;
 
 export function LegacyCheckbox(props: Props) {
   const [local, others] = splitProps(props, [
-    "disabled",
-    "title",
-    "description",
-    "name",
-    "value",
-    "onChange",
+    'disabled',
+    'title',
+    'description',
+    'name',
+    'value',
+    'onChange',
   ]);
 
   const [controlledValue, setControlledValue] = createSignal(false);
@@ -140,16 +141,16 @@ export function LegacyCheckbox(props: Props) {
       </Content>
       <input
         name={local.name}
-        type="checkbox"
+        type='checkbox'
         checked={checked()}
         onChange={() =>
-          typeof local.value !== "undefined"
+          typeof local.value !== 'undefined'
             ? !local.disabled && local.onChange?.(!local.value)
             : setControlledValue((v) => !v)
         }
       />
-      <Checkmark value={checked()} class="checkmark">
-        <BiRegularCheck size={20} class="check" />
+      <Checkmark value={checked()} class='checkmark'>
+        <BiRegularCheck size={20} class='check' />
       </Checkmark>
     </Base>
   );

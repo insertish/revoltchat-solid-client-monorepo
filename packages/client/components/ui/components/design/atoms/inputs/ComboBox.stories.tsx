@@ -1,13 +1,12 @@
-import type { ComponentStory } from "../../../stories";
-
-import { ComboBox } from "./ComboBox";
+import type { ComponentStory } from '../../../stories';
+import { ComboBox } from './ComboBox';
 
 export default {
-  category: "Design System/Atoms/Inputs",
+  category: 'Design System/Atoms/Inputs',
   component: ComboBox,
   stories: [
     {
-      title: "Default",
+      title: 'Default',
     },
   ],
   props: {

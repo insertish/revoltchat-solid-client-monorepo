@@ -1,29 +1,28 @@
-import TextColourDecorator from "../../../decorators/TextColourDecorator";
-import type { ComponentStory } from "../../stories";
-
-import { OverflowingText } from "./OverflowingText";
+import TextColourDecorator from '../../../decorators/TextColourDecorator';
+import type { ComponentStory } from '../../stories';
+import { OverflowingText } from './OverflowingText';
 
 export default {
-  category: "Design System/Layout",
+  category: 'Design System/Layout',
   component: OverflowingText,
   stories: [
     {
-      title: "Default",
+      title: 'Default',
     },
   ],
   props: {
-    children: "This is a long piece of text.",
+    children: 'This is a long piece of text.',
   },
   propTypes: {
-    children: "string",
+    children: 'string',
   },
   decorators: [
     (props) => (
       <div
         style={{
-          display: "flex",
-          "justify-content": "stretch",
-          width: "120px",
+          display: 'flex',
+          'justify-content': 'stretch',
+          width: '120px',
         }}
       >
         {props.children}

@@ -1,6 +1,5 @@
-import { State } from "..";
-
-import { AbstractStore } from ".";
+import type { State } from '..';
+import { AbstractStore } from '.';
 
 interface SettingsDefinition {
   /**
@@ -37,12 +36,12 @@ interface SettingsDefinition {
   /**
    * Show message send button
    */
-  "appearance:show_send_button": boolean;
+  'appearance:show_send_button': boolean;
 
   /**
    * Whether to render messages in compact mode
    */
-  "appearance:compact_mode": boolean;
+  'appearance:compact_mode': boolean;
 
   /**
    * Indicate new users to Revolt
@@ -56,18 +55,20 @@ interface SettingsDefinition {
  */
 type ValueType<T extends keyof SettingsDefinition> =
   SettingsDefinition[T] extends boolean
-    ? "boolean"
+    ? 'boolean'
     : SettingsDefinition[T] extends string
-    ? "string"
-    : (v: Partial<SettingsDefinition[T]>) => SettingsDefinition[T] | undefined;
+      ? 'string'
+      : (
+          v: Partial<SettingsDefinition[T]>
+        ) => SettingsDefinition[T] | undefined;
 
 /**
  * Expected types of settings keys, enforce some sort of validation is present for all keys.
  * If we cannot validate the value as a primitive, clean it up using a function.
  */
 const EXPECTED_TYPES: { [K in keyof SettingsDefinition]: ValueType<K> } = {
-  "appearance:show_send_button": "boolean",
-  "appearance:compact_mode": "boolean",
+  'appearance:show_send_button': 'boolean',
+  'appearance:compact_mode': 'boolean',
 };
 
 /**
@@ -83,13 +84,13 @@ const DEFAULT_VALUES: TypeSettings = {};
 /**
  * Settings store
  */
-export class Settings extends AbstractStore<"settings", TypeSettings> {
+export class Settings extends AbstractStore<'settings', TypeSettings> {
   /**
    * Construct store
    * @param state State
    */
   constructor(state: State) {
-    super(state, "settings");
+    super(state, 'settings');
   }
 
   /**
@@ -115,7 +116,7 @@ export class Settings extends AbstractStore<"settings", TypeSettings> {
     for (const key of Object.keys(input) as (keyof TypeSettings)[]) {
       const expectedType = EXPECTED_TYPES[key];
 
-      if (typeof expectedType === "function") {
+      if (typeof expectedType === 'function') {
         const cleanedValue = (expectedType as (value: unknown) => unknown)(
           input[key]
         );

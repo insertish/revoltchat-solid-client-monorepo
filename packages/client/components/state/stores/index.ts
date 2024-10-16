@@ -1,18 +1,17 @@
-import { SetStoreFunction } from "solid-js/store";
+import type { SetStoreFunction } from 'solid-js/store';
 
-import { State } from "..";
+import type { State } from '..';
+import type { TypeAuth } from './Auth';
+import type { TypeDraft } from './Draft';
+import type { TypeExperiments } from './Experiments';
+import type { TypeKeybinds } from './Keybinds';
+import type { TypeLayout } from './Layout';
+import type { TypeLocale } from './Locale';
+import type { TypeNotificationOptions } from './NotificationOptions';
+import type { TypeOrdering } from './Ordering';
+import type { TypeSettings } from './Settings';
 
-import { TypeAuth } from "./Auth";
-import { TypeDraft } from "./Draft";
-import { TypeExperiments } from "./Experiments";
-import { TypeKeybinds } from "./Keybinds";
-import { TypeLayout } from "./Layout";
-import { TypeLocale } from "./Locale";
-import { TypeNotificationOptions } from "./NotificationOptions";
-import { TypeOrdering } from "./Ordering";
-import { TypeSettings } from "./Settings";
-
-export type Store = {
+export interface Store {
   auth: TypeAuth;
   draft: TypeDraft;
   experiments: TypeExperiments;
@@ -22,7 +21,7 @@ export type Store = {
   notifications: TypeNotificationOptions;
   ordering: TypeOrdering;
   settings: TypeSettings;
-};
+}
 
 /**
  * Abstract store implementation

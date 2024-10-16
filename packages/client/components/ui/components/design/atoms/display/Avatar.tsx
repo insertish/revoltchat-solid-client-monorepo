@@ -1,9 +1,10 @@
-import { JSXElement, createEffect, createSignal, on } from "solid-js";
-import { styled } from "solid-styled-components";
+import type { JSXElement } from 'solid-js';
+import { createEffect, createSignal, on } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { Initials } from "./Initials";
+import { Initials } from './Initials';
 
-export type Props = {
+export interface Props {
   /**
    * Avatar size
    */
@@ -12,7 +13,7 @@ export type Props = {
   /**
    * Avatar shape
    */
-  shape?: "circle" | "rounded-square";
+  shape?: 'circle' | 'rounded-square';
 
   /**
    * Image source
@@ -33,12 +34,12 @@ export type Props = {
    * Punch a hole through the avatar
    */
   holepunch?:
-    | "bottom-right"
-    | "top-right"
-    | "right"
-    | "overlap"
-    | "overlap-subtle"
-    | "none"
+    | 'bottom-right'
+    | 'top-right'
+    | 'right'
+    | 'overlap'
+    | 'overlap-subtle'
+    | 'none'
     | false;
 
   /**
@@ -50,18 +51,18 @@ export type Props = {
    * Whether this icon is interactive
    */
   interactive?: boolean;
-};
+}
 
 /**
  * Avatar image
  */
-const Image = styled("img")<Pick<Props, "shape">>`
+const Image = styled('img')<Pick<Props, 'shape'>>`
   width: 100%;
   height: 100%;
   object-fit: cover;
 
   border-radius: ${(props) =>
-    props.shape === "rounded-square"
+    props.shape === 'rounded-square'
       ? props.theme!.borderRadius.md
       : props.theme!.borderRadius.full};
 `;
@@ -69,12 +70,12 @@ const Image = styled("img")<Pick<Props, "shape">>`
 /**
  * Text fallback container
  */
-const FallbackBase = styled("div")<Pick<Props, "shape" | "primaryContrast">>`
+const FallbackBase = styled('div')<Pick<Props, 'shape' | 'primaryContrast'>>`
   width: 100%;
   height: 100%;
 
   border-radius: ${(props) =>
-    props.shape === "rounded-square"
+    props.shape === 'rounded-square'
       ? props.theme!.borderRadius.md
       : props.theme!.borderRadius.full};
 
@@ -87,13 +88,13 @@ const FallbackBase = styled("div")<Pick<Props, "shape" | "primaryContrast">>`
   color: ${(props) =>
     props.theme!.colours[
       `component-avatar-fallback${
-        props.primaryContrast ? "-contrast" : ""
+        props.primaryContrast ? '-contrast' : ''
       }-foreground`
     ]};
   background: ${(props) =>
     props.theme!.colours[
       `component-avatar-fallback${
-        props.primaryContrast ? "-contrast" : ""
+        props.primaryContrast ? '-contrast' : ''
       }-background`
     ]};
 `;
@@ -101,10 +102,10 @@ const FallbackBase = styled("div")<Pick<Props, "shape" | "primaryContrast">>`
 /**
  * Avatar parent container
  */
-const ParentBase = styled("svg", "Avatar")<Pick<Props, "interactive">>`
+const ParentBase = styled('svg', 'Avatar')<Pick<Props, 'interactive'>>`
   flex-shrink: 0;
   user-select: none;
-  cursor: ${(props) => (props.interactive ? "cursor" : "inherit")};
+  cursor: ${(props) => (props.interactive ? 'cursor' : 'inherit')};
 
   foreignObject {
     transition: ${(props) => props.theme!.transitions.fast} filter;
@@ -127,7 +128,7 @@ export function Avatar(props: Props) {
       () => props.src,
       (src) => {
         if (url() !== src) {
-          setUrl("");
+          setUrl('');
           setTimeout(() => setUrl(src));
         }
       },
@@ -139,14 +140,14 @@ export function Avatar(props: Props) {
     <ParentBase
       width={props.size}
       height={props.size}
-      viewBox="0 0 32 32"
+      viewBox='0 0 32 32'
       interactive={props.interactive}
     >
       <foreignObject
-        x="0"
-        y="0"
-        width="32"
-        height="32"
+        x='0'
+        y='0'
+        width='32'
+        height='32'
         // @ts-expect-error Solid.js typing issue
         mask={
           props.holepunch ? `url(#holepunch-${props.holepunch})` : undefined
@@ -159,7 +160,7 @@ export function Avatar(props: Props) {
             shape={props.shape}
             primaryContrast={props.primaryContrast}
           >
-            {typeof props.fallback === "string" ? (
+            {typeof props.fallback === 'string' ? (
               <Initials input={props.fallback} maxLength={2} />
             ) : (
               props.fallback

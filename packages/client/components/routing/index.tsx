@@ -1,6 +1,5 @@
-import { Accessor } from "solid-js";
-
-import { useLocation } from "@solidjs/router";
+import { useLocation } from '@solidjs/router';
+import { type Accessor } from 'solid-js';
 
 /**
  * We re-export everything to prevent us importing @solidjs/router
@@ -11,13 +10,13 @@ import { useLocation } from "@solidjs/router";
  */
 export {
   Navigate,
-  Router,
   Route,
+  Router,
+  useBeforeLeave,
+  useLocation,
   useNavigate,
   useParams,
-  useLocation,
-  useBeforeLeave,
-} from "@solidjs/router";
+} from '@solidjs/router';
 
 const RE_SERVER = /\/server\/([A-Z0-9]{26})/;
 const RE_CHANNEL = /\/channel\/([A-Z0-9]{26})/;
@@ -32,7 +31,7 @@ const RE_MESSAGE_ID_EXACT =
 /**
  * Route parameters available globally
  */
-type GlobalParams = {
+interface GlobalParams {
   /**
    * Server ID
    */
@@ -62,7 +61,7 @@ type GlobalParams = {
    * Exact match for message?
    */
   exactMessage: boolean;
-};
+}
 
 /**
  * Generate global params from path

@@ -1,16 +1,15 @@
-import { For } from "solid-js";
-import { SetStoreFunction, createStore } from "solid-js/store";
+import '../ui/styled.d.ts';
 
-import type { MFA, MFATicket } from "revolt.js";
+import { registerController } from '@revolt/common';
+import type { MFA, MFATicket } from 'revolt.js';
+import { For } from 'solid-js';
+import type { SetStoreFunction } from 'solid-js/store';
+import { createStore } from 'solid-js/store';
 
-import { registerController } from "@revolt/common";
+import { RenderModal } from './modals';
+import type { Modals } from './types';
 
-import "../ui/styled.d.ts";
-
-import { RenderModal } from "./modals";
-import { Modals } from "./types";
-
-export type ActiveModal = {
+export interface ActiveModal {
   /**
    * Unique modal Id
    */
@@ -25,7 +24,7 @@ export type ActiveModal = {
    * Props to pass to modal
    */
   props: Modals;
-};
+}
 
 /**
  * Global modal controller for layering and displaying one or more modal to the user
@@ -54,12 +53,12 @@ export class ModalController {
      * @param event Event
      */
     function keyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         modalController.pop();
       }
     }
 
-    document.addEventListener("keydown", keyDown);
+    document.addEventListener('keydown', keyDown);
   }
 
   /**
@@ -93,7 +92,7 @@ export class ModalController {
    * Close modal by id
    */
   remove(id: string) {
-    this.setModals((entry) => entry.id === id, "show", false);
+    this.setModals((entry) => entry.id === id, 'show', false);
 
     setTimeout(() => {
       this.setModals(this.modals.filter((entry) => entry.id !== id));
@@ -118,7 +117,7 @@ export class ModalControllerExtended extends ModalController {
    */
   constructor() {
     super();
-    registerController("modal", this);
+    registerController('modal', this);
   }
 
   /**
@@ -128,8 +127,8 @@ export class ModalControllerExtended extends ModalController {
   mfaFlow(mfa: MFA) {
     return new Promise((callback: (ticket?: MFATicket) => void) =>
       this.push({
-        type: "mfa_flow",
-        state: "known",
+        type: 'mfa_flow',
+        state: 'known',
         mfa,
         callback,
       })
@@ -143,7 +142,7 @@ export class ModalControllerExtended extends ModalController {
   mfaEnableTOTP(secret: string, identifier: string) {
     return new Promise((callback: (value?: string) => void) =>
       this.push({
-        type: "mfa_enable_totp",
+        type: 'mfa_enable_totp',
         identifier,
         secret,
         callback,
@@ -160,7 +159,7 @@ export class ModalControllerExtended extends ModalController {
       navigator.clipboard.writeText(text);
     } else {
       this.push({
-        type: "clipboard",
+        type: 'clipboard',
         text,
       });
     }

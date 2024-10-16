@@ -1,8 +1,9 @@
-import { BiSolidXCircle } from "solid-icons/bi";
-import { Accessor, For, JSX } from "solid-js";
-import { styled } from "solid-styled-components";
+import { BiSolidXCircle } from 'solid-icons/bi';
+import type { Accessor, JSX } from 'solid-js';
+import { For } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { Row } from "../../layout";
+import { Row } from '../../layout';
 
 interface Props {
   /**
@@ -52,14 +53,14 @@ const Tab = styled.a<{ active: boolean }>`
   padding: 0.4em 1em;
   border-top: 4px solid transparent;
   border-bottom: 4px solid
-    ${(props) => (props.active ? "var(--unset-fg)" : "transparent")};
-  color: ${(props) => props.theme!.colours["foreground"]};
+    ${(props) => (props.active ? 'var(--unset-fg)' : 'transparent')};
+  color: ${(props) => props.theme!.colours['foreground']};
   background: var(--unset-bg);
   transition: ${(props) => props.theme!.transitions.fast};
 
   &:hover {
     filter: brightness(1.2);
-    color: ${(props) => props.theme!.colours["foreground"]};
+    color: ${(props) => props.theme!.colours['foreground']};
   }
 `;
 
@@ -76,7 +77,7 @@ const Dismiss = styled.a`
  */
 export function Tabs(props: Props) {
   return (
-    <Base role="tablist" gap="none">
+    <Base role='tablist' gap='none'>
       <For each={Object.keys(props.tabs())}>
         {(tab) => {
           /**
@@ -113,7 +114,7 @@ export function Tabs(props: Props) {
 
           return (
             <Tab
-              role="tab"
+              role='tab'
               aria-selected={active()}
               active={active()}
               onMouseDown={onMouseDown}

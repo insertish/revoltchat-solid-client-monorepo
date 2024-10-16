@@ -1,28 +1,28 @@
-import { useTranslation } from "@revolt/i18n";
+import { useTranslation } from '@revolt/i18n';
 
-import { createFormModal } from "../form";
-import { PropGenerator } from "../types";
+import { createFormModal } from '../form';
+import type { PropGenerator } from '../types';
 
 /**
  * Modal for editing user's custom status
  */
-const CustomStatus: PropGenerator<"custom_status"> = (props) => {
+const CustomStatus: PropGenerator<'custom_status'> = (props) => {
   const t = useTranslation();
 
   return createFormModal({
     modalProps: {
-      title: t("app.context_menu.set_custom_status"),
+      title: t('app.context_menu.set_custom_status'),
     },
     schema: {
-      text: "text",
+      text: 'text',
     },
     defaults: {
       text: props.client.user?.status?.text as string,
     },
     data: {
       text: {
-        field: t("app.context_menu.custom_status"),
-        "use:autoComplete": true,
+        field: t('app.context_menu.custom_status'),
+        'use:autoComplete': true,
       },
     },
     callback: ({ text }) =>
@@ -33,7 +33,7 @@ const CustomStatus: PropGenerator<"custom_status"> = (props) => {
         },
       }),
     submit: {
-      children: t("app.special.modals.actions.save"),
+      children: t('app.special.modals.actions.save'),
     },
   });
 };

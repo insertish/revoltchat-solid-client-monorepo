@@ -1,12 +1,12 @@
-import { Match, Switch } from "solid-js";
-import { styled } from "solid-styled-components";
+import { Match, Switch } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { CustomEmoji, UnicodeEmoji } from ".";
+import { CustomEmoji, UnicodeEmoji } from '.';
 
 /**
  * Image component for rendering emojis
  */
-export const EmojiBase = styled("img", "Emoji")`
+export const EmojiBase = styled('img', 'Emoji')`
   object-fit: contain;
 
   display: inline;
@@ -16,7 +16,7 @@ export const EmojiBase = styled("img", "Emoji")`
   vertical-align: -0.3em;
 
   img:before {
-    content: " ";
+    content: ' ';
     display: block;
     position: absolute;
     height: 50px;

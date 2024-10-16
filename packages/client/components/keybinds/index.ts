@@ -1,7 +1,7 @@
-import { debounce } from "@revolt/common";
+import { debounce } from '@revolt/common';
 
 // note: order dependent!
-export const KEYBINDING_MODIFIER_KEYS = ["Control", "Alt", "Meta", "Shift"];
+export const KEYBINDING_MODIFIER_KEYS = ['Control', 'Alt', 'Meta', 'Shift'];
 
 /**
  * Keys that must be pressed at the same time, order should not matter.
@@ -17,7 +17,7 @@ export const KeyCombo = {
     );
 
     if (!KEYBINDING_MODIFIER_KEYS.includes(event.key)) {
-      pressed.push(event.key.replace(" ", "Space"));
+      pressed.push(event.key.replace(' ', 'Space'));
     }
 
     return pressed;
@@ -44,12 +44,12 @@ export const KeybindSequence = {
    * ```
    */
   parse(sequence: string): KeyComboSequence {
-    return sequence.split(" ").map((expr) => expr.split("+"));
+    return sequence.split(' ').map((expr) => expr.split('+'));
   },
 
   /** Stringify a keybind sequence */
   stringify(sequence: KeyComboSequence) {
-    return sequence.map((combo) => combo.join("+")).join(" ");
+    return sequence.map((combo) => combo.join('+')).join(' ');
   },
 
   /** Checks to see if two key sequences match */
@@ -63,13 +63,16 @@ export const KeybindSequence = {
 
 // having the type be 'keybind' would be more idiomatic but this works better as an api
 export class KeybindEvent<T extends string> extends KeyboardEvent {
-  constructor(public action: T, eventInitDict?: KeyboardEventInit | undefined) {
+  constructor(
+    public action: T,
+    eventInitDict?: KeyboardEventInit | undefined
+  ) {
     super(action, eventInitDict);
   }
 }
 
 export class KeybindEventHandler<
-  KeybindAction extends string
+  KeybindAction extends string,
 > extends EventTarget {
   possibleSequences = new Map<KeyComboSequence, KeyCombo[]>();
 
@@ -106,7 +109,7 @@ export class KeybindEventHandler<
             this.possibleSequences.set(sequence, expectedSequence.slice(1));
           } else {
             this.possibleSequences.delete(sequence);
-            console.info("dispatch", action, event);
+            console.info('dispatch', action, event);
             this.dispatchEvent(
               new KeybindEvent(action as KeybindAction, event)
             );
@@ -145,4 +148,4 @@ export class KeybindEventHandler<
   ) => void;
 }
 
-export * from "./actions";
+export * from './actions';

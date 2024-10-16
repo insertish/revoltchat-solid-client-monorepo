@@ -1,26 +1,25 @@
-import { Show, createSignal, splitProps } from "solid-js";
-import { createStore } from "solid-js/store";
-
-import { mapAnyError } from "@revolt/client";
-import { useTranslation } from "@revolt/i18n";
-import { Column, Form, Typography, styled } from "@revolt/ui";
+import { mapAnyError } from '@revolt/client';
+import { useTranslation } from '@revolt/i18n';
+import { Column, Form, styled, Typography } from '@revolt/ui';
 import type {
   Action,
   Props as ModalProps,
-} from "@revolt/ui/components/design/atoms/display/Modal";
-import { getInitialValues } from "@revolt/ui/components/tools/Form";
+} from '@revolt/ui/components/design/atoms/display/Modal';
 import type {
-  Props as FormProps,
   FormTemplate,
   MapFormToValues,
-} from "@revolt/ui/components/tools/Form";
+  Props as FormProps,
+} from '@revolt/ui/components/tools/Form';
+import { getInitialValues } from '@revolt/ui/components/tools/Form';
+import { createSignal, Show, splitProps } from 'solid-js';
+import { createStore } from 'solid-js/store';
 
-import { modalController } from ".";
-import { Modals, PropGenerator } from "./types";
+import { modalController } from '.';
+import type { Modals, PropGenerator } from './types';
 
 type Props<T extends FormTemplate> = Omit<
   FormProps<T>,
-  "onChange" | "store" | "setStore" | "submitBtn" | "onSubmit"
+  'onChange' | 'store' | 'setStore' | 'submitBtn' | 'onSubmit'
 > & {
   /**
    * Form submission callback
@@ -30,7 +29,7 @@ type Props<T extends FormTemplate> = Omit<
   /**
    * Submit button properties
    */
-  submit?: Omit<Action, "onClick" | "confirmation">;
+  submit?: Omit<Action, 'onClick' | 'confirmation'>;
 
   /**
    * Custom actions after submit button
@@ -40,7 +39,7 @@ type Props<T extends FormTemplate> = Omit<
   /**
    * Props for the modal
    */
-  modalProps?: Omit<ModalProps, "disabled" | "actions">;
+  modalProps?: Omit<ModalProps, 'disabled' | 'actions'>;
 };
 
 /**
@@ -48,14 +47,14 @@ type Props<T extends FormTemplate> = Omit<
  */
 export function createFormModal<
   T extends FormTemplate,
-  P extends Modals["type"]
+  P extends Modals['type'],
 >(props: Props<T>): ReturnType<PropGenerator<P>> {
   const t = useTranslation();
   const [localProps, formProps] = splitProps(props, [
-    "callback",
-    "submit",
-    "actions",
-    "modalProps",
+    'callback',
+    'submit',
+    'actions',
+    'modalProps',
   ]);
 
   const [store, setStore] = createStore(
@@ -83,15 +82,15 @@ export function createFormModal<
     actions: [
       {
         onClick: onSubmit,
-        children: t("actions.submit"),
+        children: t('actions.submit'),
         confirmation: true,
         ...props.submit,
       },
       ...(props.actions ?? [
         {
           onClick: () => true,
-          children: t("app.special.modals.actions.cancel"),
-          variant: "plain",
+          children: t('app.special.modals.actions.cancel'),
+          variant: 'plain',
         },
       ]),
     ],
@@ -109,7 +108,7 @@ export function createFormModal<
         />
         <Show when={error()}>
           <Error>
-            <Typography variant="label">
+            <Typography variant='label'>
               {t(`error.${error()}`, undefined, error())}
             </Typography>
           </Error>

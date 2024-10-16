@@ -1,6 +1,6 @@
-import type { ClientController } from "@revolt/client";
-import type { ModalControllerExtended } from "@revolt/modal";
-import type { State } from "@revolt/state";
+import type { ClientController } from '@revolt/client';
+import type { ModalControllerExtended } from '@revolt/modal';
+import type { State } from '@revolt/state';
 
 /**
  * Single source of truth for global state controllers

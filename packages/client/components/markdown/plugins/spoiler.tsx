@@ -1,26 +1,25 @@
-import { createSignal } from "solid-js";
-import { styled } from "solid-styled-components";
+import type { Handler } from 'mdast-util-to-hast';
+import { createSignal } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import type { Plugin } from 'unified';
+import { visit } from 'unist-util-visit';
 
-import { Handler } from "mdast-util-to-hast";
-import { Plugin } from "unified";
-import { visit } from "unist-util-visit";
+import type { CustomComponentProps } from './remarkRegexComponent';
 
-import { CustomComponentProps } from "./remarkRegexComponent";
-
-const Spoiler = styled("span", "Spoiler")<{ shown: boolean }>`
+const Spoiler = styled('span', 'Spoiler')<{ shown: boolean }>`
   padding: 0 2px;
   border-radius: ${(props) => props.theme!.borderRadius.md};
 
-  cursor: ${(props) => (props.shown ? "auto" : "pointer")};
-  user-select: ${(props) => (props.shown ? "all" : "none")};
+  cursor: ${(props) => (props.shown ? 'auto' : 'pointer')};
+  user-select: ${(props) => (props.shown ? 'all' : 'none')};
   color: ${(props) =>
-    props.shown ? props.theme!.colours.background : "transparent"};
+    props.shown ? props.theme!.colours.background : 'transparent'};
   background: ${(props) =>
-    props.shown ? props.theme!.colours.foreground : "#151515"};
+    props.shown ? props.theme!.colours.foreground : '#151515'};
 
   > * {
     opacity: ${(props) => (props.shown ? 1 : 0)};
-    pointer-events: ${(props) => (props.shown ? "unset" : "none")};
+    pointer-events: ${(props) => (props.shown ? 'unset' : 'none')};
   }
 `;
 
@@ -37,13 +36,13 @@ export function RenderSpoiler(props: CustomComponentProps & { children: any }) {
 export const remarkSpoiler: Plugin = () => (tree) => {
   visit(
     tree,
-    "paragraph",
+    'paragraph',
     (
       node: {
         children: (
-          | { type: "text"; value: string }
-          | { type: "paragraph"; children: any[] }
-          | { type: "spoiler"; children: any[] }
+          | { type: 'text'; value: string }
+          | { type: 'paragraph'; children: any[] }
+          | { type: 'spoiler'; children: any[] }
         )[];
       },
       idx,
@@ -58,8 +57,8 @@ export const remarkSpoiler: Plugin = () => (tree) => {
         const child = node.children[i];
 
         // Find the next text element to start a spoiler from
-        if (child.type === "text") {
-          const components = child.value.split("||");
+        if (child.type === 'text') {
+          const components = child.value.split('||');
           if (components.length === 1) continue; // no spoilers
 
           // Handle terminating spoiler tag
@@ -72,12 +71,12 @@ export const remarkSpoiler: Plugin = () => (tree) => {
 
             // Create a spoiler
             node.children.splice(i, 0, {
-              type: "spoiler",
+              type: 'spoiler',
               children: [
                 ...spoilerContent,
                 ...elements,
                 {
-                  type: "text",
+                  type: 'text',
                   value: components.shift(),
                 },
               ],
@@ -104,16 +103,16 @@ export const remarkSpoiler: Plugin = () => (tree) => {
                 i + 1,
                 0,
                 {
-                  type: "spoiler",
+                  type: 'spoiler',
                   children: [
                     {
-                      type: "text",
+                      type: 'text',
                       value: components.shift(),
                     },
                   ],
                 },
                 {
-                  type: "text",
+                  type: 'text',
                   value: components.shift()!,
                 }
               );
@@ -126,7 +125,7 @@ export const remarkSpoiler: Plugin = () => (tree) => {
           if (spillOver) {
             searchingForEnd = i + 1;
             spoilerContent.push({
-              type: "text",
+              type: 'text',
               value: components.pop(),
             });
           }
@@ -138,10 +137,10 @@ export const remarkSpoiler: Plugin = () => (tree) => {
 
 export const spoilerHandler: Handler = (h, node) => {
   return {
-    type: "element" as const,
-    tagName: "spoiler",
+    type: 'element' as const,
+    tagName: 'spoiler',
     children: h.all({
-      type: "paragraph",
+      type: 'paragraph',
       children: node.children,
     }),
     properties: {},
